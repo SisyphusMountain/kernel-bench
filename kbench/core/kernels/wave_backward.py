@@ -10,8 +10,87 @@ import torch
 import triton
 import triton.language as tl
 
+import os
+
 from kbench.core.kernels._dts_layout_contract import dts_backward_param_layout
+from kbench.core.kernels.wave_step import _get_jumps, _get_levels, _pathsum_doubling, _pathsum_walk
 from kbench.core.memory_policy import proposal0_memory_gate
+
+_JT_WARPS = int(os.environ.get("KBENCH_JT_WARPS", "2"))
+_JT_MODE = int(os.environ.get("KBENCH_JT_MODE", "1"))  # 0=scratch+level-walk 1=register cumsum
+_JT_REG_WARPS = int(os.environ.get("KBENCH_JT_REG_WARPS", "4"))
+_VJP_MODE = int(os.environ.get("KBENCH_VJP_MODE", "0"))  # 0=level-walk 1=register cumsum (slower on 4090)
+
+# DFS tables for register-resident subtree sums: subtree(s) is a contiguous interval in
+# DFS order, so corr[s] = cumsum(u_d in DFS order)[end-1] - cumsum[start-1]. Any DFS
+# numbering works; derived once from parent/child arrays and cached by storage pointer.
+_DFS_CACHE: dict = {}
+
+
+def _get_dfs_tables(node_parent, node_child1, node_child2, S: int):
+    key = (node_parent.data_ptr(), int(S), node_parent.device.index)
+    hit = _DFS_CACHE.get(key)
+    if hit is not None:
+        return hit
+    parent = node_parent.detach().to("cpu", torch.int64).tolist()[:S]
+    c1 = node_child1.detach().to("cpu", torch.int64).tolist()[:S]
+    c2 = node_child2.detach().to("cpu", torch.int64).tolist()[:S]
+    roots = [s for s in range(S) if not (0 <= parent[s] < S)]
+    dfs_node, start, end = [0] * S, [0] * S, [0] * S
+    pos = 0
+    for r in roots:
+        stack = [(r, False)]
+        while stack:
+            node, done = stack.pop()
+            if done:
+                end[node] = pos
+                continue
+            start[node] = pos
+            dfs_node[pos] = node
+            pos += 1
+            stack.append((node, True))
+            for ch in (c2[node], c1[node]):
+                if 0 <= ch < S:
+                    stack.append((ch, False))
+    assert pos == S, f"DFS visited {pos} of {S} nodes; not a forest?"
+    device = node_parent.device
+    entry = (
+        torch.tensor(dfs_node, dtype=torch.int32, device=device),
+        torch.tensor([start[s] - 1 for s in range(S)], dtype=torch.int32, device=device),
+        torch.tensor([end[s] - 1 for s in range(S)], dtype=torch.int32, device=device),
+    )
+    _DFS_CACHE[key] = entry
+    return entry
+
+
+def _get_dfs_tables_from_compact(compact_parents, compact_child1, compact_child2, S: int):
+    """Same DFS tables, derived from the compact internal-node arrays (the only tree
+    description the pibar-VJP wrapper receives)."""
+    key = ("compact", compact_parents.data_ptr(), int(S), compact_parents.device.index)
+    hit = _DFS_CACHE.get(key)
+    if hit is not None:
+        return hit
+    par_list = compact_parents.detach().to("cpu", torch.int64).tolist()
+    c1_list = compact_child1.detach().to("cpu", torch.int64).tolist()
+    c2_list = compact_child2.detach().to("cpu", torch.int64).tolist()
+    parent = [-1] * S
+    child1 = [S] * S
+    child2 = [S] * S
+    for p, c1, c2 in zip(par_list, c1_list, c2_list):
+        if 0 <= c1 < S:
+            parent[c1] = p
+            child1[p] = c1
+        if 0 <= c2 < S:
+            parent[c2] = p
+            child2[p] = c2
+    parent_t = torch.tensor(parent, dtype=torch.int32, device=compact_parents.device)
+    child1_t = torch.tensor(child1, dtype=torch.int32, device=compact_parents.device)
+    child2_t = torch.tensor(child2, dtype=torch.int32, device=compact_parents.device)
+    entry = _get_dfs_tables(parent_t, child1_t, child2_t, S)
+    # keep parent_t alive: the inner cache is keyed by its data_ptr
+    _DFS_CACHE[key] = entry
+    _DFS_CACHE[key + ("keepalive",)] = (parent_t, child1_t, child2_t)
+    return entry
 
 _SUPPORTED_FLOAT_DTYPES = (torch.float32, torch.float64, torch.bfloat16)
 
@@ -222,13 +301,14 @@ def _wave_backward_uniform_2d_precompute_kernel(
     p_prime_ptr,
     sl1_ptr,
     sl2_ptr,
+    jump_ptr,
     ws,
     W,
     S: tl.constexpr,
     stride: tl.constexpr,
     BLOCK_W: tl.constexpr,
     BLOCK_S: tl.constexpr,
-    MAX_ANCESTOR_DEPTH: tl.constexpr,
+    K_ROUNDS: tl.constexpr,
     USE_LEAF_INDEX: tl.constexpr,
     HAS_LEAF_TERM: tl.constexpr,
     LEAF_LOGP_MODE: tl.constexpr,
@@ -363,33 +443,19 @@ def _wave_backward_uniform_2d_precompute_kernel(
     else:
         w_L = tl.full([BLOCK_S, BLOCK_W], value=1.0, dtype=DTYPE)
 
-    ancestor_sum = tl.zeros([BLOCK_S, BLOCK_W], dtype=DTYPE)
-    cur = s_offs
-    for _depth in range(MAX_ANCESTOR_DEPTH):
-        cur_valid = state_valid & (cur >= 0) & (cur < S)
-        pi_anc = tl.load(
-            Pi_star_ptr + row_global[None, :] * stride + cur[:, None],
-            mask=cur_valid[:, None] & row_mask[None, :],
-            other=NEG_LARGE,
-        ).to(DTYPE)
-        if USE_COL_WEIGHTS:
-            col_logp_anc = tl.load(
-                col_log_probs_ptr + cur,
-                mask=cur_valid,
-                other=NEG_LARGE,
-            ).to(DTYPE)
-            ancestor_sum += tl.where(
-                cur_valid[:, None] & row_mask[None, :],
-                tl.exp2(col_logp_anc[:, None] + pi_anc - row_max_safe[None, :]),
-                tl.zeros([BLOCK_S, BLOCK_W], dtype=DTYPE),
-            )
-        else:
-            ancestor_sum += tl.where(
-                cur_valid[:, None] & row_mask[None, :],
-                tl.exp2(pi_anc - row_max_safe[None, :]),
-                tl.zeros([BLOCK_S, BLOCK_W], dtype=DTYPE),
-            )
-        cur = tl.load(node_parent_ptr + cur, mask=cur_valid, other=-1)
+    # Ancestor-or-self path sums of p_prime via in-register binary lifting (p_prime is
+    # exactly exp2(colw + pi - row_max), the term the old per-column ancestor chase
+    # accumulated). BLOCK_W is 1, so the [BLOCK_S, 1] tile reshapes to a flat row.
+    tl.static_assert(BLOCK_W == 1)
+    val = tl.reshape(p_prime, [BLOCK_S])
+    s_flat = tl.arange(0, BLOCK_S)
+    flat_valid = s_flat < S
+    for _k in tl.static_range(K_ROUNDS):
+        jmp = tl.load(jump_ptr + _k * S + s_flat, mask=flat_valid, other=-1)
+        jv = jmp >= 0
+        g = tl.gather(val, tl.where(jv, jmp, 0), axis=0)
+        val += tl.where(jv, g, 0.0)
+    ancestor_sum = tl.reshape(val, [BLOCK_S, BLOCK_W])
     denom = row_sum[None, :] - ancestor_sum
     inv_denom = tl.where(denom > 0.0, 1.0 / denom, tl.zeros_like(denom))
 
@@ -570,6 +636,197 @@ def _wave_backward_uniform_2d_jt_kernel(
         tl.store(v_k_ptr + offsets, v_prev + result, mask=mask)
 
 
+@triton.jit
+def _wave_backward_jt_neumann_reg_kernel(
+    rhs_ptr,
+    v_k_ptr,
+    active_mask_ptr,
+    diag_ptr,
+    pibar_coeff_ptr,
+    p_prime_ptr,
+    sl1_ptr,
+    node_parent_ptr,
+    dfs_node_ptr,
+    start_m1_ptr,
+    end_m1_ptr,
+    term_scratch_ptr,
+    neumann_terms,
+    W,
+    S: tl.constexpr,
+    BLOCK_S: tl.constexpr,
+    USE_ACTIVE_MASK: tl.constexpr,
+    STORE_LAST_TERM: tl.constexpr,
+    DTYPE: tl.constexpr,
+):
+    """Register-resident Neumann loop (one row per program, BLOCK_S = whole state row).
+
+    The per-term subtree reduction runs as cumsum over DFS order + interval difference
+    (tl.gather/tl.cumsum stay in registers/SMEM): no scratch buffers, no barriers.
+    """
+    row = tl.program_id(0)
+    if USE_ACTIVE_MASK:
+        if tl.load(active_mask_ptr + row) == 0:
+            return
+
+    s_offs = tl.arange(0, BLOCK_S)
+    mask = s_offs < S
+    base = row * S
+    zero = tl.zeros([BLOCK_S], dtype=DTYPE)
+
+    pibar_u_coeff = tl.load(pibar_coeff_ptr + base + s_offs, mask=mask, other=0.0).to(DTYPE)
+    diag_wt = tl.load(diag_ptr + base + s_offs, mask=mask, other=0.0).to(DTYPE)
+    p_prime = tl.load(p_prime_ptr + base + s_offs, mask=mask, other=0.0).to(DTYPE)
+    parent = tl.load(node_parent_ptr + s_offs, mask=mask, other=-1)
+    pvalid = mask & (parent >= 0) & (parent < S)
+    edge_wt = tl.load(sl1_ptr + base + s_offs, mask=pvalid, other=0.0).to(DTYPE)
+    dfs_node = tl.load(dfs_node_ptr + s_offs, mask=mask, other=0)
+    start_m1 = tl.load(start_m1_ptr + s_offs, mask=mask, other=-1)
+    end_m1 = tl.load(end_m1_ptr + s_offs, mask=mask, other=0)
+    parent_safe = tl.where(pvalid, parent, 0)
+    start_safe = tl.where(start_m1 >= 0, start_m1, 0)
+    end_safe = tl.where(end_m1 >= 0, end_m1, 0)
+
+    term = tl.load(rhs_ptr + base + s_offs, mask=mask, other=0.0).to(DTYPE)
+    v_acc = term
+
+    for _n in range(0, neumann_terms):
+        u_d = tl.where(mask, term * pibar_u_coeff, zero)
+        A = tl.sum(u_d, axis=0)
+        u_dfs = tl.where(mask, tl.gather(u_d, dfs_node, axis=0), zero)
+        cum = tl.cumsum(u_dfs, axis=0)
+        ce = tl.gather(cum, end_safe, axis=0)
+        cs = tl.where(start_m1 >= 0, tl.gather(cum, start_safe, axis=0), zero)
+        corr = ce - cs
+        base_val = term * diag_wt + p_prime * (A - corr)
+        parent_term = tl.where(pvalid, tl.gather(term, parent_safe, axis=0), zero)
+        result = base_val + parent_term * edge_wt
+        v_acc += result
+        term = result
+
+    tl.store(v_k_ptr + base + s_offs, tl.where(mask, v_acc, zero), mask=mask)
+    if STORE_LAST_TERM:
+        tl.store(term_scratch_ptr + base + s_offs, tl.where(mask, term, zero), mask=mask)
+
+
+@triton.jit
+def _wave_backward_uniform_2d_jt_neumann_fused_kernel(
+    rhs_ptr,
+    v_k_ptr,
+    active_mask_ptr,
+    diag_ptr,
+    pibar_coeff_ptr,
+    p_prime_ptr,
+    sl1_ptr,
+    node_parent_ptr,
+    compact_level_ptr,
+    compact_level_parent_ptr,
+    compact_level_child1_ptr,
+    compact_level_child2_ptr,
+    pibar_corr_ptr,
+    term_scratch_ptr,
+    neumann_terms,
+    W,
+    S: tl.constexpr,
+    BLOCK_W: tl.constexpr,
+    BLOCK_S: tl.constexpr,
+    BLOCK_NODES: tl.constexpr,
+    N_LEVELS: tl.constexpr,
+    USE_ACTIVE_MASK: tl.constexpr,
+    STORE_LAST_TERM: tl.constexpr,
+    DTYPE: tl.constexpr,
+):
+    """All Neumann self-loop terms in one launch (rows are independent).
+
+    Replays the exact per-term op sequence of `_wave_backward_uniform_2d_jt_kernel`
+    (USE_CHILD_EDGE_SELF_LOOP=True, ACCUMULATE_V semantics) in an in-program loop so
+    the per-row coefficient arrays load once instead of once per term.
+    """
+    block = tl.program_id(0)
+    rows = block * BLOCK_W + tl.arange(0, BLOCK_W)
+    s_offs = tl.arange(0, BLOCK_S)
+    row_valid = rows < W
+    state_valid = s_offs < S
+    if USE_ACTIVE_MASK:
+        row_active = tl.load(active_mask_ptr + rows, mask=row_valid, other=0) != 0
+    else:
+        row_active = row_valid
+    row_mask = row_valid & row_active
+    mask = state_valid[:, None] & row_mask[None, :]
+    offsets = rows[None, :] * S + s_offs[:, None]
+    row_base = rows[None, :] * S
+    zero = tl.zeros([BLOCK_S, BLOCK_W], dtype=DTYPE)
+
+    pibar_u_coeff = tl.load(pibar_coeff_ptr + offsets, mask=mask, other=0.0).to(DTYPE)
+    diag_wt = tl.load(diag_ptr + offsets, mask=mask, other=0.0).to(DTYPE)
+    p_prime = tl.load(p_prime_ptr + offsets, mask=mask, other=0.0).to(DTYPE)
+    parent = tl.load(node_parent_ptr + s_offs, mask=state_valid, other=-1)
+    parent_valid = state_valid & (parent >= 0) & (parent < S)
+    parent_mask = parent_valid[:, None] & row_mask[None, :]
+    edge_wt = tl.load(sl1_ptr + offsets, mask=parent_mask, other=0.0).to(DTYPE)
+
+    term_val = tl.load(rhs_ptr + offsets, mask=mask, other=0.0).to(DTYPE)
+    v_acc = term_val
+
+    for _n in range(0, neumann_terms):
+        u_d = term_val * pibar_u_coeff
+        A = tl.sum(tl.where(mask, u_d, zero), axis=0)
+        tl.store(pibar_corr_ptr + offsets, tl.where(mask, u_d, zero), mask=mask)
+        tl.store(term_scratch_ptr + offsets, tl.where(mask, term_val, zero), mask=mask)
+
+        tl.debug_barrier()
+
+        for level in range(0, N_LEVELS):
+            level_start = tl.load(compact_level_ptr + level)
+            level_end = tl.load(compact_level_ptr + level + 1)
+            node_start = level_start
+            while node_start < level_end:
+                node_offs = node_start + tl.arange(0, BLOCK_NODES)
+                node_mask = node_offs < level_end
+                node_parent_c = tl.load(compact_level_parent_ptr + node_offs, mask=node_mask, other=0)
+                c1 = tl.load(compact_level_child1_ptr + node_offs, mask=node_mask, other=S)
+                c2 = tl.load(compact_level_child2_ptr + node_offs, mask=node_mask, other=S)
+                reduce_mask = node_mask[:, None] & row_mask[None, :]
+                parent_val = tl.load(
+                    pibar_corr_ptr + row_base + node_parent_c[:, None],
+                    mask=reduce_mask,
+                    other=0.0,
+                ).to(DTYPE)
+                c1_val = tl.load(
+                    pibar_corr_ptr + row_base + c1[:, None],
+                    mask=reduce_mask & (c1 < S)[:, None],
+                    other=0.0,
+                ).to(DTYPE)
+                c2_val = tl.load(
+                    pibar_corr_ptr + row_base + c2[:, None],
+                    mask=reduce_mask & (c2 < S)[:, None],
+                    other=0.0,
+                ).to(DTYPE)
+                tl.store(
+                    pibar_corr_ptr + row_base + node_parent_c[:, None],
+                    parent_val + c1_val + c2_val,
+                    mask=reduce_mask,
+                )
+                node_start += BLOCK_NODES
+            tl.debug_barrier()
+
+        tl.debug_barrier()
+
+        corr = tl.load(pibar_corr_ptr + offsets, mask=mask, other=0.0).to(DTYPE)
+        base = term_val * diag_wt + p_prime * (A[None, :] - corr)
+        parent_term = tl.load(
+            term_scratch_ptr + row_base + parent[:, None],
+            mask=parent_mask,
+            other=0.0,
+        ).to(DTYPE)
+        result = base + parent_term * edge_wt
+        v_acc += result
+        term_val = result
+
+    tl.store(v_k_ptr + offsets, tl.where(mask, v_acc, zero), mask=mask)
+    if STORE_LAST_TERM:
+        tl.store(term_scratch_ptr + offsets, tl.where(mask, term_val, zero), mask=mask)
+
+
 @torch.no_grad()
 def _gmres_solve_wave_self_loop(
     apply_a,
@@ -742,6 +999,50 @@ def _col_grad_from_pibar_self_loop_kernel(
         sem="relaxed",
         mask=state_valid,
     )
+
+
+@triton.jit
+def _col_grad_from_pibar_self_loop_reg_kernel(
+    v_k_ptr,
+    active_mask_ptr,
+    pibar_coeff_ptr,
+    p_prime_ptr,
+    dfs_node_ptr,
+    start_m1_ptr,
+    end_m1_ptr,
+    grad_col_log_probs_ptr,
+    W,
+    S: tl.constexpr,
+    BLOCK_S: tl.constexpr,
+    USE_ACTIVE_MASK: tl.constexpr,
+    DTYPE: tl.constexpr,
+):
+    """Register-resident column-gradient kernel (subtree sums via DFS cumsum)."""
+    row = tl.program_id(0)
+    if USE_ACTIVE_MASK:
+        if tl.load(active_mask_ptr + row) == 0:
+            return
+    s_offs = tl.arange(0, BLOCK_S)
+    mask = s_offs < S
+    base = row * S
+    zero = tl.zeros([BLOCK_S], dtype=DTYPE)
+
+    term = tl.load(v_k_ptr + base + s_offs, mask=mask, other=0.0).to(DTYPE)
+    coeff = tl.load(pibar_coeff_ptr + base + s_offs, mask=mask, other=0.0).to(DTYPE)
+    p_prime = tl.load(p_prime_ptr + base + s_offs, mask=mask, other=0.0).to(DTYPE)
+    dfs_node = tl.load(dfs_node_ptr + s_offs, mask=mask, other=0)
+    start_m1 = tl.load(start_m1_ptr + s_offs, mask=mask, other=-1)
+    end_m1 = tl.load(end_m1_ptr + s_offs, mask=mask, other=0)
+
+    u_d = tl.where(mask, term * coeff, zero)
+    A = tl.sum(u_d, axis=0)
+    u_dfs = tl.where(mask, tl.gather(u_d, dfs_node, axis=0), zero)
+    cum = tl.cumsum(u_dfs, axis=0)
+    ce = tl.gather(cum, tl.where(end_m1 >= 0, end_m1, 0), axis=0)
+    cs = tl.where(start_m1 >= 0, tl.gather(cum, tl.where(start_m1 >= 0, start_m1, 0), axis=0), zero)
+    corr = ce - cs
+    contrib = tl.where(mask, p_prime * (A - corr), zero)
+    tl.atomic_add(grad_col_log_probs_ptr + s_offs, contrib, sem="relaxed", mask=mask)
 
 
 @triton.jit
@@ -1048,6 +1349,7 @@ def _wave_backward_uniform_2d(
     block_nodes = 128
     n_row_blocks = triton.cdiv(W, block_w)
     scratch_shape = (W, S)
+    jump_table, k_rounds = _get_jumps(node_parent, S)
 
     v_k = torch.empty(scratch_shape, device=device, dtype=dtype)
     aw0 = torch.empty(scratch_shape, device=device, dtype=dtype)
@@ -1112,13 +1414,14 @@ def _wave_backward_uniform_2d(
         aw2,
         aw3,
         aw4,
+        jump_table,
         ws,
         W,
         S,
         Pi_star.stride(0),
         block_w,
         block_s,
-        max_ancestor_depth,
+        K_ROUNDS=k_rounds,
         USE_LEAF_INDEX=bool(use_leaf_index),
         HAS_LEAF_TERM=bool(has_leaf_term),
         LEAF_LOGP_MODE=int(leaf_logp_mode),
@@ -1229,44 +1532,62 @@ def _wave_backward_uniform_2d(
                 ACCUMULATE_V=True,
                 **jt_options,
             )
+    elif self_loop_solver == "neumann" and _JT_MODE == 1:
+        # Register-resident Neumann: all terms in one launch, subtree sums via
+        # DFS cumsum + interval difference. No scratch traffic, no barriers.
+        dfs_node, start_m1, end_m1 = _get_dfs_tables(node_parent, node_child1, node_child2, S)
+        _wave_backward_jt_neumann_reg_kernel[(n_row_blocks,)](
+            rhs,
+            v_k,
+            active_mask if active_mask is not None else rhs,
+            aw0,
+            aw1,
+            aw2,
+            aw3,
+            node_parent,
+            dfs_node,
+            start_m1,
+            end_m1,
+            spec_buf,
+            int(neumann_terms),
+            W,
+            S,
+            block_s,
+            USE_ACTIVE_MASK=bool(active_mask is not None),
+            STORE_LAST_TERM=bool(return_last_increment),
+            DTYPE=_tl_float_dtype(dtype),
+            num_warps=_JT_REG_WARPS,
+        )
     elif self_loop_solver == "neumann":
-        for n in range(int(neumann_terms)):
-            term_in = rhs if n == 0 else (spec_buf if n % 2 == 1 else term_buf)
-            term_out = spec_buf if n % 2 == 0 else term_buf
-            _wave_backward_uniform_2d_jt_kernel[(n_row_blocks,)](
-                term_in,
-                term_out,
-                rhs,
-                active_mask if active_mask is not None else rhs,
-                aw0,
-                aw1,
-                aw2,
-                aw3,
-                aw4,
-                node_child1,
-                node_child2,
-                node_parent,
-                compact_level_ptr,
-                compact_level_parents,
-                compact_level_child1,
-                compact_level_child2,
-                pibar_corr,
-                v_k,
-                W,
-                S,
-                block_w,
-                block_s,
-                block_nodes,
-                compact_level_ptr.numel() - 1,
-                USE_ACTIVE_MASK=bool(active_mask is not None),
-                SKIP_INACTIVE_SCRATCH_ZERO=bool(skip_inactive_scratch_zero),
-                FIXED_POINT_UPDATE=False,
-                DTYPE=_tl_float_dtype(dtype),
-                USE_CHILD_EDGE_SELF_LOOP=bool(use_child_edge_self_loop),
-                OUTPUT_A=False,
-                ACCUMULATE_V=True,
-                **jt_options,
-            )
+        # All Neumann terms fused into one launch: rows are independent, so each
+        # program iterates its own terms; coefficient arrays load once.
+        _wave_backward_uniform_2d_jt_neumann_fused_kernel[(n_row_blocks,)](
+            rhs,
+            v_k,
+            active_mask if active_mask is not None else rhs,
+            aw0,
+            aw1,
+            aw2,
+            aw3,
+            node_parent,
+            compact_level_ptr,
+            compact_level_parents,
+            compact_level_child1,
+            compact_level_child2,
+            pibar_corr,
+            spec_buf,
+            int(neumann_terms),
+            W,
+            S,
+            block_w,
+            block_s,
+            block_nodes,
+            compact_level_ptr.numel() - 1,
+            USE_ACTIVE_MASK=bool(active_mask is not None),
+            STORE_LAST_TERM=bool(return_last_increment),
+            DTYPE=_tl_float_dtype(dtype),
+            num_warps=_JT_WARPS,
+        )
     else:
         raise ValueError(f"unsupported self-loop solver {self_loop_solver!r}")
 
@@ -1279,7 +1600,7 @@ def _wave_backward_uniform_2d(
         and initial_v is None
         and int(neumann_terms) > 0
     ):
-        last_buf = spec_buf if (int(neumann_terms) - 1) % 2 == 0 else term_buf
+        last_buf = spec_buf  # fused Neumann kernel stores the last term here
         eps = torch.finfo(torch.float32).tiny
         num = last_buf.float().norm(dim=1)
         den = v_k.float().norm(dim=1).clamp_min(eps)
@@ -1314,7 +1635,25 @@ def _wave_backward_uniform_2d(
         param_grad_vector = False
         aw345_ptr = aw345
 
-    if grad_col_log_probs is not None:
+    if grad_col_log_probs is not None and _JT_MODE == 1:
+        dfs_node, start_m1, end_m1 = _get_dfs_tables(node_parent, node_child1, node_child2, S)
+        _col_grad_from_pibar_self_loop_reg_kernel[(n_row_blocks,)](
+            v_k,
+            active_mask if active_mask is not None else rhs,
+            aw1,
+            aw2,
+            dfs_node,
+            start_m1,
+            end_m1,
+            grad_col_log_probs,
+            W,
+            S,
+            block_s,
+            USE_ACTIVE_MASK=bool(active_mask is not None),
+            DTYPE=_tl_float_dtype(dtype),
+            num_warps=_JT_REG_WARPS,
+        )
+    elif grad_col_log_probs is not None:
         _col_grad_from_pibar_self_loop_kernel[(n_row_blocks,)](
             v_k,
             active_mask if active_mask is not None else rhs,
@@ -2327,6 +2666,85 @@ def _uniform_cross_pibar_vjp_tree_from_ud_compact_kernel(
             )
 
 
+@triton.jit
+def _uniform_cross_pibar_vjp_tree_from_ud_reg_kernel(
+    Pi_star_ptr,
+    col_log_probs_ptr,
+    pibar_ud_ptr,
+    pibar_A_ptr,
+    side_active_ptr,
+    sl_ptr,
+    sr_ptr,
+    reduce_idx_ptr,
+    active_mask_ptr,
+    pibar_row_max_ptr,
+    dfs_node_ptr,
+    start_m1_ptr,
+    end_m1_ptr,
+    accumulated_rhs_ptr,
+    grad_col_log_probs_ptr,
+    n_ws: tl.constexpr,
+    S: tl.constexpr,
+    stride_C: tl.constexpr,
+    BLOCK_S: tl.constexpr,
+    USE_ACTIVE_MASK: tl.constexpr,
+    USE_SIDE_ACTIVE: tl.constexpr,
+    ACCUM_COL_GRAD: tl.constexpr,
+    USE_COL_WEIGHTS: tl.constexpr,
+    DTYPE: tl.constexpr,
+):
+    """Register-resident Pibar-from-u_d tree correction (subtree sums via DFS cumsum).
+
+    Also writes the subtree sums back into pibar_ud, matching the in-place mutation of
+    the level-walk version (part of the captured wrapper contract)."""
+    NEG_LARGE: tl.constexpr = -float("inf")
+
+    row = tl.program_id(0)
+    split_i = tl.where(row < n_ws, row, row - n_ws)
+    is_right = row >= n_ws
+    if USE_SIDE_ACTIVE:
+        if tl.load(side_active_ptr + row) == 0:
+            return
+    child_l = tl.load(sl_ptr + split_i).to(tl.int64)
+    child_r = tl.load(sr_ptr + split_i).to(tl.int64)
+    child = tl.where(is_right, child_r, child_l)
+    if USE_ACTIVE_MASK:
+        parent_w = tl.load(reduce_idx_ptr + split_i).to(tl.int64)
+        if tl.load(active_mask_ptr + parent_w) == 0:
+            return
+
+    pi_base = child * stride_C
+    row_base = row * S
+    row_max = tl.load(pibar_row_max_ptr + child).to(DTYPE)
+    row_max_safe = tl.where(row_max != NEG_LARGE, row_max, tl.zeros_like(row_max))
+    A = tl.load(pibar_A_ptr + row).to(DTYPE)
+
+    s_offs = tl.arange(0, BLOCK_S)
+    mask = s_offs < S
+    zero = tl.zeros([BLOCK_S], dtype=DTYPE)
+    u_d = tl.load(pibar_ud_ptr + row_base + s_offs, mask=mask, other=0.0).to(DTYPE)
+    dfs_node = tl.load(dfs_node_ptr + s_offs, mask=mask, other=0)
+    start_m1 = tl.load(start_m1_ptr + s_offs, mask=mask, other=-1)
+    end_m1 = tl.load(end_m1_ptr + s_offs, mask=mask, other=0)
+    u_dfs = tl.where(mask, tl.gather(u_d, dfs_node, axis=0), zero)
+    cum = tl.cumsum(u_dfs, axis=0)
+    ce = tl.gather(cum, tl.where(end_m1 >= 0, end_m1, 0), axis=0)
+    cs = tl.where(start_m1 >= 0, tl.gather(cum, tl.where(start_m1 >= 0, start_m1, 0), axis=0), zero)
+    subtree_sum = ce - cs
+    tl.store(pibar_ud_ptr + row_base + s_offs, subtree_sum, mask=mask)
+
+    pi_val = tl.load(Pi_star_ptr + pi_base + s_offs, mask=mask, other=NEG_LARGE)
+    if USE_COL_WEIGHTS:
+        col_logp = tl.load(col_log_probs_ptr + s_offs, mask=mask, other=NEG_LARGE)
+        p_prime = tl.exp2(col_logp + pi_val - row_max_safe)
+    else:
+        p_prime = tl.exp2(pi_val - row_max_safe)
+    contrib = p_prime * (A - subtree_sum)
+    tl.atomic_add(accumulated_rhs_ptr + pi_base + s_offs, contrib, sem="relaxed", mask=mask)
+    if ACCUM_COL_GRAD:
+        tl.atomic_add(grad_col_log_probs_ptr + s_offs, contrib, sem="relaxed", mask=mask)
+
+
 def uniform_cross_pibar_vjp_tree_from_ud_fused(
     Pi_star,
     col_log_probs,
@@ -2414,6 +2832,38 @@ def uniform_cross_pibar_vjp_tree_from_ud_fused(
         if grad_col_log_probs is not None
         else pibar_A
     )
+    if _VJP_MODE == 1:
+        dfs_node, start_m1, end_m1 = _get_dfs_tables_from_compact(
+            compact_level_parents, compact_level_child1, compact_level_child2, S
+        )
+        _uniform_cross_pibar_vjp_tree_from_ud_reg_kernel[(2 * n_ws,)](
+            Pi_star,
+            col_log_probs,
+            pibar_ud,
+            pibar_A,
+            side_active if side_active is not None else pibar_A,
+            sl,
+            sr,
+            reduce_idx if reduce_idx is not None else sl,
+            active_mask if active_mask is not None else pibar_ud,
+            pibar_row_max,
+            dfs_node,
+            start_m1,
+            end_m1,
+            accumulated_rhs,
+            col_grad_arg,
+            n_ws,
+            S,
+            stride_C,
+            int(triton.next_power_of_2(S)),
+            USE_ACTIVE_MASK=bool(active_mask is not None),
+            USE_SIDE_ACTIVE=bool(side_active is not None),
+            ACCUM_COL_GRAD=bool(grad_col_log_probs is not None),
+            USE_COL_WEIGHTS=bool(use_col_weights),
+            DTYPE=_tl_float_dtype(Pi_star.dtype),
+            num_warps=_JT_REG_WARPS,
+        )
+        return
     _uniform_cross_pibar_vjp_tree_from_ud_compact_kernel[(2 * n_ws,)](
         Pi_star,
         col_log_probs,

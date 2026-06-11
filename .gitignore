@@ -6,3 +6,5 @@ __pycache__/
 *.pyc
 *.egg-info/
 .pytest_cache/
+# nsys/ncu profiling outputs -- regenerable, large; kept locally, not tracked
+experiments/profiles/
