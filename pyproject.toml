@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kernel-bench"
+version = "0.1.0"
+description = "Isolated forward/backward + per-kernel benchmarks for a set of Triton kernels, with golden-reference correctness gating."
+requires-python = ">=3.10"
+dependencies = ["torch", "triton"]
+
+[tool.setuptools.packages.find]
+include = ["kbench*"]

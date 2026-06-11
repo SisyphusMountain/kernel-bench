@@ -1,0 +1,8 @@
+# golden + per-kernel snapshots are regenerable from fixtures/ via capture/ -- not tracked
+data/
+# NOTE: fixtures/ (the frozen problem definitions: static data + inputs) IS committed -- it is the
+# seed capture/ runs on, and the only externally-derived artifact. Do not add it here.
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
