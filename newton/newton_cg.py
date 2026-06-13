@@ -100,6 +100,10 @@ def newton_lanczos(static, theta0, col_weights, *, sigma=0.01, sigma_floor=1e-4,
             return lambda v: h(v).double() + lam_obj * v.double()
         return lambda v: h(v).double()
 
+    # release the initial gradient eval's pooled scratch before the first cache build + Lanczos
+    # (the big fixtures leave <1 GiB driver-free otherwise, tripping the per-HVP scratch gate).
+    from newton.vg import free_cuda_cache_if_tight as _free_tight
+    _free_tight()
     hvp_eff = make_hvp_eff(theta_vec, warm_E)
     _, lam_max = lanczos_extremes(hvp_eff, p_dim, m=lanczos_m, device=str(theta_vec.device))
     lam_damp = sigma * lam_max
@@ -126,6 +130,13 @@ def newton_lanczos(static, theta0, col_weights, *, sigma=0.01, sigma_floor=1e-4,
                 print("  converged")
             break
 
+        # drop the previous point's HVP closure (which pins its GB-sized cached forward sv) and
+        # return those blocks to the driver BEFORE building the next point's cache -- otherwise two
+        # points' forward intermediates are live at once and the backward's driver-free scratch gate
+        # trips spuriously on the big fixtures (666x80/1007x64) after the first Newton step.
+        from newton.vg import free_cuda_cache_if_tight
+        hvp_eff = None
+        free_cuda_cache_if_tight()
         if lanczos_refresh and accepted_steps and accepted_steps % int(lanczos_refresh) == 0:
             hvp_eff = make_hvp_eff(theta_vec, warm_E)
             _, lam_max = lanczos_extremes(hvp_eff, p_dim, m=lanczos_m, device=str(theta_vec.device))
