@@ -14,11 +14,21 @@ chain (``MAX_ANCESTOR_DEPTH``), matching ``_wave_step_kernel_classic``.
 
 from __future__ import annotations
 
+import os
+
 import torch
 import triton
 import triton.language as tl
 
 from kbench.core.kernels.wave_step import _prepare_wave_launch, _tl_float_dtype
+
+# Launch tuning: num_warps for _wave_step_tangent_kernel. Tuned on the representative 666x80 fixture
+# (S=1331, BLOCK_S=2048): num_warps=4 is ~7.4% faster on the total HVP than the old default of 8
+# (sweep {2,4,8,16,32}; 2 spills catastrophically, 8/16/32 slower). The win is NOT from occupancy —
+# both 4 and 8 pin to 8 active warps/SM (16.67%), register+shared-limited — but from more elements
+# per thread (16 vs 8 → better ILP) and 2 resident blocks/SM (vs 1) hiding the cold-DRAM latency.
+# Bit-identical (hvp FD gate unchanged); neutral on small (S=119). Override per run via env.
+_WST_NUM_WARPS = int(os.environ.get("NEWTON_WST_NUM_WARPS", "4"))
 
 
 @triton.jit
@@ -205,5 +215,5 @@ def compute_wave_step_tangent(
         STORE_PIBAR=bool(store_pibar),
         USE_COL_WEIGHTS=bool(use_col_weights),
         DTYPE=_tl_float_dtype(Pi_in.dtype),
-        num_warps=8,
+        num_warps=_WST_NUM_WARPS,
     )
