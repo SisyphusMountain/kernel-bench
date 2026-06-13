@@ -226,17 +226,18 @@ def make_exact_hvp(static, theta, col_weights, sv, *, cache=None, debug_out=None
                 else:
                     d_dts = None
                 has_leaf = wave["has_leaf_term"]
-                # (a) second-order contraction at fixed v_k
+                # (a) second-order contraction at fixed v_k; d_rhs folds the wave's rhs cotangent
+                # into d_Av so it IS the solve seed (= d_rhs[ws:ws+W] + d_Av), no host add
                 d_Av, c_aw0, c_aw1, c_aw2, c_aw345, c_aw3, c_aw4 = wave_backward_so(
                     sv["pi_wave"], dPi, sv["pibar_wave"], dPibar, v_k, ws, W, S,
                     prm, cst["mc"], cst["dl"], dcst["dDL"], cst["ebar"], dcst["dEbar"],
                     cst["e"], dcst["dE"], cst["sl1"], dcst["dSL1"], cst["sl2"], dcst["dSL2"],
                     col, c1, c2, parent, mad, dts_r, d_dts,
                     leaf_state_idx=leaf_state_idx, leaf_logp=cst["leaf"], dleaf_logp=dcst["dleaf"],
-                    item_idx=item_idx, has_leaf_term=has_leaf, use_col_weights=False,
+                    item_idx=item_idx, has_leaf_term=has_leaf, use_col_weights=False, d_rhs=d_rhs,
                 )
                 # (b) tangent-adjoint solve with the SAME operator and cached mask
-                seed = d_rhs[ws:ws + W] + d_Av
+                seed = d_Av
                 dv, l_aw0, l_aw1, l_aw2, l_aw345, l_aw3, l_aw4 = wave_backward_uniform_fused(
                     sv["pi_wave"], sv["pibar_wave"], ws, W, S, dts_r, seed, cst["mc"],
                     cst["dl"], cst["ebar"], cst["e"], cst["sl1"], cst["sl2"], col,

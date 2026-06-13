@@ -144,7 +144,7 @@ def _dts_split_so_kernel(
 @triton.jit
 def _dts_tree_so_kernel(
     Pi_ptr, dPi_ptr, col_log_probs_ptr,
-    ud_ptr, dud_ptr, A_ptr, dA_ptr,
+    ud_ptr, dud_ptr,
     sl_ptr, sr_ptr,
     pibar_row_max_ptr,
     compact_level_ptr, compact_level_parent_ptr,
@@ -175,8 +175,16 @@ def _dts_tree_so_kernel(
     row_base = row * S
     rm = tl.load(pibar_row_max_ptr + child).to(DTYPE)
     rm_safe = tl.where(rm != NEG, rm, tl.zeros_like(rm))
-    A = tl.load(A_ptr + row).to(DTYPE)
-    dA = tl.load(dA_ptr + row).to(DTYPE)
+
+    # row totals A = sum_s ud, dA = sum_s dud (this program owns the full row): computed here,
+    # BEFORE the in-place level walk overwrites ud/dud with subtree sums.
+    A = tl.zeros((), dtype=DTYPE)
+    dA = tl.zeros((), dtype=DTYPE)
+    for s_start in range(0, S, BLOCK_S):
+        s_offs = s_start + tl.arange(0, BLOCK_S)
+        sm = s_offs < S
+        A += tl.sum(tl.load(ud_ptr + row_base + s_offs, mask=sm, other=0.0))
+        dA += tl.sum(tl.load(dud_ptr + row_base + s_offs, mask=sm, other=0.0))
 
     tl.debug_barrier()
     for level in range(0, N_LEVELS):
@@ -276,12 +284,10 @@ def dts_backward_so(
     # loop (which dominated the HVP at ~30% via per-level launches + .any() host syncs).
     if compact_level_ptr is None:
         raise ValueError("dts_backward_so requires compact_level_* tables for the tree kernel")
-    A = ud.sum(dim=1).contiguous()    # totals BEFORE the in-place subtree accumulation
-    dA = dud.sum(dim=1).contiguous()
     n_levels = int(compact_level_ptr.numel()) - 1
     _dts_tree_so_kernel[(2 * N,)](
         Pi, dPi, col_log_probs,
-        ud, dud, A, dA, sl, sr,
+        ud, dud, sl, sr,
         pibar_row_max,
         compact_level_ptr.contiguous(), compact_level_parents.contiguous(),
         compact_level_child1.contiguous(), compact_level_child2.contiguous(),

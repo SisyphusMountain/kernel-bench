@@ -46,7 +46,7 @@ def _wave_so_kernel(
     leaf_state_ptr, leaf_logp_ptr, dleaf_logp_ptr,
     item_idx_ptr,
     DTS_ptr, dDTS_ptr, has_splits: tl.constexpr,
-    d_out_ptr,
+    d_out_ptr, d_rhs_ptr,
     d_aw0_ptr, d_aw1_ptr, d_aw2_ptr, d_aw345_ptr, d_aw3_ptr, d_aw4_ptr,
     sub_ptr, dsub_ptr,
     CONST_ROW_STRIDE: tl.constexpr,
@@ -54,6 +54,7 @@ def _wave_so_kernel(
     MAX_ANCESTOR_DEPTH: tl.constexpr,
     USE_LEAF_INDEX: tl.constexpr,
     USE_COL_WEIGHTS: tl.constexpr,
+    FOLD_RHS: tl.constexpr,
     DTYPE: tl.constexpr,
 ):
     LN2 = 0.6931471805599453
@@ -227,6 +228,12 @@ def _wave_so_kernel(
 
     d_diag = dw_L * (w0 + w1) + w_L * (dw0 + dw1)
     d_self = v * d_diag + dp_prime * (A - sub) + p_prime * (dA - dsub)
+    # fold the existing rhs cotangent for this wave row directly into the seed buffer so the
+    # caller can hand d_out straight to the frozen solve (saves a host `d_rhs[ws:ws+W] + d_Av`):
+    # this row's d_rhs is not read again after the seed is built, and the child-scatter atomics
+    # below (all within this program's row) accumulate on top.
+    if FOLD_RHS:
+        d_self += tl.load(d_rhs_ptr + (ws + w) * S + s_offs, mask=mask, other=0.0)
     tl.store(d_out_ptr + out_base + s_offs, d_self, mask=mask)
     tl.debug_barrier()
 
@@ -242,11 +249,17 @@ def wave_backward_so(
     col_log_probs, node_child1, node_child2, node_parent, max_ancestor_depth,
     dts_r=None, d_dts=None,
     *, leaf_state_idx, leaf_logp, dleaf_logp, item_idx, has_leaf_term=True,
-    use_col_weights=False,
+    use_col_weights=False, d_rhs=None,
 ):
     """Second-order contraction at fixed adjoint v. Returns
-    (d_Av [W,S], d_aw0, d_aw1, d_aw2, d_aw345, d_aw3, d_aw4)."""
+    (d_Av [W,S], d_aw0, d_aw1, d_aw2, d_aw345, d_aw3, d_aw4).
+
+    If ``d_rhs`` [C,S] is given, the wave's own rhs cotangent (rows ``ws:ws+W``) is folded into
+    the returned ``d_Av`` so it can be used directly as the frozen solve seed (= d_rhs + d_Av),
+    saving a host add.
+    """
     has_splits = dts_r is not None
+    fold_rhs = d_rhs is not None
     _, const_row_stride = _prepare_wave_launch(S, DL)
     block_s = int(triton.next_power_of_2(S))
     dev, dt = Pi_star.device, Pi_star.dtype
@@ -267,12 +280,13 @@ def wave_backward_so(
         dts_r if has_splits else dummy,
         d_dts if has_splits else dummy,
         has_splits,
-        d_out, *d_aws, sub, dsub,
+        d_out, d_rhs if fold_rhs else dummy, *d_aws, sub, dsub,
         CONST_ROW_STRIDE=const_row_stride,
         BLOCK_S=block_s,
         MAX_ANCESTOR_DEPTH=int(max_ancestor_depth),
         USE_LEAF_INDEX=bool(has_leaf_term),
         USE_COL_WEIGHTS=bool(use_col_weights),
+        FOLD_RHS=fold_rhs,
         DTYPE=_tl_float_dtype(Pi_star.dtype),
         num_warps=8,
     )

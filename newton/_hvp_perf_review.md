@@ -109,6 +109,27 @@ work is one e_step backward + head double-pass, small vs the wave sweep), but it
 genuinely redundant per-CG-iteration work that compounds in a full Newton solve (10–40 CG
 iters/point). Kept as a correct cleanup.
 
+## PHASE A GLUE-OP FUSION LANDED (2026-06-13)
+
+A1: `_dts_tree_so_kernel` now computes the row totals `A`/`dA` internally (pre-pass sum before
+the in-place level walk), dropping the host `ud.sum(1)`/`dud.sum(1)` (282 launches/HVP) + 2
+buffers. A2: `_wave_so_kernel` folds the wave's own `d_rhs[ws:ws+W]` into `d_Av` (gated by
+`FOLD_RHS`), so `d_Av` IS the frozen-solve seed — removes the host `seed = d_rhs + d_Av` add
+(142/HVP) + the seed buffer. Both bit-identical (dts_so/wave_so ~3e-9; hvp 8.3e-5/1.15e-4/9.4e-4)
+and memory-better (good for 1007x64).
+
+Result (small fp32, isolated): steady HVP **138 → 136 ms** (~1.5%); `aten::sum` 1292→1005,
+`aten::add` 1224→1060 (~450 fewer launches, ~10%); self-CUDA 80→77 ms. **Confirms the linear
+nature of glue-op fusion**: each removed op is individually cheap (~1–5 µs GPU, ~1.8 µs CPU
+dispatch), so a 10% launch cut buys ~1.5% wall.
+
+**Phase B (scatter-accum fusion) NOT pursued.** It would remove ~1,000 launches (the 7 scatters
++ 6 `aw=c+l` adds/wave), but by the same linear logic that is ~3–4% wall at most, for a much
+riskier change (one fused 7-target kernel handling both G=1 reductions and G>1 `index_add`).
+Not worth it. The measurement makes the verdict clear: **the only lever that meaningfully moves
+a launch-bound HVP is CUDA-graph capture** (eliminates per-launch CPU cost for all ~4,300 at
+once), not incremental fusion. Recommend stopping glue-op work here.
+
 ## DIMINISHING RETURNS — now launch-overhead-bound
 
 Profile after #1/#6/#3: wall 138 ms vs **self-CUDA 80 ms** (was 537 ms originally). The
