@@ -82,6 +82,14 @@ def make_exact_hvp(static, theta, col_weights, sv, *, cache=None, debug_out=None
             tangent_self_iters = int(_env)
         else:
             tangent_self_iters = int(so.pi_iters) if getattr(so, "pi_iters", None) else 16
+    # How often to run free_cuda_cache_if_tight() in the reverse sweep. It is a blocking
+    # cudaMemGetInfo round-trip (~7.9us) and on a large-free GPU never empties the pool, so
+    # firing once per wave is ~142 wasted driver calls/HVP. Gate it to every K waves; it stays
+    # load-bearing on the big fixtures (memory pressure builds gradually, so checking every K
+    # waves still trips the gate in time). 1 = every wave (old behaviour); change per run via env.
+    _fc_env = os.environ.get("NEWTON_FREE_CACHE_EVERY")
+    free_cache_every = int(_fc_env) if _fc_env else 32
+    free_cache_every = max(1, free_cache_every)
     sh, wl = static.state_helpers, static.wave_layout
     S = int(sh["S"])
     item_idx = static.rate_item_idx
@@ -204,8 +212,9 @@ def make_exact_hvp(static, theta, col_weights, sv, *, cache=None, debug_out=None
 
             from newton.vg import free_cuda_cache_if_tight
 
-            for wave in cache["waves"]:  # already reverse order
-                free_cuda_cache_if_tight()
+            for _wi, wave in enumerate(cache["waves"]):  # already reverse order
+                if _wi % free_cache_every == 0:
+                    free_cuda_cache_if_tight()
                 ws, W = wave["ws"], wave["W"]
                 meta = wave["meta"]
                 v_k = wave["v"]
