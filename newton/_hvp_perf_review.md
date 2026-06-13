@@ -97,6 +97,36 @@ Remaining opportunities (smaller now): #3 hoist u-independent head/E-side work (
 #4 merge the 3 `e_step_backward_so` calls. The new SO kernels themselves remain ~3–20% and are
 not obvious wins to micro-optimize further.
 
+## FIX #3 LANDED (2026-06-13) — hoist u-independent head/E-side work
+
+`e_bwd_params`, the primal cotangents (`cot_*`/`base_p`), and the smooth head forward graph +
+first-order `g1` are now built ONCE in `make_exact_hvp` setup (theta fixed across CG), with the
+head graph retained (`create_graph` + per-call `retain_graph=True`). Each `hvp(u)` now adds only
+`phi2` + one backward. Numerically bit-identical (hvp gate 8.3e-5 / 1.15e-4 / 9.4e-4).
+
+Result (small fp32, isolated): steady HVP **140 ms → 138 ms** — marginal here (the saved
+work is one e_step backward + head double-pass, small vs the wave sweep), but it removes
+genuinely redundant per-CG-iteration work that compounds in a full Newton solve (10–40 CG
+iters/point). Kept as a correct cleanup.
+
+## DIMINISHING RETURNS — now launch-overhead-bound
+
+Profile after #1/#6/#3: wall 138 ms vs **self-CUDA 80 ms** (was 537 ms originally). The
+~58 ms gap is CPU kernel-launch dispatch + GPU idle between launches: **4,340 `cuLaunchKernelEx`
+per HVP** (~7.9 ms CPU dispatch) across ~142 waves × ~15–20 kernels each. `_wave_step_tangent`
+(28.7%, 2,272 launches) is the largest single GPU item but is irreducible at pi_iters=16.
+
+Cumulative: **597 → 138 ms (4.3×) on small fp32; ~9.9× vs fd-fp64 (1369 ms).** Further wall
+gains require attacking launch count, NOT kernel bodies:
+- **CUDA-graph capture** of the per-wave sweep (replay the launch sequence with one CPU call) —
+  the right next lever, but a substantial project (static shapes/pointers, capture/replay
+  plumbing, interaction with bicgstab's data-dependent iteration count).
+- Kernel fusion across the per-wave sequence (wave_so + the following frozen solve seed; the
+  several wave_backward_uniform sub-kernels).
+Both are higher-effort/higher-risk; recommend stopping at 4.3× unless the big-fixture wall
+(1007x64) justifies the CUDA-graph investment. Smaller leftover: fuse the `aten::sum` A/dA
+reduction (6 ms GPU) into `_dts_split_so` — but we are CPU/launch-bound, so it won't move wall.
+
 ## Performance suspects (ranked by expected payoff)
 
 1. **Tangent self-loop solve host-syncs every Jacobi iteration**

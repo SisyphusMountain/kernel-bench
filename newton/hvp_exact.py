@@ -131,6 +131,51 @@ def make_exact_hvp(static, theta, col_weights, sv, *, cache=None, debug_out=None
 
     zeros_state = lambda: torch.zeros_like(E_star)
 
+    # e-step head VJP at fixed cotangents (used both for the u-independent primal cotangents
+    # below and, per-u, for the tangent cotangents with g_new=dwE)
+    def e_bwd_params(g_new, g_ebar):
+        with torch.enable_grad():
+            pS_r = pS_m.detach().requires_grad_(True)
+            pD_r = pD_m.detach().requires_grad_(True)
+            pL_r = pL_m.detach().requires_grad_(True)
+            mc_r = item(sv["max_coupling"].squeeze(-1)).detach().requires_grad_(True)
+            col_r = col.detach().requires_grad_(True)
+            En, _, _, Eb = e_step_triton_autograd(
+                E_star.detach(), pS_r, pD_r, pL_r, mc_r, col_r,
+                parent, c1, c2, mad, use_col_weights=False,
+            )
+            outs = torch.autograd.grad((En, Eb), (pS_r, pD_r, pL_r, mc_r, col_r),
+                                       grad_outputs=(g_new, g_ebar), allow_unused=True)
+        return tuple(torch.zeros_like(z) if o is None else o
+                     for o, z in zip(outs, (pS_m, pD_m, pL_m, pS_m, col)))
+
+    # ---- u-INDEPENDENT setup (theta fixed across all CG iterations): primal cotangents and the
+    # smooth head graph + first-order grad g1 are built ONCE here, not per hvp(u). The head's
+    # forward graph is retained (create_graph) so each hvp(u) only adds phi2 + one backward. ----
+    base_p = e_bwd_params(wE, acc["grad_Ebar"])
+    cot_pS = acc["grad_log_pS"] + as_item_param(base_p[0], G, S)
+    cot_pD = acc["grad_log_pD"] + as_item_param(base_p[1], G, S)
+    cot_pL = base_p[2]
+    cot_mc = acc["grad_mc"] + base_p[3]
+    cot_col = acc["grad_col"] + base_p[4]
+
+    theta_req = theta.detach().requires_grad_(True)
+    col_req = col_weights.detach().requires_grad_(True)
+    _head_grad_ctx = torch.enable_grad()
+    _head_grad_ctx.__enter__()
+    pS_h, pD_h, pL_h, mt_h, col_h = extract_parameters_weighted_cols(
+        theta_req, col_req, sh, statewise=static.statewise, itemwise=static.itemwise,
+        uniform_fast=True,
+    )
+    pS_hp = as_item_param(pS_h, G, S)
+    pD_hp = as_item_param(pD_h, G, S)
+    pL_hi = as_item_state(pL_h, S, G)
+    mt_hi = as_item_state(mt_h.squeeze(-1) if mt_h.ndim == pS_h.ndim + 1 else mt_h, S, G)
+    phi1 = ((pS_hp * cot_pS).sum() + (pD_hp * cot_pD).sum() + (pL_hi * cot_pL).sum()
+            + (mt_hi * cot_mc).sum() + (col_h * cot_col).sum())
+    (g1,) = torch.autograd.grad(phi1, theta_req, create_graph=True)
+    _head_grad_ctx.__exit__(None, None, None)
+
     def hvp(u_vec):
         u = u_vec.reshape(S, 3).to(theta.dtype)
         with torch.no_grad():
@@ -302,24 +347,9 @@ def make_exact_hvp(static, theta, col_weights, sv, *, cache=None, debug_out=None
                     d_gEs2=d_gEs2.clone(), dq_E=dq_E.clone(), dwE=dwE.clone(),
                 )
 
-            # tangent param-cotangents from the e-step head: linear (tangent cotangents) +
-            # contraction at fixed cotangents (g_new=wE, g_ebar=grad_Ebar_acc)
-            def e_bwd_params(g_new, g_ebar):
-                with torch.enable_grad():
-                    pS_r = pS_m.detach().requires_grad_(True)
-                    pD_r = pD_m.detach().requires_grad_(True)
-                    pL_r = pL_m.detach().requires_grad_(True)
-                    mc_r = item(sv["max_coupling"].squeeze(-1)).detach().requires_grad_(True)
-                    col_r = col.detach().requires_grad_(True)
-                    En, _, _, Eb = e_step_triton_autograd(
-                        E_star.detach(), pS_r, pD_r, pL_r, mc_r, col_r,
-                        parent, c1, c2, mad, use_col_weights=False,
-                    )
-                    outs = torch.autograd.grad((En, Eb), (pS_r, pD_r, pL_r, mc_r, col_r),
-                                               grad_outputs=(g_new, g_ebar), allow_unused=True)
-                return tuple(torch.zeros_like(z) if o is None else o
-                             for o, z in zip(outs, (pS_m, pD_m, pL_m, pS_m, col)))
-
+            # tangent param-cotangents from the e-step head: linear (tangent cotangents,
+            # g_new=dwE) + contraction at fixed cotangents (g_new=wE, g_ebar=grad_Ebar_acc).
+            # e_bwd_params and the primal cotangents/head graph are hoisted (u-independent).
             lin_p = e_bwd_params(dwE, d_gEbar)
             so_p = e_step_backward_so(*x_args, wE, zero_g, zero_g, acc["grad_Ebar"], *dx,
                                       use_col_weights=False)
@@ -331,33 +361,13 @@ def make_exact_hvp(static, theta, col_weights, sv, *, cache=None, debug_out=None
             d_cot_mc = d_gmc + lin_p[3] + so_p[4]
             d_cot_col = d_gcol + lin_p[4] + so_p[5]
 
-            # primal cotangents (for the head-Hessian term)
-            base_p = e_bwd_params(wE, acc["grad_Ebar"])
-            cot_pS = acc["grad_log_pS"] + as_item_param(base_p[0], G, S)
-            cot_pD = acc["grad_log_pD"] + as_item_param(base_p[1], G, S)
-            cot_pL = base_p[2]
-            cot_mc = acc["grad_mc"] + base_p[3]
-            cot_col = acc["grad_col"] + base_p[4]
-
-        # ---- smooth parameter head (autograd allowed here) ----
-        theta_req = theta.detach().requires_grad_(True)
-        col_req = col_weights.detach().requires_grad_(True)
+        # ---- smooth parameter head (autograd; forward graph + g1 hoisted, retained) ----
         with torch.enable_grad():
-            pS_h, pD_h, pL_h, mt_h, col_h = extract_parameters_weighted_cols(
-                theta_req, col_req, sh, statewise=static.statewise, itemwise=static.itemwise,
-                uniform_fast=True,
-            )
-            pS_hp = as_item_param(pS_h, G, S)
-            pD_hp = as_item_param(pD_h, G, S)
-            pL_hi = as_item_state(pL_h, S, G)
-            mt_hi = as_item_state(mt_h.squeeze(-1) if mt_h.ndim == pS_h.ndim + 1 else mt_h, S, G)
-            phi1 = ((pS_hp * cot_pS).sum() + (pD_hp * cot_pD).sum() + (pL_hi * cot_pL).sum()
-                    + (mt_hi * cot_mc).sum() + (col_h * cot_col).sum())
-            (g1,) = torch.autograd.grad(phi1, theta_req, create_graph=True)
             phi2 = ((pS_hp * d_cot_pS).sum() + (pD_hp * d_cot_pD).sum() + (pL_hi * d_cot_pL).sum()
                     + (mt_hi * d_cot_mc).sum() + (col_h * d_cot_col).sum())
-            # head Hessian term + linear term in ONE backward (they share the forward graph)
-            (out,) = torch.autograd.grad((g1 * u).sum() + phi2, theta_req)
+            # head Hessian term + linear term in ONE backward (they share the forward graph);
+            # retain_graph so the hoisted forward graph + g1 survive for the next hvp(u) call
+            (out,) = torch.autograd.grad((g1 * u).sum() + phi2, theta_req, retain_graph=True)
         return out.reshape(-1)
 
     return hvp
