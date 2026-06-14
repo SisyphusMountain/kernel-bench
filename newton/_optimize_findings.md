@@ -161,6 +161,43 @@ leaves the high-curvature directions, and ‖g‖ rises.
   (~53 iters); it will NOT go lower with plain CG — capped by conditioning, not by geometry (PD) or
   truncation (N=64 is converged).
 - **To drive ‖g‖→0 needs a PRECONDITIONER** (or deflation / a Krylov method robust to bottom
-  clustering) for the inner solve — the clear next step. `ridge_anneal` now records `lamH_min/max`,
+  clustering) for the inner solve. `ridge_anneal` now records `lamH_min/max`,
   `ref_dist`, `gp`, `dF`, `step_norm` per step (gated behind `spectrum_m>0`).
   See `/tmp/claude-1000/{anneal_n64_diag,anneal_n64_deep,damped_newton_test}.py`.
+
+### fp64 is NOT the lever — the endgame is conditioning-bound, not precision-bound (2026-06-15, A100)
+
+Tested the endgame in **fp64 on an A100** (real fp64 hw) to check whether the fp32 HVP's rounding was
+capping CG. It is not. At a near-optimal N=64 checkpoint (true loss 137650.7, ‖g‖ 12.4):
+
+| | fp32 | fp64 |
+|---|---|---|
+| Q1 HVP rel-error vs fp64 | **~1.1e-4** | (ref) |
+| Q2 CG resid @50 iters, λ=0.1 | 0.51 | 0.58 |
+| Q3 one Newton step → true ‖g‖ | 12.4→**15.68** | 12.4→**15.72** |
+
+fp64 gives the **identical** CG trajectory and Newton step at **2.5× the wall**. CG stalls at ~0.5
+residual because κ≈5000 (λ=0.1) with a bottom-clustered spectrum — *conditioning*, not precision
+(fp32's 1e-4 noise floor is nowhere near 0.5). **Precision is irrelevant; fp32 is correct and cheap;
+the endgame is conditioning-bound.** Corollary: this work belongs on the **local GPU (fp32)**, not the
+cluster. (`/tmp/claude-1000/fp64_focused.py`.)
+
+### The open question that gates the next step: is the flat valley low-rank or high-dimensional?
+
+The bottleneck is the ill-conditioned, bottom-clustered, **PD** Hessian (λ_min~0.2, λ_max~1500). The
+right move depends on the SHAPE of the bottom spectrum, which we have NOT measured (only the extremes
+λ_min/λ_max). Two regimes, opposite prescriptions:
+- **Low-rank flat** (a few tiny eigenvalues = a few non-identifiable parameter combinations) →
+  deflated CG (deflate the bottom-k eigenvectors) or a reparametrization breaks the floor; ‖g‖→0
+  becomes reachable.
+- **High-dim flat** (many tiny eigenvalues) → ‖g‖→0 is **ill-posed** (the minimizer is a flat
+  region, not a point); deflation can't help; the right framing is the loss-minimizer (Adam) + a
+  principled prior (the ridge/MAP we already use), with the flat directions BEING the posterior
+  uncertainty (Laplace).
+
+**Recommended next step: measure the Hessian's bottom eigenvalue spectrum near the optimum** (smallest
+~30–50 eigenvalues / spectral density via Lanczos; fp32, local, cheap). That single diagnostic chooses
+between "engineer a deflated/preconditioned CG" and "reframe — ‖g‖→0 is the wrong target." It also
+reveals whether the ill-conditioning is **intrinsic non-identifiability** (a modeling fact) vs a
+solver problem — and whether the downstream goal is even served by chasing ‖g‖→0 (MLE point estimate
+is already solved by Adam; only a Laplace/uncertainty goal needs a clean stationary point).
