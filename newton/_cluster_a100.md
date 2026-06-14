@@ -38,6 +38,12 @@ srun -p gpu-a100 -c 16 --mem=128G --gres=gpu:1 --time=00:10:00 bash -lc 'hostnam
   0/128) → allocation is instant. `largegpu` partition also has `a100:8`. Other partitions:
   `gpu-v100` (v100:4), `gpu-p100`/`test-gpu` (p100). Check load: `sinfo -p gpu-a100 -o "%n %t %G %C"`,
   `squeue -p gpu-a100`.
+- ⚠ **GROUP QUOTA caps concurrency at ONE GPU job** (verified 2026-06-15): the `allstudents` assoc
+  GrpTRES is `cpu=16, gres/gpu=1, mem=128G` (`sacctmgr -n -P show assoc user=$USER format=GrpTRES`). So
+  a *second* concurrent GPU job **never** starts (reason `AssocGrpGpuLimit`/`AssocGrpMemLimit`) no matter
+  how you size `-c`/`--mem`. Run jobs **serially**; don't bother trying two A100s in parallel. fp64 HVP
+  on the A100 is ~7 s each (m=250 Lanczos ≈ 30 min) — slower per-call than expected, but 80 GB fits the
+  fp64 666x80 HVP that OOMs locally.
 - Device: **A100-SXM4-80GB**, capability (8,0), ~85 GB usable, full-rate fp64. (vs local 24 GB.)
 
 ## Python / torch environment

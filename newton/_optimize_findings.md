@@ -238,3 +238,75 @@ intermediates and HVP output are float64, and the fp64 atomic-noise floor is **3
 eigenvalue while λ>0.058; annealing below that exposed it → CG broke down → ‖g‖ bounced). The next
 step is not a preconditioner but **negative-curvature descent (saddle escape)** along the λ_min
 eigenvector, then re-optimize and re-check the spectrum. (`/tmp/claude-1000/{convergence_certificate,fp64_lanczos,verify_fp64}.py`.)
+
+### Saddle escape carried out (2026-06-15) — the saddle is REAL but NOT isolated; the true win is elsewhere
+
+Plan executed (`newton/_saddle_escape_plan.md`): gate → escape → re-optimize → re-check, with a new
+`lanczos_min_eigpair` (Ritz-vector recovery, `newton/cg.py`) for the negative-curvature direction.
+
+**Step-0 gate (the saddle is real, not a numeric artifact).** At the best checkpoint: (a) HVP operator
+symmetry `|vᵀHw−wᵀHv|` rel-error **3.5e-7** (≪|λ_min|) → not an asymmetry artifact; (b) a
+**kernel-independent** curvature probe — central FD of the gradient along `v_min`,
+`c(ε)=(g(θ+εv)−g(θ−εv))·v/2ε` — gives **−0.064**, matching Lanczos, bypassing the HVP kernels. Both
+**pi/tangent-converged** (loss identical pi=64→1024; λ_min identical to 5 sig-figs at (128,64)→(512,256)).
+The negative curvature is genuine geometry. (`/tmp/claude-1000/{saddle_step0_gate,pi_convergence_check}.py`.)
+
+**THE STRUCTURAL KEY — the negative direction is ⊥ the gradient.** `cg_witness` on the bare Hessian
+runs 120 CG iters from `g` and **never hits negative curvature**: `v_min ⊥ Krylov(g)`. This explains
+everything seen to date: a gradient/Newton method builds its step from `g, Hg, …`, so it is *blind* to
+a descent direction orthogonal to `g`. Concretely — **Adam does NOT sit on the saddle** (it stays in
+the low-loss valley with ‖g‖≈200, oscillating, exactly "GD avoids saddles"); it is the **Newton-type
+polish (`ridge_anneal`) that snaps onto the saddle** (Newton homes to *any* critical point — the
+saddle-free-Newton problem) at ‖g‖≈1.5. Stationarizing and avoiding saddles are in tension here.
+
+**The escape works, but the saddle is a CASCADE, not a bump.** Negative-curvature descent (well-resolved
+`v_min` + 1-D line-MIN on the converged loss + `ridge_anneal` reopt) monotonically lowers the loss, but
+each re-optimized point is **again a shallow saddle** (λ_min≈−0.05 reappears). Crucially, the in-loop
+gain depends on direction RESOLUTION: a crude m=120 `v_min` gave −0.4/round; the resolved m=200 `v_min`
+gave **−34 NLL in round 0** (137640→137606). (`/tmp/claude-1000/{saddle_escape,saddle_certify,a100_descent.py}`.)
+
+**The real low-loss region (and why the pipeline never found it).** The landscape has a
+**low-loss/low-‖g‖ DECOUPLING**: low loss ⟺ huge ‖g‖ (a steep ravine Adam visits but can't stationarize);
+low ‖g‖ ⟺ a saddle at higher loss. The converged map:
+
+| point | L (pi=128) | ‖g‖ | λ_min(resolved) | nature |
+|---|---|---|---|---|
+| Adam (stationary-ish) | 137655 | 30 | — | valley wall |
+| `ridge_anneal` "saddle" | 137640 | 1.5 | −0.064 | where the whole pipeline stalled |
+| nc-descent floor | 137601 | 3 | −0.05 | saddle basin |
+| Adam valley floor | 137552 | 202 | — | ravine entrance |
+| **LBFGS from Adam's valley** | **137467** | 1.1 | **≤ −0.034** | lowest found; still a shallow saddle |
+
+**LBFGS (quasi-Newton + line search) launched from Adam's low-loss valley reaches 137467 — ~173 NLL
+below the saddle the Adam→ridge_anneal→nc-escape pipeline kept converging to**, with θ bounded/interior
+(not a boundary). The Newton polishes never found it (they snap to saddles); Adam alone never found it
+(won't stationarize). The lever was the *starting point* (Adam's valley) + the right optimizer (LBFGS).
+The 137540 from the old plan table was this ravine, on the truncated surface — real, not an artifact.
+
+**Even the ravine bottom is a shallow saddle (λ_min ≤ −0.034), ⊥ the gradient.** The shallow
+negative-curvature-⊥-gradient direction appears at *every* point in the low-loss region. This is the
+fingerprint of **genuine non-identifiability** — a near-flat/slightly-negative parameter combination the
+data cannot pin down — not an isolated saddle to escape. A confirmatory nc-step at 137467 buys only
+**−0.16 NLL** (t=2; `/tmp/claude-1000/ravine_ncstep.py`) → the cascade has bottomed out.
+`ridge_anneal` there immediately reports "no progress, witness quiet" (PD-along-`g`, flat in loss) and
+drives ‖g‖ 4→1.1 without changing the loss — the signature of a flat minimum-modulo-the-⊥-direction.
+
+**Levers ruled out for the endgame.** (1) **fp64** — irrelevant (geometry dtype-independent; verified).
+(2) **Diagonal/Jacobi preconditioner** (the natural conditioning fix; `/tmp/claude-1000/a100_hessdiag.py`,
+fp64 A100): H is only **52% diagonal** (‖diag‖²/‖H‖_F²=0.52), the diagonal is **irregular** (median 0.017,
+247/3993 negative, scale spread 8.6e10), so `D^{-1/2}HD^{-1/2}` only halves λ_max (1493→699) AND blows
+λ_min to **−1104** (tiny diag entries amplified ~1e4×). It makes conditioning *and* indefiniteness worse.
+And by **Sylvester's law of inertia** no SPD (diagonal or otherwise) preconditioner can remove the
+negative eigenvalue anyway. (3) **Conditioning preconditioner** does not address the ⊥-gradient saddle.
+
+**METHODOLOGY (important, cost me a wrong call).** The Lanczos smallest Ritz value is an UPPER bound on
+λ_min that converges DOWN with m; coarse m **over-reads the sign** (m=20→+0.35, m=40→+0.04, m=120→+0.0007,
+m=200→−0.034 at the *same* near-degenerate bottom). **A near-zero λ_min is NOT a PD certificate unless the
+Ritz residual is small** — I prematurely called the ravine bottom "PD-ish" off an under-resolved m=120
+read; the resolved m=200 shows λ_min ≤ −0.034 (still a saddle). Always residual-gate, and use m≥200 on this
+fixture's clustered bottom.
+
+**PRACTICAL RECIPE.** For this problem, the endgame is **Adam (find the low-loss valley) → LBFGS/quasi-Newton
+with line search (descend the ravine)**, NOT Adam → exact-Newton polish (snaps to a higher saddle). A clean
+PD minimum has not been certified anywhere; the residual ⊥-gradient direction is best read as posterior
+uncertainty (Laplace) / a non-identifiable mode, not a target for ‖g‖→0.
