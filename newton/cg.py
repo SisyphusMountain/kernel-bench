@@ -10,15 +10,12 @@ from __future__ import annotations
 import torch
 
 
-def lanczos_extremes(Av, p, *, m=40, seed=0, device="cuda", dtype=torch.float64):
-    """Estimate (lambda_min, lambda_max) of the operator via m Lanczos iterations with full
-    reorthogonalization. Matrix-free: only m HVPs. Note: the lambda_min Ritz estimate converges
-    from ABOVE (optimistic) — on this problem's clustered bottom edge m≈40 is needed for an
-    accurate value (m=10 can even miss the sign); lambda_max is accurate by m≈10.
+def _lanczos_tridiag(Av, p, *, m, seed=0, device="cuda", dtype=torch.float64):
+    """m-step Lanczos with FULL reorthogonalization. Returns ``(Q, alphas, betas)``: the orthonormal
+    Krylov basis (list of length-``p`` vectors) and the symmetric-tridiagonal diagonals
+    (``len(betas) == len(alphas)-1`` unless an early breakdown). Matrix-free — only ``len(Q)`` HVPs.
+    Shared core for ``lanczos_extremes`` (eigenvalues) and ``lanczos_min_eigpair`` (+ Ritz vector).
     """
-    import numpy as np
-    from scipy.linalg import eigh_tridiagonal
-
     gen = torch.Generator(device=device).manual_seed(seed)
     q = torch.randn(p, generator=gen, device=device, dtype=dtype)
     q /= q.norm()
@@ -37,8 +34,43 @@ def lanczos_extremes(Av, p, *, m=40, seed=0, device="cuda", dtype=torch.float64)
             break
         q_prev, q, beta = q, w / b, b
         betas.append(b)
+    return Q, alphas, betas
+
+
+def lanczos_extremes(Av, p, *, m=40, seed=0, device="cuda", dtype=torch.float64):
+    """Estimate (lambda_min, lambda_max) of the operator via m Lanczos iterations with full
+    reorthogonalization. Matrix-free: only m HVPs. Note: the lambda_min Ritz estimate converges
+    from ABOVE (optimistic) — on this problem's clustered bottom edge m≈40 is needed for an
+    accurate value (m=10 can even miss the sign); lambda_max is accurate by m≈10.
+    """
+    import numpy as np
+    from scipy.linalg import eigh_tridiagonal
+
+    _, alphas, betas = _lanczos_tridiag(Av, p, m=m, seed=seed, device=device, dtype=dtype)
     ev = eigh_tridiagonal(np.array(alphas), np.array(betas[: len(alphas) - 1]), eigvals_only=True)
     return float(ev[0]), float(ev[-1])
+
+
+def lanczos_min_eigpair(Av, p, *, m=120, seed=0, device="cuda", dtype=torch.float64):
+    """Smallest eigenvalue AND its Ritz vector via m-step Lanczos with full reorthogonalization.
+
+    Returns ``(lam_min, v_min)`` with ``v_min`` a unit ``dtype`` tensor on ``device`` (the Ritz
+    vector for the smallest Ritz value: ``Q @ s`` where ``s`` is the bottom eigenvector of the
+    tridiagonal ``T``). ``m`` must resolve the bottom edge — on this problem's clustered/low-rank
+    bottom ``m≈120`` is needed (``m=20`` misses the sign). Verify the Ritz residual
+    ``||A v_min - lam_min v_min||`` is small before trusting ``v_min`` as a curvature direction.
+    """
+    import numpy as np
+    from scipy.linalg import eigh_tridiagonal
+
+    Q, alphas, betas = _lanczos_tridiag(Av, p, m=m, seed=seed, device=device, dtype=dtype)
+    w, S = eigh_tridiagonal(np.array(alphas), np.array(betas[: len(alphas) - 1]), eigvals_only=False)
+    s = torch.tensor(S[:, 0], device=device, dtype=dtype)  # bottom eigenvector of T (len == len(Q))
+    v = torch.zeros(p, device=device, dtype=dtype)
+    for i, qi in enumerate(Q):
+        v += s[i] * qi
+    v /= v.norm()
+    return float(w[0]), v
 
 
 def steihaug_cg(Av, b, delta, *, tol, max_iter):
