@@ -53,6 +53,27 @@ srun -p gpu-a100 -c 16 --mem=128G --gres=gpu:1 --time=00:10:00 bash -lc 'hostnam
   use the micromamba env in `/work` instead.
 - System `module avail` works but is old (python ≤3.7, cuda ≤11.3) — NOT used; the env self-contains
   CUDA 13 via the pip torch wheel.
+- There is **no system `python3.11` and no conda/micromamba on PATH** (only `~/.local` has
+  torch+triton, not numpy/scipy). So a plain venv has no base interpreter — use micromamba.
+
+### Creating the env (one command)
+
+`scripts/setup_cluster_env.sh` (in this repo) does it reproducibly: installs micromamba (static
+binary, no root) → creates a python 3.11 env → pip-installs torch (cu130) + `requirements.txt`
+(triton/numpy/scipy) + the package. Run it on the **saion login node** (pip downloads there):
+
+```bash
+cd /work/SzollosiU/enzo-marsot/<workdir>/kernel-bench   # or the /bucket clone
+bash scripts/setup_cluster_env.sh [ENV_PREFIX]          # default /work/.../kbench-env (scratch)
+# pass a /bucket path for a PERSISTENT env to reuse every session (avoids "venv every time")
+```
+
+Then **verify on a compute node** (login fails torch import — GLIBC):
+```bash
+srun -p gpu-a100 -c 4 --mem=16G --gres=gpu:1 --time=00:05:00 \
+  <ENV_PREFIX>/bin/python -c 'import torch,triton,numpy,scipy; print(torch.cuda.is_available())'
+```
+Deps are declared in `requirements.txt` (torch, triton, numpy, scipy).
 
 ## Per-experiment workflow
 

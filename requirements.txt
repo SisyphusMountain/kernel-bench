@@ -1,0 +1,15 @@
+# kernel-bench runtime dependencies (Python >= 3.10; the cluster env uses 3.11).
+#
+# torch + triton must match the GPU's CUDA. On the OIST saion A100 nodes the working stack is
+# torch 2.12 / triton built for CUDA 13 (cu130). Install torch from the matching PyTorch index:
+#
+#     pip install --index-url https://download.pytorch.org/whl/cu130 torch
+#     pip install -r requirements.txt        # triton/numpy/scipy (+ torch if not already present)
+#
+# (Plain `pip install torch` pulls the current default-CUDA wheel, usually fine on a fresh A100 env.)
+# See newton/_cluster_a100.md for the full cluster setup + the "verify torch on a compute node" gotcha.
+
+torch>=2.11
+triton>=3.4
+numpy>=1.26
+scipy>=1.11
