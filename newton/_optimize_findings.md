@@ -70,3 +70,97 @@ differentiators are **‖g‖** and **wall time**.
   optimizer — it won't go to ~0 here regardless of method.
 - Per-step wall in the Newton history is stamped at return (newton_lanczos doesn't expose per-step
   timing); the final/total wall is accurate.
+
+## Ridge-annealing (λ-continuation) polish — `ridge_anneal()` (2026-06-14)
+
+`ridge_anneal()` starts λ at the auto_lambda rule (-min(λ_min,0)+σ·λ_max via exact-HVP Lanczos) and
+anneals it down with an adaptive bold-driver (×0.3 clean/cheap, ×0.7 near the edge, stop on no
+progress), running safe Newton steps (`cg_witness` δ self-correction + Armijo) at each level with a
+moving (proximal) θ_ref. Memory discipline (only one point's forward intermediates + HVP closure
+live; drop the per-step saved dicts — `_sv`/`st` — and free at the 8 GiB threshold) is load-bearing:
+without it the backward's driver-free scratch gate trips at the 2nd inner step.
+
+Shallow (σ=0.01, inner=3, max_levels=8): **137685 / ‖g‖2.49 / 156 s** — best stationarity of all
+polishes (½ the single-λ ridge floor) at ~the same loss/wall. λ went 13.4→4.0 then hit the floor.
+Deep (floor 1e-5, 14 levels): λ 13.6→0.024 slides loss 137687→**137660** (toward the Adam floor) but
+‖g‖ **bounces back up** (2.5→22) and CG saturates max_iter from λ≈1.2 down (999 s). So **λ is a dial
+trading loss for stationarity** — the flat-valley decoupling, made continuous.
+
+## ⚠ Precision/truncation audit (2026-06-14) — the above absolute numbers are unreliable
+
+The fixture captures `pi_iters=16`, `neumann_terms=16`. Both are **too low to converge the solve**,
+and the bias is **larger than the inter-method differences above**:
+- Forward Pi residual @pi=16 ≈ **0.97** (vs ~1e-12 @256). Loss is biased **+33 NLL high**:
+  Adam 137689→137656, ridge_anneal 137685→137650, once pi_iters≥64 (converged by 64; 16/32 not).
+- Backward ‖g‖ converges by **neumann_terms≈32–64** (gmres confirms). nt=16 underestimates the
+  ridge_anneal gradient **2.6×** (4.79 vs true 12.57). The "‖g‖≈2.5 floor" is an artifact.
+- **dtype is irrelevant**: fp32 ≈ fp64 to ~0.03 NLL / ~0.01 ‖g‖. The error is truncation, not
+  rounding — fp64 alone does NOT fix it.
+- On the TRUE (pi=128,nt=64) objective, ridge_anneal still beats Adam on both loss (137650<137656)
+  and ‖g‖ (12.57<34.25) — the method ranking holds; the absolute numbers do not.
+
+**Action**: re-run optimization + characterization with `pi_iters≥64`, `neumann_terms≥32` (64 safe),
+and `NEWTON_TANGENT_SELF_ITERS≥64` (the HVP tangent loop is truncated too). See
+`/tmp/claude-1000/{precision_test,neumann_sweep}.py`.
+
+### fp32 convergence study (2026-06-14) — iterations, not precision
+
+Per the consumer-GPU constraint (weak fp64), all of the following is **fp32**; converging the *solve*
+is what matters. Set `solver_options.pi_iters` (propagates to forward + HVP tangent fallback) and
+`neumann_terms`; `NEWTON_TANGENT_SELF_ITERS` overrides the tangent loop.
+
+**Direction is corrupted at N=16, not just magnitude.** At the ra checkpoint (λ=13.5 fixed), as the
+solver iteration count N (=pi=neumann=tangent) increases toward the N=128 reference:
+
+| N | loss | ‖g‖ | cos(g, g₁₂₈) | cos(p_newton, p₁₂₈) |
+|---|---|---|---|---|
+| 16 | 137685 | 2.64 | **+0.215** (~78° off) | +0.909 (~25° off) |
+| 32 | 137651 | 12.36 | +0.99997 | +0.99999 |
+| 64 | 137650 | 12.57 | +1.000 | +1.000 |
+
+So N=16 points the gradient ~78° away from the truth; the damped Newton step is less distorted
+(λI regularizes it) but still ~25° off. **Converged by N=32; N=64 = N=128 (safe margin).**
+
+**Optimizing against the converged objective reaches a genuinely cleaner stationary point**, and
+makes the optimizer's own in-loop ‖g‖ trustworthy. fp32 Adam(adaptive)→ridge_anneal, judged on the
+TRUE objective (pi=128, neumann=64):
+
+| run | true loss | true ‖g‖ |
+|---|---|---|
+| truncated-opt (pi=neumann=16) Adam | 137656 | 34.25 |
+| truncated-opt ridge_anneal | 137650 | 12.57 (in-loop claimed 2.49 — a lie) |
+| **converged-opt (N=64) ridge_anneal** | 137653 | **2.83** (in-loop 2.8 — true) |
+
+Converged-opt ridge_anneal gets true ‖g‖ to **2.83** (vs 12.57) at ~the same loss — 4.4× cleaner —
+because the optimizer is no longer fooled by a truncated objective. Cost ~2× wall (Adam 30→63 s,
+ridge_anneal 156→269 s), not 4×. Recipe: for any run that needs a real stationary point (e.g.
+Fisher-Laplace), set N=64 (or 32) across the stack; it stays fp32. See
+`/tmp/claude-1000/{converged_reopt,newton_dir_sensitivity}.py`.
+
+### N=64 annealing from the best checkpoint — the bounce is CONDITIONING, not geometry (2026-06-14)
+
+Started from the best (lowest-true-loss) checkpoint (137650 / ‖g‖12.57), deep-annealed λ at N=64
+(fp32) with the new `ridge_anneal(spectrum_m=...)` per-level **bare-Hessian spectrum** diagnostic.
+
+| phase | λ range | true loss | true ‖g‖ | bare-H λ_min | CG | verdict |
+|---|---|---|---|---|---|---|
+| shallow (floor 0.42) | 14→1.3 | 137650→**137646.9** | 12.57→**1.46** | +0.20 | 10→40 | monotone, NO bounce |
+| deep (floor 1e-5, cg≤80) | 1.0→0.21 | →137640 | 1.34→**10.2** | +0.21 | hits max_iter ≤0.3 | loss↓ but ‖g‖ BOUNCES |
+| decisive (damped-N, cg≤300) | 0.3 fixed | 137647→137642 | 1.46→4.33 | +0.20 | **300, still not converged** | CG can't solve it |
+
+The spectrum is the smoking gun: **λ_min(H) ≈ +0.20 stays positive everywhere** — the Hessian is PD,
+a genuine minimum exists, no witness ever fires. The bounce is purely **ill-conditioning**:
+λ_max≈1500, so κ = λ_max/(λ_min+λ) ≈ 1500/0.2 ≈ **7500** as λ→0, and the spectrum is **clustered at
+the bottom edge** (the `lanczos_extremes` docstring's warning) — CG's worst case. Plain CG hits
+max_iter (even 300) at λ≤0.3, so the under-solved step reduces *loss* along easy directions but
+leaves the high-curvature directions, and ‖g‖ rises.
+
+**Answers to "can gradient AND likelihood converge at N=64 via annealing":**
+- **Likelihood: yes** — monotone down to true ≈137640 (below Adam's true floor 137656 and the start).
+- **Gradient: down to ~1.3** (8.6× from 12.57) at the conditioning sweet spot λ≈1 where CG converges
+  (~53 iters); it will NOT go lower with plain CG — capped by conditioning, not by geometry (PD) or
+  truncation (N=64 is converged).
+- **To drive ‖g‖→0 needs a PRECONDITIONER** (or deflation / a Krylov method robust to bottom
+  clustering) for the inner solve — the clear next step. `ridge_anneal` now records `lamH_min/max`,
+  `ref_dist`, `gp`, `dF`, `step_norm` per step (gated behind `spectrum_m>0`).
+  See `/tmp/claude-1000/{anneal_n64_diag,anneal_n64_deep,damped_newton_test}.py`.

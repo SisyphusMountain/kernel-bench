@@ -197,28 +197,229 @@ def _exact_ridge_lambda(static, theta, col_weights, *, m=20, sigma=0.01, verbose
 
 
 # ----------------------------------------------------------------------------------------------
+# stage 2b : ridge-annealing (lambda-continuation) Newton polish
+# ----------------------------------------------------------------------------------------------
+def ridge_anneal(static, theta0, col_weights, *, lam0=None, sigma=0.01, theta_ref_mode="moving",
+                 inner_steps=3, max_levels=8, max_cg=30, nu=1.5, max_bumps=3, gtol=1e-2,
+                 lam_floor_frac=1e-3, eta_max=0.1, c1=1e-4, ls_max=25, lanczos_m=20,
+                 anneal_fast=0.3, anneal_slow=0.7, improve_rtol=1e-6, spectrum_m=0,
+                 verbose=True, t0_wall=None):
+    """Lambda-continuation Newton polish for the flat/indefinite optimum.
+
+    A single ridge lambda conditions the system (CG converges, ||g|| monotone) but its MAP term
+    ``lam/2||theta-theta_ref||^2`` biases the minimizer toward ``theta_ref`` (stalls ~0.1% above the
+    valley floor). This anneals lambda down: start big (stable, fast CG), shrink it warm-started so
+    the target slides toward the floor, using the CG negative-curvature witness as BOTH the per-step
+    safety net and the stop signal for how low lambda can safely go.
+
+    Two regularizers, distinct jobs:
+      - outer ridge ``lam`` (annealed): adds ``lam*I`` to the Hessian AND moves the minimizer; the
+        global conditioning schedule.
+      - inner witness ``delta`` (``cg_witness`` bump ``delta <- nu*(delta-cert)``): adds ``delta*I``
+        to the SOLVE only; per-subproblem safety when ``H+lam*I`` goes indefinite. While the witness
+        stays quiet there is headroom -> keep shrinking; when it fires every step the bare problem is
+        in the bounce regime -> stop.
+
+    ``theta_ref_mode``: "moving" (proximal: re-center on the current iterate each level; default,
+    slides toward the floor) or "fixed" (Tikhonov homotopy from theta0). Runs the exact fp32 HVP;
+    CG vectors are fp64. Returns (theta[S,3], history, lam0)."""
+    from newton.cg import cg_witness, lanczos_extremes
+    from newton.hvp_exact import make_exact_hvp
+
+    S = int(static.state_helpers["S"])
+    p_dim = 3 * S
+    theta = theta0.detach().reshape(S, 3).float().contiguous()
+    f = make_value_and_grad(static, col_weights)
+    t_start = time.perf_counter() if t0_wall is None else t0_wall
+
+    # up-front spectrum on the exact HVP at the start point -> lam0 (auto_lambda rule) + lam_floor
+    free_cuda_cache_if_tight()
+    _, sv = forward_solve(static, theta, col_weights)
+    warm = sv["E"]
+    hvp0 = make_exact_hvp(static, theta, col_weights, sv)
+    lo, hi = lanczos_extremes(lambda q: hvp0(q.float()).double(), p_dim, m=int(lanczos_m),
+                              device=str(theta.device))
+    lam = (-min(lo, 0.0) + sigma * hi) if lam0 is None else float(lam0)
+    lam_start = lam
+    lam_floor = lam_floor_frac * hi
+    if verbose:
+        print(f"[ridge-anneal] exact-HVP Lanczos m={lanczos_m}: lam_min~{lo:+.3e} lam_max~{hi:.2f}"
+              f" -> lam0={lam:.4f}  lam_floor={lam_floor:.3e}  ref={theta_ref_mode}")
+
+    # drop the up-front spectrum HVP closure + its pinned forward intermediates BEFORE the loop --
+    # only ONE point's forward intermediates may be live at once or the backward's driver-free
+    # scratch gate trips (same discipline as newton_lanczos). Keep only warm (E) across the drop.
+    theta_ref = theta.clone()
+    del hvp0, sv
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+    history, converged, hvp = [], False, None
+    for level in range(int(max_levels)):
+        # build the exact HVP ONCE per level at the (moved) current iterate; fixed for the inner
+        # steps (a loose, warm-started subproblem solve). Drop the PREVIOUS level's closure first
+        # (free its pinned sv before building the next point's cache) then defrag.
+        hvp = None
+        free_cuda_cache_if_tight(min_free_gib=8.0)
+        _, sv = forward_solve(static, theta, col_weights, warm_E=warm)
+        warm = sv["E"]
+        hvp = make_exact_hvp(static, theta, col_weights, sv)
+        sv = None  # the closure pins what it needs; drop the big dict container
+        lam_cur = lam
+        A = lambda v, lc=lam_cur: hvp(v.float()).double() + lc * v  # ridge-damped operator
+
+        # DIAGNOSTIC: bare-Hessian spectrum at this level's iterate. lam_min crossing 0 as lam
+        # anneals down is the smoking gun for the flat/indefinite valley (it explains a ||g|| bounce
+        # and CG stalling). lam_min Ritz converges from ABOVE (optimistic), so it is a trend, not an
+        # exact edge; lam_max is accurate. PD margin of the damped system = lam_min + lam_cur.
+        lamH_min = lamH_max = None
+        if spectrum_m:
+            lamH_min, lamH_max = lanczos_extremes(lambda q: hvp(q.float()).double(), p_dim,
+                                                  m=int(spectrum_m), device=str(theta.device))
+            if verbose:
+                print(f"  [lvl {level} spectrum] lam_min~{lamH_min:+.4e} lam_max~{lamH_max:.2f}  "
+                      f"PD margin(H+lamI)~{lamH_min + lam_cur:+.4e}")
+        level_hist = []
+        for inner in range(int(inner_steps)):
+            # the CG run + line searches re-fragment/grow the pool; the level HVP closure pins it, so
+            # vg's default 4 GiB defrag is too low. Free at the 8 GiB threshold before the gradient
+            # eval (mirrors newton_lanczos) so the backward's driver-free gate doesn't trip.
+            free_cuda_cache_if_tight(min_free_gib=8.0)
+            loss, g, _sv, warm = f(theta.reshape(-1), warm_E=warm)
+            _sv = None  # drop the gradient eval's big saved dict (keep only warm=E) -- else two
+            #             stale forward-intermediate sets stay live and the next f() trips the gate
+            tv = theta.reshape(-1).double()
+            tref = theta_ref.reshape(-1).double()
+            gF = g.double() + lam_cur * (tv - tref)
+            gLn, gFn = float(g.norm()), float(torch.linalg.vector_norm(gF))
+            g = None
+            F = loss + 0.5 * lam_cur * float((tv - tref).norm() ** 2)
+            if gFn < gtol:
+                history.append({"stage": "ridge_anneal", "level": level, "inner": inner,
+                                "lam": lam_cur, "loss": loss, "F": F, "gLnorm": gLn,
+                                "gnorm": gFn, "cg": 0, "status": "converged", "fired": False,
+                                "delta": 0.0, "alpha": None, "gp": 0.0, "dF": 0.0, "step_norm": 0.0,
+                                "ref_dist": float(torch.linalg.vector_norm(tv - tref)),
+                                "lamH_min": lamH_min, "lamH_max": lamH_max,
+                                "wall_s": time.perf_counter() - t_start})
+                converged = True
+                break
+
+            # safe step: cg_witness with witness-driven delta self-correction (the proven pattern
+            # from newton_lanczos: on neg_curv, delta <- nu*(delta - cert))
+            eta = min(eta_max, gFn ** 0.5)
+            delta, fired = 0.0, False
+            p = it = status = cert = None
+            for _bump in range(int(max_bumps) + 1):
+                p, it, status, cert = cg_witness(lambda v, d=delta: A(v) + d * v, -gF,
+                                                 tol=eta * gFn, max_iter=max_cg)
+                if status != "neg_curv":
+                    break
+                fired = True
+                delta = nu * (delta - cert)
+            eff = lam_cur + delta
+            if status == "neg_curv":  # bumps exhausted -> scaled gradient
+                p, status = -gF / eff, "fallback_gd"
+            gp = float(torch.dot(gF, p))
+            if gp >= 0.0:  # not a descent direction -> scaled gradient
+                p = -gF / eff
+                gp = float(torch.dot(gF, p))
+                status += "+gd"
+
+            # Armijo backtracking on the deterministic forward loss F = L + penalty
+            alpha, accepted, st = 1.0, False, None
+            for _ in range(int(ls_max)):
+                trial = (tv + alpha * p).to(theta.dtype)
+                lt, st = forward_solve(static, trial.reshape(S, 3), col_weights, warm_E=warm)
+                Ft = float(lt) + 0.5 * lam_cur * float((trial.double() - tref).norm() ** 2)
+                if Ft <= F + c1 * alpha * gp:
+                    accepted, warm = True, st["E"]
+                    break
+                alpha *= 0.5
+            st = None  # drop the line search's saved dict (keep only warm=E)
+            rec = {"stage": "ridge_anneal", "level": level, "inner": inner, "lam": lam_cur,
+                   "loss": loss, "F": F, "gLnorm": gLn, "gnorm": gFn, "cg": it, "status": status,
+                   "fired": fired, "delta": delta, "alpha": alpha if accepted else None,
+                   "gp": gp, "dF": (Ft - F) if accepted else None,
+                   "step_norm": (abs(alpha) * float(torch.linalg.vector_norm(p))) if accepted else 0.0,
+                   "ref_dist": float(torch.linalg.vector_norm(tv - tref)),
+                   "lamH_min": lamH_min, "lamH_max": lamH_max,
+                   "wall_s": time.perf_counter() - t_start}
+            level_hist.append(rec)
+            history.append(rec)
+            if verbose:
+                marg = "" if lamH_min is None else f" margin={lamH_min + lam_cur:+.2e}"
+                print(f"  [lvl {level} in {inner}] lam={lam_cur:.3e} L={loss:.4f} F={F:.4f} "
+                      f"||gL||={gLn:.4e} ||gF||={gFn:.3e} cg={it}({status}) delta={delta:.2e} "
+                      f"a={alpha if accepted else float('nan'):.2e} dF={(Ft - F) if accepted else float('nan'):+.2e}{marg}")
+            if accepted:
+                theta = trial.reshape(S, 3)
+            else:  # line search failed at this lambda -> end this level's inner loop
+                break
+        if converged:
+            break
+        if theta_ref_mode == "moving":
+            theta_ref = theta.clone()
+        # adaptive anneal: clean & cheap -> shrink fast; near the edge -> ease off; stalled -> stop
+        if not level_hist:
+            break
+        fired = any(h["fired"] for h in level_hist)
+        cg_hard = level_hist[-1]["cg"] >= max_cg
+        tol = improve_rtol * max(1.0, abs(level_hist[0]["loss"]))
+        improved = level_hist[-1]["loss"] < level_hist[0]["loss"] - tol
+        if not fired and not cg_hard and improved:
+            lam_next = lam * anneal_fast
+        elif fired or cg_hard:
+            lam_next = lam * anneal_slow
+        else:
+            if verbose:
+                print(f"[ridge-anneal] level {level}: no progress, witness quiet -> stop")
+            break
+        if lam_next < lam_floor:
+            if verbose:
+                print(f"[ridge-anneal] lam {lam_next:.3e} < floor {lam_floor:.3e} -> stop")
+            break
+        lam = lam_next
+    return theta.detach().reshape(S, 3), history, lam_start
+
+
+# ----------------------------------------------------------------------------------------------
 # orchestrator
 # ----------------------------------------------------------------------------------------------
 def optimize(static, theta0, col_weights, *, optimizer="adam", lr0=1.0, schedule="adaptive",
-             max_steps=300, polish=True, ridge=True, max_newton=8, verbose=True):
+             max_steps=300, polish_mode="ridge", max_newton=8, verbose=True,
+             polish=None, ridge=None):
     """Full recipe: first-order stage -> optional exact-fp32 Newton polish. Returns (theta_hat, hist).
 
     Defaults reflect the 666x80 characterization: Adam(lr=1)+adaptive schedule for fast basin
-    entry, then a RIDGE-regularized Newton polish (ridge=True). On this problem's flat/indefinite
-    optimum the un-ridged (lam=0) Newton bounces ||g|| back up and CG stalls; the ridge/MAP term
-    (auto_lambda) makes CG converge (8-11 iters) and gives a monotone endgame to the solver floor.
-    For pure NLL minimization (no stationary-point requirement) Adam alone is competitive and
-    cheaper -- use polish=False."""
+    entry, then a RIDGE-regularized Newton polish. On this problem's flat/indefinite optimum the
+    un-ridged (lam=0) Newton bounces ||g|| back up and CG stalls; the ridge/MAP term (auto_lambda)
+    makes CG converge (8-11 iters) and gives a monotone endgame to the solver floor.
+
+    ``polish_mode``:
+      - ``"ridge"``        : single-lambda ridge Newton (default; monotone, CG-cheap, biased ~0.1%).
+      - ``"ridge_anneal"`` : lambda-continuation (slides toward the valley floor; witness-driven stop).
+      - ``"lanczos"``      : un-ridged (lam=0) Newton (NOT recommended here -- bounces).
+      - ``"none"``         : Adam alone (competitive for pure NLL; 4x cheaper).
+    ``polish=False`` / ``ridge=False`` are kept as back-compat aliases for "none" / "lanczos"."""
+    if polish is False:
+        polish_mode = "none"
+    elif ridge is False and polish_mode == "ridge":
+        polish_mode = "lanczos"
     t0 = time.perf_counter()
     theta1, h1, _warm = first_order(static, theta0, col_weights, optimizer=optimizer, lr0=lr0,
                                     schedule=schedule, max_steps=max_steps, verbose=verbose,
                                     t0_wall=t0)
     hist = list(h1)
     theta_hat = theta1
-    if polish:
+    if polish_mode != "none":
         free_cuda_cache_if_tight()
-        theta_hat, h2, _lam = newton_polish(static, theta1, col_weights, ridge=ridge,
-                                             max_newton=max_newton, verbose=verbose, t0_wall=t0)
+        if polish_mode == "ridge_anneal":
+            theta_hat, h2, _lam = ridge_anneal(static, theta1, col_weights, verbose=verbose,
+                                               t0_wall=t0)
+        else:
+            theta_hat, h2, _lam = newton_polish(static, theta1, col_weights,
+                                                ridge=(polish_mode == "ridge"),
+                                                max_newton=max_newton, verbose=verbose, t0_wall=t0)
         hist += h2
     return theta_hat, hist
 
@@ -303,22 +504,28 @@ def main():
     ap.add_argument("--schedule", default="adaptive",
                     choices=["constant", "cosine", "plateau", "adaptive"])
     ap.add_argument("--max-steps", dest="max_steps", type=int, default=300)
-    ap.add_argument("--no-polish", dest="polish", action="store_false")
-    ap.add_argument("--no-ridge", dest="ridge", action="store_false",
-                    help="use un-ridged (lam=0) Newton polish; default is ridge/MAP (recommended)")
+    ap.add_argument("--polish-mode", dest="polish_mode", default="ridge",
+                    choices=["ridge", "ridge_anneal", "lanczos", "none"],
+                    help="endgame polish: ridge (default), ridge_anneal (lambda-continuation), "
+                         "lanczos (un-ridged), none")
+    ap.add_argument("--no-polish", dest="polish", action="store_true",
+                    help="alias for --polish-mode none")
+    ap.add_argument("--no-ridge", dest="ridge", action="store_true",
+                    help="alias for --polish-mode lanczos (un-ridged lam=0 Newton)")
     ap.add_argument("--max-newton", dest="max_newton", type=int, default=8)
     ap.add_argument("--bench", action="store_true")
     args = ap.parse_args()
 
+    polish_mode = "none" if args.polish else ("lanczos" if args.ridge else args.polish_mode)
     if args.bench:
-        bench(args.size, max_steps=args.max_steps, polish=args.polish, max_newton=args.max_newton,
-              lr0=args.lr)
+        bench(args.size, max_steps=args.max_steps, polish=(polish_mode != "none"),
+              max_newton=args.max_newton, lr0=args.lr)
         return
     cap, static, theta0, col_weights = load_problem(args.size)
     col_weights = col_weights.float().contiguous()
     theta_hat, hist = optimize(static, theta0, col_weights, optimizer=args.optimizer, lr0=args.lr,
-                               schedule=args.schedule, max_steps=args.max_steps, polish=args.polish,
-                               ridge=args.ridge, max_newton=args.max_newton)
+                               schedule=args.schedule, max_steps=args.max_steps,
+                               polish_mode=polish_mode, max_newton=args.max_newton)
     nll, gn = _final_eval(static, theta_hat, col_weights)
     print(f"\nFINAL (fp64 eval): NLL={nll:.6f}  ||g||={gn:.4e}  wall={hist[-1]['wall_s']:.1f}s  "
           f"steps={len(hist)}")
