@@ -295,5 +295,9 @@ def dts_backward_so(
         n_ws=N, S=S, stride_C=int(Pi.stride(0)),
         BLOCK_S=block_s, N_LEVELS=n_levels,
         USE_COL_WEIGHTS=bool(use_col_weights), DTYPE=_tl_float_dtype(Pi.dtype),
-        num_warps=4,
+        # num_warps=8 trims _dts_tree_so ~8% vs 4 on 666x80 (back-to-back wall 997->989ms;
+        # nsys kernel 12%->11% of HVP). Each program owns a full side-row walked in BLOCK_S
+        # chunks -> more warps hide the dependent level-walk loads. split kernel unaffected (kept
+        # at Triton's default). Bit-identical (dts_so/hvp gates unchanged).
+        num_warps=8,
     )
