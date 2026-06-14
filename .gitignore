@@ -1,7 +1,9 @@
 # golden + per-kernel snapshots are regenerable from fixtures/ via capture/ -- not tracked
 data/
-# NOTE: fixtures/ (the frozen problem definitions: static data + inputs) IS committed -- it is the
-# seed capture/ runs on, and the only externally-derived artifact. Do not add it here.
+# fixtures/ (frozen problem definitions: static data + inputs) are heavy -- large.pt is 115 MB,
+# over GitHub's 100 MB limit -- so they are NOT tracked on the remote. They are transported
+# out-of-band (scp to the cluster /bucket). Kept locally on disk for capture/ + experiments.
+fixtures/
 __pycache__/
 *.pyc
 *.egg-info/
