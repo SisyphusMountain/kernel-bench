@@ -211,15 +211,30 @@ minimum" assumption**:
   values are −0.058 and +0.0017 — straddling zero. The bare Hessian is **NOT certifiably PD**; the
   point may be a **saddle**, not a minimum. (Confirms the docstring: coarse Lanczos λ_min is biased
   high / "can miss the sign".)
-- **BUT fp32 can't resolve the sign.** The fp32 HVP error (~1.1e-4 relative) perturbs eigenvalues by
-  ~1e-4·λ_max ≈ 0.15 absolute — LARGER than |λ_min|. So λ_min = −0.058 ± ~0.15 is **sign-inconclusive
-  in fp32**. This is the ONE place **fp64 IS needed** — *not* for the CG/Newton step (conditioning-
-  bound, fp64 ruled out), but to resolve the bottom eigenvalue sitting at the fp32 noise floor.
 - **The flat subspace is LOW-RANK** — only ~2–5 small eigenvalues (#<1.0 = 5, #<0.1 = 2), not
   hundreds. So it is NOT a high-dim flat valley: ‖g‖→0 is well-posed and deflation is viable.
 - The Newton-decrement/loss-gap computation came out meaningless (CG diverged, energy blew up) —
   consistent with H being (near-)indefinite.
 
-**Reframed next step: fp64 Lanczos on the A100** to resolve λ_min + the bottom spectrum: is the
-checkpoint a (soft) minimum (λ_min>0) or a saddle (λ_min<0)? That is the actual prerequisite for any
-convergence claim — and the one diagnostic where fp64 earns its keep. (`/tmp/claude-1000/convergence_certificate.py`.)
+**VERIFIED (A100 fp64 + local fp32, 2026-06-15)** — the saddle is real, not a precision artifact:
+
+| run (m=120, N=64) | λ_min |
+|---|---|
+| fp64 seed0 | −0.0582 |
+| fp64 seed1 | −0.0515 |
+| fp32 seed0 | −0.0579 |
+
+All three give λ_min ≈ −0.05…−0.06 (negative), agreeing within Lanczos seed variation (~0.007); same
+bottom structure (1 negative, 1 near-zero +0.0018, rest positive) — an **index-1 saddle**. So fp32
+*was* adequate to resolve the sign — my earlier "fp64 needed / fp32 can't resolve it" claim used a
+worst-case perturbation bound (±0.15) that is far too loose; the actual fp32-vs-fp64 λ_min gap is
+~3e-4. **fp64 genuineness was separately verified** (`/tmp/claude-1000/verify_fp64.py`): fp64 forward
+intermediates and HVP output are float64, and the fp64 atomic-noise floor is **3.9e-14** vs fp32's
+**6.2e-6** (8 orders smaller → real fp64 accumulation, not a secret fp32 cast); kernels accumulate in
+`DTYPE=_tl_float_dtype(Pi.dtype)`, no fp32 downcast in the forward→HVP path.
+
+**Implication: we were never at a minimum — the best checkpoint is a (shallow) index-1 saddle.** The
+‖g‖ endgame struggle was trying to drive ‖g‖→0 *at a saddle* (the ridge λI masked the −0.058
+eigenvalue while λ>0.058; annealing below that exposed it → CG broke down → ‖g‖ bounced). The next
+step is not a preconditioner but **negative-curvature descent (saddle escape)** along the λ_min
+eigenvector, then re-optimize and re-check the spectrum. (`/tmp/claude-1000/{convergence_certificate,fp64_lanczos,verify_fp64}.py`.)
