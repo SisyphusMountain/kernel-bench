@@ -235,3 +235,43 @@ reduction (6 ms GPU) into `_dts_split_so` — but we are CPU/launch-bound, so it
 3. Implement the confirmed top items (expect 1–4 first), re-run
    `python -m newton.verify {e_so,wave_so,dts_so,hvp} small`, re-benchmark per-HVP ms
    (small, then 1007x64 fp32).
+
+## Phase-2 results [2026-06-14]
+
+Profiled the steady HVP on the representative **666x80** fixture (nsys 3-HVP kernel summary +
+ncu SpeedOfLight). New ranking (after the committed num_warps=4 on `_wave_step_tangent`):
+
+| kernel | % HVP | role |
+|---|---|---|
+| `_wave_step_tangent` | 29% | tangent forward self-loop (16 launches/wave) |
+| `_wave_so` | 18% | reverse 2nd-order contraction |
+| `_dts_tree_so` | 12% | pibar-tree tangent |
+| `_dts_split_so` | 10% | dts split tangent |
+| `_dts_tangent` | 7% | per-wave d_dts recompute |
+
+**Implemented (committed, gated bit-identical fp64 / hvp gate unchanged):**
+
+1. **Fused tangent self-loop** (`wave_tangent._wave_step_tangent_selfloop_kernel`). The forward
+   tangent self-loop launched `compute_wave_step_tangent` ~16x/wave, but the primal softmax weights
+   (e0..e5/inv/m), `r`/`row_max`/`row_sum`/`ancestor_sum`/`pibar`, children, leaf, dts and ALL
+   tangent constants are loop-INVARIANT — only `dpi` varies. New kernel hoists the invariants and
+   runs the n_iters Jacobi steps register-resident (ancestor walk gathers the precomputed invariant
+   `r` + live `dpi`; no global pi/dpi reloads). nsys: `_wave_step_tangent` 1041M → 817M ns (−21.5%),
+   launches 1888 → 118 /HVP. Steady HVP wall min 1163 → 1075 ms (~−7.6%). fp64-identical;
+   fp32 rel ~3e-4 (benign reordering, within the ~1e-3 solver floor).
+
+2. **`_dts_tree_so` num_warps 4 → 8** (~8% on that kernel; ~1% HVP).
+
+**Tried and reverted (no measurable win):** `_wave_so` num_warps sweep (8 already optimal);
+`_dts_split` num_warps; `_wave_so` ancestor-walk register-gather (the Pi/dPi loads were already
+L2-resident → A/B/A back-to-back showed <0.1% — wave_so's real cost is the atomic sub/dsub scatter).
+
+**newton_cg memory robustness (for the big fixtures):** reuse the Lanczos-built HVP cache on the
+first Newton step + on rejected steps (theta unchanged → skip the redundant rebuild + its memory
+churn); `empty_cache()` before the initial cache build (reclaims the gradient eval's ~8.4 GiB peak
+that otherwise fragments the pool — verified via mem_diag); threshold-gated defrag before per-step
+rebuilds (no-op on roomy fixtures).
+
+**1007x64:** single HVP runs at ~1441 ms (peak 18.12 GiB, fits); the multi-step descent OOMs ~2.7
+GiB over on the firefox-shared 24 GiB card. See `_golden_baseline.md` for the staged memory
+breakdown and the `dPibar`-recompute path to unblock it.

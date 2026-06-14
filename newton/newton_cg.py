@@ -100,10 +100,14 @@ def newton_lanczos(static, theta0, col_weights, *, sigma=0.01, sigma_floor=1e-4,
             return lambda v: h(v).double() + lam_obj * v.double()
         return lambda v: h(v).double()
 
-    # release the initial gradient eval's pooled scratch before the first cache build + Lanczos
-    # (the big fixtures leave <1 GiB driver-free otherwise, tripping the per-HVP scratch gate).
-    from newton.vg import free_cuda_cache_if_tight as _free_tight
-    _free_tight()
+    # The initial gradient eval (vg_counted above) runs a full forward+backward whose freed scratch
+    # FRAGMENTS the caching-allocator pool. A single exact HVP fits from a clean pool, but the
+    # fragmented pool can't find a contiguous [C,S] (~2.36 GiB on 1007x64) -> the descent OOMs in
+    # step-0 CG even though Lanczos and isolated HVPs pass. empty_cache() unconditionally here
+    # returns the gradient's blocks to the driver so the cache build + CG run on a clean pool.
+    # Cheap once per descent; on fixtures that already fit it is a no-op-cost defrag.
+    if hvp_mode == "exact" and torch.cuda.is_available():
+        torch.cuda.empty_cache()
     hvp_eff = make_hvp_eff(theta_vec, warm_E)
     _, lam_max = lanczos_extremes(hvp_eff, p_dim, m=lanczos_m, device=str(theta_vec.device))
     lam_damp = sigma * lam_max
@@ -116,6 +120,11 @@ def newton_lanczos(static, theta0, col_weights, *, sigma=0.01, sigma_floor=1e-4,
     history = []
     accepted_steps = 0
     stalls = 0
+    # hvp_eff was just built for the current theta_vec (the Lanczos build above), so it is NOT
+    # stale entering the loop -- the k=0 rebuild is redundant (theta unchanged) and its
+    # free-old+build-new churn spikes the memory high-water mark, which OOMs the descent on the
+    # big fixtures even though a single HVP fits. Only rebuild after theta_vec actually moves.
+    hvp_stale = False
     for k in range(int(max_newton)):
         gF = g.double() + (lam_obj * (theta_vec.double() - x_ref) if lam_obj > 0 else 0.0)
         F = loss + penalty(theta_vec)
@@ -130,20 +139,27 @@ def newton_lanczos(static, theta0, col_weights, *, sigma=0.01, sigma_floor=1e-4,
                 print("  converged")
             break
 
-        # drop the previous point's HVP closure (which pins its GB-sized cached forward sv) and
-        # return those blocks to the driver BEFORE building the next point's cache -- otherwise two
-        # points' forward intermediates are live at once and the backward's driver-free scratch gate
-        # trips spuriously on the big fixtures (666x80/1007x64) after the first Newton step.
+        # rebuild the HVP cache only when theta_vec has moved since it was built. Dropping the
+        # previous closure (which pins its GB-sized cached forward sv) and returning those blocks to
+        # the driver BEFORE building the next point's cache keeps only one point's forward
+        # intermediates live at once (else the backward's driver-free scratch gate trips on the big
+        # fixtures). A periodic lanczos_refresh also forces a rebuild to re-estimate lam_max.
         from newton.vg import free_cuda_cache_if_tight
-        hvp_eff = None
-        free_cuda_cache_if_tight()
-        if lanczos_refresh and accepted_steps and accepted_steps % int(lanczos_refresh) == 0:
+        do_refresh = bool(lanczos_refresh and accepted_steps
+                          and accepted_steps % int(lanczos_refresh) == 0)
+        if hvp_stale or do_refresh:
+            hvp_eff = None
+            # higher threshold than the default 4 GiB: the inter-step line searches + gradient eval
+            # re-fragment the pool, so on the tight big fixtures (1007x64) defrag before the rebuild
+            # to keep a contiguous [C,S] available. On roomy fixtures (666x80, >8 GiB free) this is a
+            # no-op (skips empty_cache), so it does not slow them.
+            free_cuda_cache_if_tight(min_free_gib=8.0)
             hvp_eff = make_hvp_eff(theta_vec, warm_E)
-            _, lam_max = lanczos_extremes(hvp_eff, p_dim, m=lanczos_m, device=str(theta_vec.device))
-            lam_floor = sigma_floor * lam_max
-            lam_ceil = 10.0 * lam_max
-        else:
-            hvp_eff = make_hvp_eff(theta_vec, warm_E)
+            hvp_stale = False
+            if do_refresh:
+                _, lam_max = lanczos_extremes(hvp_eff, p_dim, m=lanczos_m, device=str(theta_vec.device))
+                lam_floor = sigma_floor * lam_max
+                lam_ceil = 10.0 * lam_max
 
         # damped solve with witness self-correction
         eta = min(eta_max, gnorm ** 0.5)
@@ -185,6 +201,7 @@ def newton_lanczos(static, theta0, col_weights, *, sigma=0.01, sigma_floor=1e-4,
         if accepted:
             accepted_steps += 1
             theta_vec = trial
+            hvp_stale = True  # theta moved -> the cached HVP must be rebuilt next iteration
             warm_E = sv_t["E"]
             sv_t = None
             lam_damp = max(lam_floor, lam_damp / omega) if alpha == 1.0 else min(lam_ceil, 1.5 * lam_damp)
