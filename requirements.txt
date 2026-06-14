@@ -1,20 +1,16 @@
 # kernel-bench runtime dependencies (Python >= 3.10; the cluster env uses 3.11).
 #
-# torch + triton must match the GPU's CUDA. On the OIST saion A100 nodes the working stack is
-# torch 2.12 / triton built for CUDA 13 (cu130). Install torch from the matching PyTorch index:
+# Build the env ON A COMPUTE NODE (scripts/setup_cluster_env.sh does this via srun): the saion A100
+# nodes have glibc 2.28 + internet, so the LATEST torch/triton/numpy/scipy install as manylinux_2_28
+# wheels -- no pins, no source build. (Building on the login node, glibc 2.17 / GCC 4.8.5, would
+# force a numpy source build that fails; if you must build there, pin numpy==1.26.4 scipy==1.13.1,
+# the last manylinux2014/glibc-2.17 wheels.)
 #
-#     pip install --index-url https://download.pytorch.org/whl/cu130 torch
-#     pip install -r requirements.txt        # triton/numpy/scipy (+ torch if not already present)
-#
-# (Plain `pip install torch` pulls the current default-CUDA wheel, usually fine on a fresh A100 env.)
-# See newton/_cluster_a100.md for the full cluster setup + the "verify torch on a compute node" gotcha.
-#
-# numpy/scipy are PINNED to manylinux2014 (glibc 2.17) versions: the env is built on the saion LOGIN
-# node, which has old glibc (<2.28) + GCC 4.8.5. Newer numpy/scipy ship only manylinux_2_28 wheels,
-# so pip falls back to a source build that fails ("NumPy requires GCC >= 9.3"). 1.26.4 / 1.13.1 have
-# glibc-2.17 wheels that install on the login node and run fine on the (newer) A100 compute nodes.
+# torch is installed from the matching CUDA index (cu130 for the A100s) by the setup script:
+#   pip install --index-url https://download.pytorch.org/whl/cu130 torch
+# See newton/_cluster_a100.md for the full cluster setup.
 
 torch>=2.11
 triton>=3.4
-numpy==1.26.4
-scipy==1.13.1
+numpy>=1.26
+scipy>=1.11

@@ -1,51 +1,59 @@
 #!/usr/bin/env bash
 # Reproducible Python env for kernel-bench on the OIST saion cluster.
 #
-# Why micromamba: saion has no system python3.11 and no conda/micromamba on PATH (only ~/.local has
-# torch+triton). micromamba is a single static binary (no root) that provides a clean python 3.11,
-# so the env is reproducible and independent of the login node's ad-hoc state.
+# BUILDS ON A COMPUTE NODE (glibc 2.28 + internet): there the latest torch/triton/numpy/scipy install
+# as manylinux_2_28 wheels -- no pins, no source build. The login node (glibc 2.17, GCC 4.8.5) would
+# force failing source builds (numpy: "requires GCC >= 9.3"), so this script re-execs itself onto a
+# gpu-a100 node via srun. Self-contained: PYTHONNOUSERSITE=1 hides ~/.local so torch installs fresh.
 #
-# Run on the saion LOGIN node (pip can download there). Then VERIFY on a COMPUTE node: login nodes
-# have old GLIBC (<2.28) and fail `import torch` -- it only loads on the A100 nodes.
-#
-# Usage:
-#   bash scripts/setup_cluster_env.sh [ENV_PREFIX]
-#     ENV_PREFIX (default /work/SzollosiU/enzo-marsot/kbench-env) -- scratch: fast but may be purged.
-#     Pass a /bucket path to build a PERSISTENT env (login node has /bucket rw); reuse it every run.
-set -euo pipefail
+# Usage (from the saion login node):
+#   bash scripts/setup_cluster_env.sh [ENV_PREFIX]      # default /work/SzollosiU/enzo-marsot/kbench-env
+set -uo pipefail
 
+SCRIPT="$(readlink -f "$0")"
+REPO_ROOT="$(cd "$(dirname "$SCRIPT")/.." && pwd)"
 ENV_PREFIX="${1:-/work/SzollosiU/enzo-marsot/kbench-env}"
 MAMBA_ROOT="${MAMBA_ROOT:-/work/SzollosiU/enzo-marsot/micromamba}"
-REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-REQ="$REPO_ROOT/requirements.txt"
-# torch wheel index for the A100 nodes' CUDA (cu130). Override TORCH_INDEX for a different CUDA.
 TORCH_INDEX="${TORCH_INDEX:-https://download.pytorch.org/whl/cu130}"
+PIP_CACHE_DIR="${PIP_CACHE_DIR:-/work/SzollosiU/enzo-marsot/pip-cache}"
 
-# 1. micromamba (static binary, no root) if not present
-export MAMBA_ROOT_PREFIX="$MAMBA_ROOT"
+# --- re-exec on a compute node (glibc 2.28) so modern wheels install -------------------------
+if [ "${KBENCH_ON_COMPUTE:-0}" != "1" ]; then
+  echo ">> building on a gpu-a100 compute node (glibc 2.28 + internet) via srun"
+  exec srun -p gpu-a100 -c 8 --mem=32G --gres=gpu:1 --time=00:40:00 \
+    env KBENCH_ON_COMPUTE=1 MAMBA_ROOT="$MAMBA_ROOT" TORCH_INDEX="$TORCH_INDEX" \
+        PIP_CACHE_DIR="$PIP_CACHE_DIR" \
+    bash "$SCRIPT" "$ENV_PREFIX"
+fi
+
+# --- worker (runs on the compute node) -------------------------------------------------------
+echo ">> building on $(hostname) (glibc $(ldd --version | head -1 | grep -oE '[0-9]+\.[0-9]+$')) -> $ENV_PREFIX"
+export PYTHONNOUSERSITE=1 MAMBA_ROOT_PREFIX="$MAMBA_ROOT" PIP_CACHE_DIR
+
 MM="$MAMBA_ROOT/bin/micromamba"
 if [ ! -x "$MM" ]; then
-  echo ">> installing micromamba into $MAMBA_ROOT"
-  mkdir -p "$MAMBA_ROOT"
+  echo ">> installing micromamba (static binary, no root)"; mkdir -p "$MAMBA_ROOT"
   curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xj -C "$MAMBA_ROOT" bin/micromamba
 fi
 
-# 2. python 3.11 env
-echo ">> creating python 3.11 env at $ENV_PREFIX"
+echo ">> (re)creating python 3.11 env"
+rm -rf "$ENV_PREFIX"
 "$MM" create -y -p "$ENV_PREFIX" -c conda-forge python=3.11 pip
 
-# 3. deps: torch (cu130) first from its index, then triton/numpy/scipy
-echo ">> installing torch from $TORCH_INDEX, then requirements"
-"$ENV_PREFIX/bin/pip" install --index-url "$TORCH_INDEX" torch
-"$ENV_PREFIX/bin/pip" install -r "$REQ"
-# install the package itself (editable) so `import kbench` / `newton` resolve
-"$ENV_PREFIX/bin/pip" install -e "$REPO_ROOT" --no-deps
+PIP="$ENV_PREFIX/bin/pip"
+echo ">> installing torch (cu130) fresh into the env"
+"$PIP" install --index-url "$TORCH_INDEX" torch
+echo ">> installing triton/numpy/scipy + the package (latest manylinux_2_28 wheels)"
+"$PIP" install -r "$REPO_ROOT/requirements.txt"
+"$PIP" install -e "$REPO_ROOT" --no-deps
 
-cat <<EOF
-
->> env ready at $ENV_PREFIX
->> VERIFY ON A COMPUTE NODE (login nodes fail torch import -- GLIBC):
-   srun -p gpu-a100 -c 4 --mem=16G --gres=gpu:1 --time=00:05:00 \\
-     $ENV_PREFIX/bin/python -c 'import torch,triton,numpy,scipy; \\
-       print("torch",torch.__version__,"cuda",torch.cuda.is_available())'
-EOF
+echo ">> verify (self-contained; GPU on this node):"
+PYTHONNOUSERSITE=1 "$ENV_PREFIX/bin/python" - <<'PY'
+import torch, triton, numpy, scipy
+print("torch", torch.__version__, "| triton", triton.__version__,
+      "| numpy", numpy.__version__, "| scipy", scipy.__version__)
+print("torch from:", torch.__file__.split("site-packages/")[-1], "(should be inside the env, not ~/.local)")
+print("cuda:", torch.cuda.is_available(),
+      torch.cuda.get_device_name(0) if torch.cuda.is_available() else "")
+PY
+echo ">> ENV READY: $ENV_PREFIX  (run python with PYTHONNOUSERSITE=1 to keep it self-contained)"

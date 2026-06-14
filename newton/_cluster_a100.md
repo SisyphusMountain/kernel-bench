@@ -42,38 +42,34 @@ srun -p gpu-a100 -c 16 --mem=128G --gres=gpu:1 --time=00:10:00 bash -lc 'hostnam
 
 ## Python / torch environment
 
-- **micromamba env**, Python **3.11.15**, **torch 2.12.0+cu130 (CUDA 13.0)**. torch resolves from
-  `~/.local/lib/python3.11/site-packages` (user site shadows the env — set `PYTHONNOUSERSITE=1` if
-  you need the env's own torch).
-- Working interpreter: `/work/SzollosiU/enzo-marsot/gpurec-<jobid>/env/bin/python` (a micromamba env
-  staged into `/work`; the prior `gpurec-4630915/` work dir has `env/ micromamba/ bin/ gpurec/`).
-- ⚠ **Login nodes have old GLIBC (<2.28): `import torch` FAILS there** (`GLIBC_2.28 not found`). torch
-  works only on **compute nodes** (newer OS). Always run torch via `srun` on a compute node.
-- `/bucket/.../venvs/gpurec/bin/python` is py3.11 but its `libpython3.11.so` isn't loadable on login —
-  use the micromamba env in `/work` instead.
-- System `module avail` works but is old (python ≤3.7, cuda ≤11.3) — NOT used; the env self-contains
-  CUDA 13 via the pip torch wheel.
-- There is **no system `python3.11` and no conda/micromamba on PATH** (only `~/.local` has
-  torch+triton, not numpy/scipy). So a plain venv has no base interpreter — use micromamba.
+- **glibc / wheels**: **login node = glibc 2.17** (RHEL7, GCC 4.8.5), **compute (A100) = glibc 2.28**
+  (RHEL8), compute has internet. glibc 2.28 = the `manylinux_2_28` wheel baseline, and the LATEST
+  torch 2.12 / numpy 2.4.6 / scipy 1.17.1 / triton 3.7.0 all ship `manylinux_2_28` wheels — so
+  **building the env on a compute node installs the latest of everything, no pins, no source build.**
+  Building on the LOGIN node forces a numpy source build that fails (GCC 4.8.5 < 9.3). Can't upgrade
+  system glibc (no root); 2.28 is the current frontier (nothing on `manylinux_2_34` yet). No
+  Apptainer/Singularity.
+- ⚠ **`import torch` FAILS on login nodes** (`GLIBC_2.28 not found`); works on compute nodes. Always
+  run torch via `srun`.
+- micromamba env, Python **3.11**. There is **no system `python3.11` and no conda/micromamba on
+  PATH** — micromamba (static binary, no root) provides the interpreter. System `module avail` is old
+  (python ≤3.7, cuda ≤11.3), unused.
 
 ### Creating the env (one command)
 
-`scripts/setup_cluster_env.sh` (in this repo) does it reproducibly: installs micromamba (static
-binary, no root) → creates a python 3.11 env → pip-installs torch (cu130) + `requirements.txt`
-(triton/numpy/scipy) + the package. Run it on the **saion login node** (pip downloads there):
+`scripts/setup_cluster_env.sh` does it reproducibly. **Run it from the saion login node** — it
+**re-execs itself onto a gpu-a100 compute node** (glibc 2.28) so the latest wheels install, and builds
+**self-contained** (`PYTHONNOUSERSITE=1` so torch installs fresh, not from `~/.local`):
 
 ```bash
-cd /work/SzollosiU/enzo-marsot/<workdir>/kernel-bench   # or the /bucket clone
-bash scripts/setup_cluster_env.sh [ENV_PREFIX]          # default /work/.../kbench-env (scratch)
-# pass a /bucket path for a PERSISTENT env to reuse every session (avoids "venv every time")
+cd <repo>                                       # the /bucket clone or a /work copy
+bash scripts/setup_cluster_env.sh [ENV_PREFIX]  # default /work/.../kbench-env; pass a /bucket path
+                                                # for a PERSISTENT env (avoids "rebuild every time")
 ```
 
-Then **verify on a compute node** (login fails torch import — GLIBC):
-```bash
-srun -p gpu-a100 -c 4 --mem=16G --gres=gpu:1 --time=00:05:00 \
-  <ENV_PREFIX>/bin/python -c 'import torch,triton,numpy,scipy; print(torch.cuda.is_available())'
-```
-Deps are declared in `requirements.txt` (torch, triton, numpy, scipy).
+It installs micromamba → python 3.11 → torch (cu130) + `requirements.txt` (triton/numpy/scipy, latest)
++ the package, then verifies torch.cuda on the node. Run the env's python with `PYTHONNOUSERSITE=1`
+to keep it isolated from `~/.local`.
 
 ## Per-experiment workflow
 
