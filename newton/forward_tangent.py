@@ -23,7 +23,9 @@ from kbench.core.parameters.extract_parameters import (
 from kbench.core.kernels.dts_fused import compute_dts_forward
 from kbench.core.kernels.dts_tangent import compute_dts_tangent
 from kbench.core.kernels.e_step_tangent import e_tangent_fixed_point
-from kbench.core.kernels.wave_tangent import compute_wave_step_tangent
+from kbench.core.kernels.wave_tangent import (
+    compute_wave_step_tangent, compute_wave_step_tangent_selfloop,
+)
 
 
 def param_jvp_uniform(static, theta, v):
@@ -95,7 +97,7 @@ def _wave_tangent_constants(static, theta, v, sv, S, e_tol, raw_out=None):
 
 
 def jvp_root_scores(static, theta, v, sv, *, self_tol=None, self_max_iter=200, e_tol=None,
-                    self_iters=None, return_full=False, keep_d_dts=True):
+                    self_iters=None, return_full=False, keep_d_dts=True, fused_selfloop=True):
     """d(Pi_root)/dtheta . v  -> tensor [n_root_rows, S].
 
     ``self_iters`` (int): run the per-wave self-loop for a FIXED number of Jacobi steps with
@@ -169,8 +171,22 @@ def jvp_root_scores(static, theta, v, sv, *, self_tol=None, self_max_iter=200, e
         if return_full and d_dts is not None and keep_d_dts:
             d_dts_by_ws[ws] = d_dts
 
-        if self_iters is not None:
-            # fixed-count, sync-free Jacobi matching the primal forward's pi_iters truncation
+        if self_iters is not None and fused_selfloop:
+            # fixed-count, sync-free Jacobi matching the primal forward's pi_iters truncation.
+            # Fused into ONE launch: the n_it-step in-place self-loop runs register-resident
+            # (primal weights/r/constants are loop-invariant -> loaded once), collapsing n_it
+            # launches -> 1 and the invariant global traffic ~n_it x. Numerically identical to
+            # looping `step` n_it times in-place (last step writes dpibar).
+            compute_wave_step_tangent_selfloop(
+                pi, dpi, ws, W, S, max(int(self_iters), 1),
+                base["mc"], dcst["dMC"], base["dl"], dcst["dDL"], base["ebar"], dcst["dEbar"],
+                base["e"], dcst["dE"], base["sl1"], dcst["dSL1"], base["sl2"], dcst["dSL2"],
+                sv["col_log_probs"], c1, c2, parent, mad, dts_r, d_dts,
+                leaf_state_idx=leaf_state_idx, leaf_logp=base["leaf"], dleaf_logp=dcst["dleaf"],
+                item_idx=item_idx, dPibar_out=dpibar, has_leaf_term=has_leaf, use_col_weights=False,
+            )
+        elif self_iters is not None:
+            # reference (unfused) fixed-count path: one launch per Jacobi step
             n_it = max(int(self_iters), 1)
             for _ in range(n_it - 1):
                 step(dpi, dts_r, d_dts, ws, W, has_leaf, store=False)  # in-place Jacobi
