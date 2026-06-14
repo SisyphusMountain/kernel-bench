@@ -201,3 +201,25 @@ between "engineer a deflated/preconditioned CG" and "reframe — ‖g‖→0 is 
 reveals whether the ill-conditioning is **intrinsic non-identifiability** (a modeling fact) vs a
 solver problem — and whether the downstream goal is even served by chasing ‖g‖→0 (MLE point estimate
 is already solved by Adam; only a Laplace/uncertainty goal needs a clean stationary point).
+
+### Convergence-certificate attempt (2026-06-15, local fp32 N=64) — we may be at a SADDLE, and fp32 can't tell
+
+Goal (per the user): prove convergence = PD Hessian ∧ ‖g‖≈0. Built the certificate at the best
+checkpoint (‖g‖1.46): accurate spectrum (m=120 Lanczos) + Newton decrement. It **overturns the "PD
+minimum" assumption**:
+- **m=120 Lanczos: λ_min = −0.058** (vs the optimistic **+0.2** from m=20). The two smallest Ritz
+  values are −0.058 and +0.0017 — straddling zero. The bare Hessian is **NOT certifiably PD**; the
+  point may be a **saddle**, not a minimum. (Confirms the docstring: coarse Lanczos λ_min is biased
+  high / "can miss the sign".)
+- **BUT fp32 can't resolve the sign.** The fp32 HVP error (~1.1e-4 relative) perturbs eigenvalues by
+  ~1e-4·λ_max ≈ 0.15 absolute — LARGER than |λ_min|. So λ_min = −0.058 ± ~0.15 is **sign-inconclusive
+  in fp32**. This is the ONE place **fp64 IS needed** — *not* for the CG/Newton step (conditioning-
+  bound, fp64 ruled out), but to resolve the bottom eigenvalue sitting at the fp32 noise floor.
+- **The flat subspace is LOW-RANK** — only ~2–5 small eigenvalues (#<1.0 = 5, #<0.1 = 2), not
+  hundreds. So it is NOT a high-dim flat valley: ‖g‖→0 is well-posed and deflation is viable.
+- The Newton-decrement/loss-gap computation came out meaningless (CG diverged, energy blew up) —
+  consistent with H being (near-)indefinite.
+
+**Reframed next step: fp64 Lanczos on the A100** to resolve λ_min + the bottom spectrum: is the
+checkpoint a (soft) minimum (λ_min>0) or a saddle (λ_min<0)? That is the actual prerequisite for any
+convergence claim — and the one diagnostic where fp64 earns its keep. (`/tmp/claude-1000/convergence_certificate.py`.)
