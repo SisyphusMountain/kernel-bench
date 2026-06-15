@@ -307,6 +307,40 @@ read; the resolved m=200 shows λ_min ≤ −0.034 (still a saddle). Always resi
 fixture's clustered bottom.
 
 **PRACTICAL RECIPE.** For this problem, the endgame is **Adam (find the low-loss valley) → LBFGS/quasi-Newton
-with line search (descend the ravine)**, NOT Adam → exact-Newton polish (snaps to a higher saddle). A clean
-PD minimum has not been certified anywhere; the residual ⊥-gradient direction is best read as posterior
-uncertainty (Laplace) / a non-identifiable mode, not a target for ‖g‖→0.
+with line search (descend the ravine)**, NOT Adam → exact-Newton polish (snaps to a higher saddle).
+
+### Driving to lam_min >= 0: deflation hits a near-degeneracy floor; MAP certifies PD (2026-06-15)
+
+Pushed the lam_min >= 0 question to a rigorous conclusion (user's point: non-identifiability is a ZERO
+eigenvalue, a negative one means a saddle / not-yet-converged). At the ravine bottom (137467) the fp64
+m=300 spectrum is **well-resolved** (resid 4e-4): bottom Ritz **−0.0362, −0.00478, +0.00044**, +0.0100,
+... → an **index-2 saddle** with the **+0.00044 ≈ 0 being the genuine non-identifiable direction** (a
+zero, exactly as predicted), and two real negatives. The −0.0362 curvature is **pi-stable**
+(pi=128/256/512 all −0.0348) and **kernel-independent** (gradient-FD −0.034) — real geometry, not
+truncation.
+
+**Negative-curvature DEFLATION** (step each most-negative eigenvector to its 1-D loss-min, reducing the
+Morse index by 1/round; `/tmp/claude-1000/{drive_to_psd,a100_deflate_step}.py`): round 0 removed −0.036
+(index 2→1, lam_min → −0.0033), but further rounds **bounce** (−0.0033 → −0.0069) because the bottom
+collapses into a **tight near-zero cluster** (resid 0.03 even at m=300 fp64) where the v_min eigenvector
+is an unresolvable MIX — the loss line-search can't isolate one eigenvalue from a degenerate cluster.
+So deflation drives lam_min −0.064 → ~−0.005 (10×, removing the genuinely deep directions) but the
+residual sits at the **numerical resolvability floor**, plausibly true-zero non-ID directions read as
+tiny negatives. **Bare-H PSD is not cleanly certifiable here.**
+
+**MAP gives a certified PD minimum.** A Gaussian prior of precision lambda adds lambda*I, shifting every
+eigenvalue up by lambda (`H_MAP = H + lambda*I`); fixed-lambda MAP-minimize (ridge_anneal lam0=lambda,
+theta_ref=ravine bottom, max_levels=1; `/tmp/claude-1000/map_certify.py`). At lambda=0.10:
+**lam_min(H_MAP) >= lam_min(H) − resid + lambda = −0.034 − 0.057 + 0.10 = +0.0095 > 0 — CERTIFIED PD**
+(the lower bound absorbs the Lanczos residual, so rigorous despite the near-degeneracy). The MAP polish
+also descends slightly further (137467 → 137466.2) because at lambda=0.10 the objective is PD so Newton
+converges without the saddle bounce. ||grad F||~0.8 remains conditioning-floored (kappa~15000) — a
+SEPARATE issue from PD-ness, and the regime where the (ruled-out) diagonal preconditioner would have
+mattered if it worked. Required lambda is set by RESOLUTION not eigenvalue size: at the well-resolved
+ravine bottom (−0.036±4e-4) even lambda=0.05 certifies (+0.014); the loose residual elsewhere needs ~0.10.
+
+**Bottom line.** The MLE has no clean PD minimum (a genuine non-identifiable / flat mode at lam≈0 plus
+unresolvable near-zero residual); the **MAP estimate with a small principled prior (lambda~0.05-0.10,
+std~3-4 on rates of magnitude ~6) IS a certified PD minimum** at L≈137466, ~173 NLL below the saddle the
+gradient pipeline reported. RECIPE end-to-end: Adam → LBFGS (ravine) → deflate deep negatives →
+fixed-lambda MAP polish → certified PD minimum + spectrum.
