@@ -74,6 +74,64 @@ tell a rate of 1e-4 from 1e-6). Consequences:
 - ⇒ The raw MLE is not a well-posed estimator here. A small prior is statistically (not just
   numerically) the right move.
 
+## The two deep basins are separated by a real barrier (mode geometry)
+
+Why does a rate-0.15 init reach ~137461 but a rate-0.25 init reach ~137384 (a 77-NLL gap)? Compared the
+two checkpoints (`newton/basin_compare.py`, `newton/basin_interp.py`):
+
+- **What changed in parameter space — diffuse and coordinated, favoring duplication.** ~61% of
+  species-states moved their logits by >1 (factor ≥2 in odds); only 2.9% (39 rows) flipped which event
+  dominates, and **19 of those 39 flipped to pD-dominant** (pD/duplication is the most-shifted
+  probability). The changed rows are not specifically the saturated ones (corr 0.14). It is a
+  system-wide re-balancing toward more duplication, not a localized fix.
+- **The 77 NLL is non-additive — no subset of rows carries it.** Copying the most-changed rows
+  137461→137384 (rest left at 137461) makes the fit *worse* until ~most rows move: K=10 → −23%, K=100 →
+  −26%, K=250 → +1%, K=800 → +63%, all 1331 → 100%. Reverting only the 39 flips is catastrophic
+  (−167%). Because the reconciliation likelihood couples every state through the tree, a few B-rows
+  among A-rows is an internally inconsistent rate field that fits worse than either pure basin.
+  ⇒ 137384 is a different **globally self-consistent configuration**, not a patched 137461.
+- **A clear barrier separates them on the straight line** `theta(a)=(1-a)θ_461+aθ_384`
+  (`newton/_figures/interp_461_384.png`): NLL climbs from 137461 to a peak **137546 at a=0.65**
+  (**+84.7 above 461, +161.8 above 384**), then descends to 137384; both endpoints are wells (NLL rises
+  for a<0 and a>1). So a local optimizer in 137461 sees only uphill toward 137384 — it would have to
+  climb ~85 NLL — which is exactly why L-BFGS-from-461 stalled and only a higher init rate (landing on
+  the far side of the ridge) reaches 137384.
+- **The theta-barrier is largely a log-odds PARAMETERIZATION ARTIFACT, and the basins are the SAME mode.**
+  Three paths between the two checkpoints (`newton/basin_interp.py`, `newton/basin_connectivity.py`,
+  figures in `newton/_figures/`):
+
+  | path A(137461) -> B(137384) | barrier above A |
+  |---|---|
+  | straight line in **theta** (log-odds) | **+84.7** |
+  | straight line in **probability** (simplex, `INTERP_SPACE=prob`) | **+10.0** |
+  | optimized curved (Bezier) path | **+1.6** |
+
+  Interpolating the actual event probabilities linearly (instead of log-odds) cuts the barrier from
+  +85 to +10, and an optimized curved path removes it (+1.6). theta is a log-odds coordinate that
+  compresses the boundary (where ~half the rates live), so a straight theta-line crosses an artificial
+  ridge; in probability space the path is nearly downhill. ⇒ **137461 and 137384 are the same mode** —
+  a continuous duplication-favoring deformation — and local L-BFGS in theta-space stalled only because
+  the log-odds straight-line directions carry that artificial ridge. (All path NLLs are deterministic;
+  see the variance note below — the +1.6 residual is real, not eval noise.)
+
+  > Reframes the MAP+CV question: not "which discrete basin wins" but "how far along this connected
+  > duplication-favoring ridge does cross-validation support going."
+
+## Determinism vs run-to-run variance (`/tmp/.../variance_check.py`, `repeats_variance.py`)
+
+The **objective and gradient are deterministic**: the forward loss at a fixed theta is bit-identical
+over 8 repeats (spread 0.000000), and the gradient is reproducible to ~2e-4 relative (cos=1.000000)
+even at grad_avg_K=1 — the backward's atomic non-determinism is negligible. So **all the path NLLs and
+basin losses above are exact**, not noisy reads.
+
+The "run-to-run variance" is a different thing: two same-init Adam->L-BFGS runs landed ~3 NLL apart
+(137461 vs 137464, rate-0.15) — i.e. the **optimizer endpoint** varies, not the loss evaluation. With a
+deterministic objective this means the trajectory diverges on the flat/connected near-optimum region
+(consistent with the mode being connected). Magnitude being measured by repeated runs
+(`repeats_variance.py`); update with the spread. Do NOT conflate this with eval noise: a 1-2 NLL barrier
+on a fixed path is real curvature, but a 1-2 NLL difference between two optimizer endpoints is just
+where each run stopped on the flat ridge.
+
 ## Subspace deflation works, but deflation is not a basin-finder
 
 `a100_subspace_deflate.py` (A100, fp64, job 4634822). Block/subspace saddle-free deflation **fixed the
@@ -92,9 +150,13 @@ python -m newton.basin_search          # init-scale sweep -> raw-NLL floor ~1373
 python -m newton.convergence_audit     # pi/neumann convergence + hi-fidelity reopt at the deep basin
 python -m newton.gauge_audit           # softmax gauge test (already gauge-fixed)
 python -m newton.theta_diagnostics     # boundary/saturation profile (pure CPU)
+python -m newton.basin_compare         # 137461 vs 137384: per-row prob diff + NLL row-attribution
+python -m newton.basin_interp          # linear interpolation -> the +84.7 NLL barrier (saves a plot)
+python -m newton.basin_connectivity    # mode-connectivity: is there a curved low path? (saves a plot)
 ```
-Checkpoints: `newton/_checkpoints/specieswise_best_137384.pt` (deep basin),
-`newton/_checkpoints/old_basin_137466.pt` (reference). Objective locked at pi=128/neumann=64/tangent=64.
+Checkpoints: `newton/_checkpoints/specieswise_best_137384.pt` (deep basin, rate 0.25),
+`newton/_checkpoints/basin_137461.pt` (rate 0.15), `newton/_checkpoints/old_basin_137466.pt`
+(reference). Figures in `newton/_figures/`. Objective locked at pi=128/neumann=64/tangent=64.
 
 ## Conclusion → next phase
 
