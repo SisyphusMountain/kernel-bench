@@ -106,8 +106,14 @@ class Schedule:
 # ----------------------------------------------------------------------------------------------
 def first_order(static, theta0, col_weights, *, optimizer="adam", lr0=1.0, schedule="adaptive",
                 max_steps=300, rtol=0.05, window=20, loss_rtol=1e-5, lr_floor_frac=1e-3,
-                verbose=True, t0_wall=None):
-    """Run a torch.optim optimizer with a pluggable LR schedule. Returns (theta[S,3], hist, warm)."""
+                verbose=True, t0_wall=None, return_best=False, early_stop=True):
+    """Run a torch.optim optimizer with a pluggable LR schedule. Returns (theta[S,3], hist, warm).
+
+    ``return_best=True`` appends the LOWEST-loss theta visited (a 4th return value): on this fixture
+    the low-loss valley floor is *visited mid-trajectory* by an oscillating (e.g. constant-LR) run but
+    is not the final iterate, and that valley floor is the right hand-off point for the L-BFGS stage.
+    ``early_stop=False`` disables the relative flat/grad stop (let an oscillating dive run its course).
+    """
     S = int(static.state_helpers["S"])
     dev = theta0.device
     theta = theta0.detach().reshape(S, 3).float().clone().requires_grad_(True)
@@ -118,12 +124,15 @@ def first_order(static, theta0, col_weights, *, optimizer="adam", lr0=1.0, sched
     lr_floor = lr0 * lr_floor_frac
 
     hist, warm, g0 = [], None, None
+    best_loss, best_theta = float("inf"), theta.detach().reshape(S, 3).clone()
     t_start = time.perf_counter() if t0_wall is None else t0_wall
     for step in range(int(max_steps)):
         loss, g, _sv, warm = f(theta.detach().reshape(-1), warm_E=warm)
         gn = float(g.norm())
         if g0 is None:
             g0 = max(gn, 1e-30)
+        if loss < best_loss:                       # the current theta attains `loss` (pre-step)
+            best_loss, best_theta = loss, theta.detach().reshape(S, 3).clone()
         lr = sched.update(loss, g)
         opt.param_groups[0]["lr"] = lr
         theta.grad = g.reshape(S, 3)
@@ -135,7 +144,7 @@ def first_order(static, theta0, col_weights, *, optimizer="adam", lr0=1.0, sched
             print(f"  [{optimizer}/{schedule} {step:3d}] loss={loss:.4f} ||g||={gn:.3e} "
                   f"lr={lr:.3e} t={wall:.1f}s")
         # relative, dataset-agnostic stopping
-        if step >= window:
+        if early_stop and step >= window:
             recent = [h["loss"] for h in hist[-window:]]
             flat = (max(recent) - min(recent)) <= loss_rtol * max(1.0, abs(loss))
             if gn <= rtol * g0 or flat or lr <= lr_floor:
@@ -144,6 +153,8 @@ def first_order(static, theta0, col_weights, *, optimizer="adam", lr0=1.0, sched
                     print(f"  [{optimizer}/{schedule}] stop@{step} ({why}) loss={loss:.4f} "
                           f"||g||={gn:.3e}")
                 break
+    if return_best:
+        return theta.detach().reshape(S, 3), hist, warm, best_theta
     return theta.detach().reshape(S, 3), hist, warm
 
 
