@@ -25,10 +25,11 @@ def gd(static, theta0, col_weights, *, lr=3e-3, steps=300, verbose=False):
     return x.reshape(S, 3), hist
 
 
-def lbfgs_scipy(static, theta0, col_weights, *, maxiter=100, verbose=False, dtype=None):
+def lbfgs_scipy(static, theta0, col_weights, *, maxiter=100, maxcor=10, verbose=False, dtype=None):
     """L-BFGS-B (scipy outer loop in fp64) on value_and_grad. ``dtype`` is the solve/gradient
     precision (default = ``theta0.dtype``). Pass ``torch.float32`` for the big fixtures: the fp64
-    forward/HVP OOMs on 24 GB and the geometry is dtype-independent. Returns (theta, history)."""
+    forward/HVP OOMs on 24 GB and the geometry is dtype-independent. ``maxcor`` is the L-BFGS history
+    size (scipy default 10; raise to 50-100 on this ill-conditioned ravine). Returns (theta, history)."""
     from scipy.optimize import minimize
 
     dt = dtype or theta0.dtype
@@ -50,6 +51,7 @@ def lbfgs_scipy(static, theta0, col_weights, *, maxiter=100, verbose=False, dtyp
 
     x0 = theta0.reshape(-1).double().cpu().numpy().astype(np.float64)
     res = minimize(fun, x0, jac=True, method="L-BFGS-B",
-                   options={"maxiter": maxiter, "maxfun": maxiter * 2, "ftol": 1e-12, "gtol": 1e-8})
+                   options={"maxiter": maxiter, "maxfun": maxiter * 2, "maxcor": maxcor,
+                            "ftol": 1e-12, "gtol": 1e-8})
     theta = torch.tensor(res.x, device=dev, dtype=dt).reshape(S, 3)
     return theta, state["hist"]

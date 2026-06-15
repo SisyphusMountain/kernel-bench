@@ -29,6 +29,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
 import time
 
@@ -85,7 +86,7 @@ def _deflate_step(static, theta, col_weights, S, p, vmin, g):
 
 def fit(size="666x80", *, pi_iters=128, neumann_terms=64, adam_steps=300, lbfgs_iters=300,
         deflate_rounds=0, lam_margin=1.3, lam_floor=1e-3, lanczos_m=200, certify_m=200,
-        seed=0, verbose=True, out=None):
+        init_rate=None, seed=0, verbose=True, out=None):
     """Run the end-to-end specieswise fit. Returns ``(theta_hat, report)`` where ``report`` carries the
     stage-by-stage loss/||g|| trace, the chosen prior ``lambda``, and the PD certificate."""
     dev = "cuda" if torch.cuda.is_available() else "cpu"
@@ -95,7 +96,12 @@ def fit(size="666x80", *, pi_iters=128, neumann_terms=64, adam_steps=300, lbfgs_
     p = 3 * S
     so = static.solver_options
     so.pi_iters, so.neumann_terms = pi_iters, neumann_terms
-    theta = theta0.to(dev).reshape(S, 3).float().contiguous()
+    if init_rate is None:
+        theta = theta0.to(dev).reshape(S, 3).float().contiguous()
+    else:
+        # theta columns are base-2 logits: each DTL prob = 2^theta/(1+3*2^theta) ~ 2^theta for small
+        # rates, so filling theta = log2(init_rate) sets every DTL probability ~ init_rate.
+        theta = torch.full((S, 3), math.log2(init_rate), device=dev, dtype=torch.float32).contiguous()
     f = make_value_and_grad(static, col_weights, grad_avg_K=2)
     t0 = time.perf_counter()
     trace = []
@@ -111,8 +117,9 @@ def fit(size="666x80", *, pi_iters=128, neumann_terms=64, adam_steps=300, lbfgs_
         return rec, g
 
     if verbose:
+        init_desc = "fixture" if init_rate is None else f"DTL prob~{init_rate:g} (theta={math.log2(init_rate):.3f})"
         print(f"=== specieswise fit: {size}  S={S} p={p}  pi={pi_iters} neumann={neumann_terms} "
-              f"tangent={os.environ['NEWTON_TANGENT_SELF_ITERS']} ===", flush=True)
+              f"tangent={os.environ['NEWTON_TANGENT_SELF_ITERS']}  init={init_desc} ===", flush=True)
     record("init", theta)
 
     # 1. Adam -- DIVE into the low-loss valley. A constant-LR (oscillating) run visits the deep valley
@@ -220,14 +227,17 @@ def main():
                     help="prior lambda = lam_margin * (|lam_min| + residual)")
     ap.add_argument("--lanczos-m", dest="lanczos_m", type=int, default=200)
     ap.add_argument("--certify-m", dest="certify_m", type=int, default=200)
+    ap.add_argument("--init-rate", dest="init_rate", type=float, default=None,
+                    help="initialize every DTL probability ~ this rate (theta=log2(rate)); "
+                         "default = fixture init (~0.077)")
     ap.add_argument("--out", default=None, help="write the JSON report here")
     ap.add_argument("--quiet", action="store_true")
     args = ap.parse_args()
     _, report = fit(args.size, pi_iters=args.pi_iters, neumann_terms=args.neumann_terms,
                     adam_steps=args.adam_steps, lbfgs_iters=args.lbfgs_iters,
                     deflate_rounds=args.deflate_rounds, lam_margin=args.lam_margin,
-                    lanczos_m=args.lanczos_m, certify_m=args.certify_m, verbose=not args.quiet,
-                    out=args.out)
+                    lanczos_m=args.lanczos_m, certify_m=args.certify_m, init_rate=args.init_rate,
+                    verbose=not args.quiet, out=args.out)
     raise SystemExit(0 if report["certified_pd"] else 1)
 
 
