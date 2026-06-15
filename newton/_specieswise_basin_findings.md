@@ -124,13 +124,21 @@ over 8 repeats (spread 0.000000), and the gradient is reproducible to ~2e-4 rela
 even at grad_avg_K=1 — the backward's atomic non-determinism is negligible. So **all the path NLLs and
 basin losses above are exact**, not noisy reads.
 
-The "run-to-run variance" is a different thing: two same-init Adam->L-BFGS runs landed ~3 NLL apart
-(137461 vs 137464, rate-0.15) — i.e. the **optimizer endpoint** varies, not the loss evaluation. With a
-deterministic objective this means the trajectory diverges on the flat/connected near-optimum region
-(consistent with the mode being connected). Magnitude being measured by repeated runs
-(`repeats_variance.py`); update with the spread. Do NOT conflate this with eval noise: a 1-2 NLL barrier
-on a fixed path is real curvature, but a 1-2 NLL difference between two optimizer endpoints is just
-where each run stopped on the flat ridge.
+The "run-to-run variance" is a different thing: the **optimizer endpoint** varies, not the loss
+evaluation. Measured over **n=5** identical Adam->L-BFGS runs from the same rate-0.15 init
+(`repeats_variance.py`): final spread **7.3 NLL** (137457.4–137464.7); the divergence already enters in
+Adam (adam.best spread 4.4 NLL) and L-BFGS amplifies it. With a deterministic objective this is purely
+the trajectory diverging on the flat/connected near-optimum region (consistent with the mode being
+connected). Do NOT conflate with eval noise: a 1-2 NLL barrier on a fixed path is real curvature, but a
+few-NLL difference between two optimizer endpoints is just where each run stopped on the flat ridge.
+
+**Consequence:** ~7 NLL endpoint variance means **differences below ~7 NLL between "basins" are not
+meaningful** — e.g. the old 137466 region and the "137461" rate-0.15 region are the SAME region within
+the scatter (and the committed `basin_137461.pt` was a mediocre draw; runs reach as low as 137457). The
+only robust distinction is the **~77 NLL gap down to the connected 137384 region** (rate >=0.25). This
+is the degeneracy/non-strict-convexity in action and is exactly what a small MAP prior should remove
+(curvature lambda on the flat directions -> unique local min -> variance collapses): a testable
+prediction for the MAP+CV phase.
 
 ## Subspace deflation works, but deflation is not a basin-finder
 
