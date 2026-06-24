@@ -1,0 +1,95 @@
+[00:00:00] AleRax v1.4.0
+Logs will also be printed into /tmp/alerax_hogenom_chunked_out/chunk_06/alerax.log
+[00:00:00] AleRax v1.4.0
+[00:00:00] AleRax was called as follows:
+alerax -f /home/enzo/Documents/git/gpurec/kernel-bench/experiments/alerax_speed/alerax_chunks/chunk_06.families.txt -s /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/runs/MFP/true_start_ufboot1000/run_--gene-tree-samples_100_--per-family-rates_1/alegenerax/species_trees/starting_species_tree.newick -p /tmp/alerax_hogenom_chunked_out/chunk_06 --rec-model UndatedDTL --model-parametrization PER-FAMILY --species-tree-search SKIP --rate-optimizer LBFGSB --gene-tree-samples 0
+
+[00:00:00] Run settings:
+	Output directory: /tmp/alerax_hogenom_chunked_out/chunk_06
+	Families information: /home/enzo/Documents/git/gpurec/kernel-bench/experiments/alerax_speed/alerax_chunks/chunk_06.families.txt
+	Starting species tree: will be imported from the user file: /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/runs/MFP/true_start_ufboot1000/run_--gene-tree-samples_100_--per-family-rates_1/alegenerax/species_trees/starting_species_tree.newick
+	MPI ranks: 24
+	Random seed: 123
+	Reconciliation model: UndatedDTL
+	Transfer constraint: transfers to parents are forbidden
+	Memory savings: OFF
+	Model parametrization: each family has a different set of rates common to all species
+	Rate optimizer: LBFGSB
+	Prune species mode: OFF
+	Gene tree rooting: all gene tree root positions are considered with the same probability
+	Origination strategy: gene families can originate from each species with the same probability
+	Species tree search: skip species tree search
+	Number of reconciled gene trees to sample: 0
+	AleRax will exclude gene families covering less than 4 species
+
+[00:00:00] Checking families...
+[00:00:00] Generating ccp files...
+[00:00:04] Families: 1359
+[00:00:04] Trimming families covering less than 4 species...
+[00:00:04] Remaining families: 1359
+[00:00:04] Initializing starting species tree...
+[00:00:04] Checking that ccps and mappings are valid...
+[00:00:04] Input data information:
+- Number of gene families: 1359
+- Number of species: 666
+- Total number of genes: 38786
+- Average number of genes per family: 28
+- Maximum number of genes per family: 333
+- Species with the smallest family coverage: "HODCD" (covered by 0/1359 families)
+- Average (over species) species family coverage: 39
+
+[00:00:04] Initializing ccps and evaluators...
+[00:00:39] Initializing ccps finished
+[00:00:39] Total number of clades: 370213
+[00:00:39] Load balancing: 1
+[00:00:39] Recommended maximum number of cores: 108
+[00:00:39] Initial ll=-160253
+
+[00:00:39] Start the species tree optimization...
+
+[00:00:39] Optimization skipped!
+
+[00:00:39] End of the species tree optimization
+[00:00:39] Final species tree topology: /tmp/alerax_hogenom_chunked_out/chunk_06/species_trees/inferred_species_tree.newick
+
+[00:00:39] Final model rate optimization, non-thorough...
+[00:00:39] [Species search] Optimizing model rates (light), ll=-160253
+[00:00:39] [Species search]   Free parameters: 3 per family
+[00:14:35] [Species search]   After model rate opt, ll=-142904
+Likelihood changed after lowering the precision: 
+Before: ll=-142904
+After:  ll=-142899
+
+[00:15:00] Final model rate optimization, thorough...
+[00:15:00] [Species search] Optimizing model rates (thorough), ll=-142899
+[00:15:00] [Species search]   Free parameters: 3 per family
+[00:30:28] [Species search]   After model rate opt, ll=-142900
+Likelihood changed after lowering the precision: 
+Before: ll=-142900
+After:  ll=-142899
+[00:30:48] Final species tree likelihood: ll=-142899
+
+[00:30:48] End of AleRax execution
+	Command being timed: "mpiexec -np 24 alerax -f /home/enzo/Documents/git/gpurec/kernel-bench/experiments/alerax_speed/alerax_chunks/chunk_06.families.txt -s /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/runs/MFP/true_start_ufboot1000/run_--gene-tree-samples_100_--per-family-rates_1/alegenerax/species_trees/starting_species_tree.newick -p /tmp/alerax_hogenom_chunked_out/chunk_06 --rec-model UndatedDTL --model-parametrization PER-FAMILY --species-tree-search SKIP --rate-optimizer LBFGSB --gene-tree-samples 0"
+	User time (seconds): 44354.53
+	System time (seconds): 22.61
+	Percent of CPU this job got: 2399%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 30:49.60
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 2366592
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 13
+	Minor (reclaiming a frame) page faults: 9880833
+	Voluntary context switches: 49660
+	Involuntary context switches: 94952
+	Swaps: 0
+	File system inputs: 1415648
+	File system outputs: 872200
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

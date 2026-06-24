@@ -1,0 +1,67 @@
+[fit_genewise] tier pi=16: 1042 families
+  [pi16 it0] active=1042 conv=0% |Pg|max=1.62e+02
+  [pi16 it4] active=1042 conv=2% |Pg|max=2.42e+02
+  [pi16 it8] active=1042 conv=33% |Pg|max=4.91e+02
+  [pi16 it12] active=700 conv=57% |Pg|max=7.97e+01
+  [pi16 it16] active=306 conv=21% |Pg|max=3.11e+01
+  [pi16 it20] active=306 conv=33% |Pg|max=2.60e+01
+  [pi16 it24] active=208 conv=51% |Pg|max=2.33e+01
+  [pi16 it28] active=101 conv=60% |Pg|max=4.49e+01
+  [pi16 it32] active=40 conv=60% |Pg|max=7.10e+01
+  [pi16 it36] active=17 conv=47% |Pg|max=2.18e+00
+  [pi16 it40] active=9 conv=11% |Pg|max=5.56e-01
+  [pi16 it44] active=9 conv=11% |Pg|max=7.49e-03
+  [pi16 it48] active=9 conv=22% |Pg|max=1.45e-02
+  [pi16 it52] active=9 conv=33% |Pg|max=1.50e-02
+  [pi16 it56] active=6 conv=17% |Pg|max=1.02e-02
+  [pi16 it60] active=6 conv=50% |Pg|max=7.48e-03
+  [pi16 it64] active=4 conv=0% |Pg|max=1.24e-02
+  [pi16 it68] active=4 conv=50% |Pg|max=2.22e-03
+  [pi16 it72] active=3 conv=33% |Pg|max=5.23e-03
+  [pi16 it76] active=2 conv=0% |Pg|max=5.98e-03
+  [pi16 it80] active=2 conv=0% |Pg|max=3.35e-03
+  [pi16 it84] active=2 conv=0% |Pg|max=9.40e-03
+  [pi16 it88] active=2 conv=0% |Pg|max=7.53e-03
+  [pi16 it92] active=2 conv=0% |Pg|max=2.36e-02
+  [pi16 it96] active=2 conv=50% |Pg|max=1.31e-03
+  [pi16 it100] active=2 conv=0% |Pg|max=1.88e-02
+  [pi16 it104] active=2 conv=0% |Pg|max=6.63e-03
+  [pi16 it108] active=2 conv=0% |Pg|max=4.36e-03
+  [pi16 it112] active=2 conv=0% |Pg|max=3.44e-03
+  [pi16 it116] active=2 conv=0% |Pg|max=7.32e-03
+[fit_genewise] tier pi=64: 53 families
+  [pi64 it0] active=53 conv=0% |Pg|max=5.42e-01
+  [pi64 it4] active=53 conv=75% |Pg|max=6.95e-02
+  [pi64 it8] active=13 conv=38% |Pg|max=6.13e-02
+  [pi64 it12] active=8 conv=25% |Pg|max=1.18e-02
+  [pi64 it16] active=8 conv=50% |Pg|max=1.86e-02
+  [pi64 it20] active=4 conv=25% |Pg|max=2.24e-02
+  [pi64 it24] active=4 conv=75% |Pg|max=1.81e-02
+  [pi64 it28] active=2 conv=0% |Pg|max=5.42e-03
+  [pi64 it32] active=2 conv=0% |Pg|max=1.44e-02
+  [pi64 it36] active=2 conv=0% |Pg|max=1.78e-02
+  [pi64 it40] active=2 conv=0% |Pg|max=1.83e-02
+  [pi64 it44] active=2 conv=0% |Pg|max=1.71e-02
+  [pi64 it48] active=2 conv=0% |Pg|max=1.63e-02
+  [pi64 it52] active=2 conv=0% |Pg|max=1.79e-02
+  [pi64 it56] active=2 conv=0% |Pg|max=1.68e-02
+  [pi64 it60] active=2 conv=0% |Pg|max=1.96e-02
+  [pi64 it64] active=2 conv=0% |Pg|max=1.72e-02
+  [pi64 it68] active=2 conv=0% |Pg|max=1.14e-02
+  [pi64 it72] active=2 conv=0% |Pg|max=4.60e-03
+  [pi64 it76] active=2 conv=0% |Pg|max=5.60e-03
+  [pi64 it80] active=2 conv=0% |Pg|max=1.35e-02
+  [pi64 it84] active=2 conv=0% |Pg|max=1.10e-02
+  [pi64 it88] active=2 conv=0% |Pg|max=2.31e-02
+  [pi64 it92] active=2 conv=0% |Pg|max=1.57e-02
+  [pi64 it96] active=2 conv=0% |Pg|max=5.98e-03
+  [pi64 it100] active=2 conv=0% |Pg|max=1.28e-02
+  [pi64 it104] active=2 conv=50% |Pg|max=6.09e-03
+  [pi64 it108] active=1 conv=0% |Pg|max=8.89e-03
+  [pi64 it112] active=1 conv=0% |Pg|max=1.53e-03
+  [pi64 it116] active=1 conv=0% |Pg|max=1.94e-02
+============================================================
+[fit_genewise 1055] F=1042 opt=227s cert=65s total=291s
+  converged=1040/1042 interiorPD=790 boundActive=87 |Pg|max=1.23e-02 NLL=577592.8 bits
+  steps=224 builds=18
+  DRIVER REFERENCE: fit 219s, conv 1037/1042, NLL 577592.8 bits

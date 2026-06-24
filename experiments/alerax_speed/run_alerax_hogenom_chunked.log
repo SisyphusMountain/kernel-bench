@@ -1,0 +1,46 @@
+source=alerax_hogenom_core_all_families.txt count=all  considered=12408  missing=0  kept(>= 4 sp)=10869  dropped(< 4)=1539
+wrote /home/enzo/Documents/git/gpurec/kernel-bench/experiments/alerax_speed/hogenom_full_ge4sp.families.txt
+  chunk_00: 1359 families
+  chunk_01: 1359 families
+  chunk_02: 1359 families
+  chunk_03: 1359 families
+  chunk_04: 1359 families
+  chunk_05: 1359 families
+  chunk_06: 1359 families
+  chunk_07: 1356 families
+split 10869 families -> 8 chunks (<= 1359 each)
+=== AleRax chunked run @ 2026-06-24T05:16:32+02:00 | host=enzo-Station | NP=24 cap=80G chunks=8 | 10869 families ===
+--- chunk_00: 1359 families @ 2026-06-24T05:16:32+02:00 | mem avail: 114G ---
+    OK  wall=2521s  peakRSS=2978552 kB/rank
+--- chunk_01: 1359 families @ 2026-06-24T05:58:33+02:00 | mem avail: 113G ---
+    OK  wall=4561s  peakRSS=3055940 kB/rank
+--- chunk_02: 1359 families @ 2026-06-24T07:14:34+02:00 | mem avail: 113G ---
+    OK  wall=1270s  peakRSS=2439492 kB/rank
+--- chunk_03: 1359 families @ 2026-06-24T07:35:44+02:00 | mem avail: 113G ---
+    OK  wall=2019s  peakRSS=2440684 kB/rank
+--- chunk_04: 1359 families @ 2026-06-24T08:09:23+02:00 | mem avail: 113G ---
+    OK  wall=1711s  peakRSS=2496568 kB/rank
+--- chunk_05: 1359 families @ 2026-06-24T08:37:54+02:00 | mem avail: 113G ---
+    OK  wall=2263s  peakRSS=2217136 kB/rank
+--- chunk_06: 1359 families @ 2026-06-24T09:15:37+02:00 | mem avail: 113G ---
+    OK  wall=1849s  peakRSS=2366592 kB/rank
+--- chunk_07: 1356 families @ 2026-06-24T09:46:26+02:00 | mem avail: 112G ---
+    OK  wall=1488s  peakRSS=2457480 kB/rank
+================================================================
+AleRax HOGENOM (>=4 species) — chunked, memory-capped, combined
+================================================================
+  chunk_00:  1359 families    2521s
+  chunk_01:  1359 families    4561s
+  chunk_02:  1359 families    1270s
+  chunk_03:  1359 families    2019s
+  chunk_04:  1359 families    1711s
+  chunk_05:  1359 families    2263s
+  chunk_06:  1359 families    1849s
+  chunk_07:  1356 families    1488s
+----------------------------------------------------------------
+  TOTAL families      = 10869
+  TOTAL wall-clock    = 17682s = 294.7 min  (sum of chunks)
+  TOTAL log-likelihood= -1326050.7 nats   ->  NLL = 1326050.7 nats
+  (gpurec genewise full >=4: 758s fit; NLL 1,906,464 bits = 1321460 nats)
+  combined per-family likelihoods -> /home/enzo/Documents/git/gpurec/kernel-bench/experiments/alerax_speed/alerax_hogenom_combined_likelihoods.txt
+=== DONE @ 2026-06-24T10:11:14+02:00 ===

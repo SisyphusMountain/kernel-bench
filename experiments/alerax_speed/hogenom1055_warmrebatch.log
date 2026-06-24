@@ -1,0 +1,92 @@
+=== genewise WARM + CONVERGENCE-REBATCH hogenom fam=all  pi-tiers=[16, 64] cert_pi=64 neu_opt=16(warm) neu_cert=64  drop |Pg|<0.001 when >30% (verify=True) ===
+  [pi 16 it  0] active= 1055 conv=   0% |Pg|max=2.58e+02 t=78s
+  [pi 16 it  4] active= 1055 conv=   0% |Pg|max=1.10e+02 t=110s
+  [pi 16 it  8] active= 1055 conv=  26% |Pg|max=4.78e+01 t=143s
+  [pi 16 it 12] active= 1055 conv=  70% |Pg|max=1.64e+01 t=175s
+  [pi16] defer 38 stiff (resid>0.001) -> pi64
+  [pi 16 it 16] active=  324 conv=  28% |Pg|max=2.75e+01 t=200s
+  [pi 16 it 20] active=  324 conv=  27% |Pg|max=2.28e+01 t=203s
+  [pi 16 it 24] active=  324 conv=  37% |Pg|max=4.59e+00 t=211s
+  [pi16] defer 7 stiff (resid>0.001) -> pi64
+  [pi 16 it 28] active=  209 conv=  85% |Pg|max=7.10e+00 t=220s
+  [pi16] defer 3 stiff (resid>0.001) -> pi64
+  [pi 16 it 32] active=   38 conv=  58% |Pg|max=8.20e-01 t=226s
+  [pi 16 it 36] active=   22 conv=  64% |Pg|max=1.31e-02 t=231s
+  [pi16] defer 1 stiff (resid>0.001) -> pi64
+  [pi 16 it 40] active=   12 conv=  42% |Pg|max=2.13e-02 t=233s
+  [pi16] defer 1 stiff (resid>0.001) -> pi64
+  [pi 16 it 44] active=   11 conv=  64% |Pg|max=9.51e-03 t=236s
+  [pi16] defer 1 stiff (resid>0.001) -> pi64
+  [pi 16 it 48] active=    8 conv=  75% |Pg|max=1.50e-02 t=238s
+  [pi 16 it 52] active=    6 conv=  67% |Pg|max=6.39e-03 t=241s
+  [pi 16 it 56] active=    6 conv=  67% |Pg|max=1.03e-02 t=243s
+  [pi 16 it 60] active=    6 conv=  67% |Pg|max=7.41e-03 t=243s
+  [pi 16 it 64] active=    6 conv=  67% |Pg|max=5.23e-03 t=245s
+  [pi 16 it 68] active=    6 conv=  67% |Pg|max=3.83e-03 t=247s
+  [pi 16 it 72] active=    6 conv=  67% |Pg|max=2.57e-03 t=248s
+  [pi 16 it 76] active=    6 conv=  67% |Pg|max=2.21e-02 t=250s
+  [pi 16 it 80] active=    6 conv=  67% |Pg|max=1.76e-02 t=251s
+  [pi 16 it 84] active=    6 conv=  67% |Pg|max=1.53e-02 t=252s
+  [pi 16 it 88] active=    6 conv=  67% |Pg|max=1.63e-02 t=254s
+  [pi 16 it 92] active=    6 conv=  67% |Pg|max=1.19e-02 t=256s
+  [pi 16 it 96] active=    6 conv=  67% |Pg|max=2.92e-03 t=257s
+  [pi 16 it100] active=    6 conv=  67% |Pg|max=1.08e-02 t=258s
+  [pi 16 it104] active=    6 conv=  67% |Pg|max=3.73e-03 t=260s
+  [pi 16 it108] active=    6 conv=  67% |Pg|max=6.40e-03 t=261s
+  [pi 16 it112] active=    6 conv=  67% |Pg|max=1.11e-02 t=263s
+  [pi 16 it116] active=    6 conv=  83% |Pg|max=4.00e-03 t=265s
+  [pi 64 it  0] active=   57 conv=   0% |Pg|max=5.42e-01 t=268s
+  [pi 64 it  4] active=   57 conv=  88% |Pg|max=9.10e-03 t=273s
+  [pi 64 it  8] active=    7 conv=  14% |Pg|max=1.68e-02 t=276s
+  [pi 64 it 12] active=    7 conv=  29% |Pg|max=1.14e-02 t=278s
+  [pi 64 it 16] active=    7 conv=  14% |Pg|max=4.19e-03 t=281s
+  [pi 64 it 20] active=    7 conv=  29% |Pg|max=1.35e-02 t=281s
+  [pi 64 it 24] active=    7 conv=  43% |Pg|max=6.76e-03 t=283s
+  [pi 64 it 28] active=    5 conv=   0% |Pg|max=1.46e-02 t=286s
+  [pi 64 it 32] active=    5 conv=  20% |Pg|max=1.11e-02 t=288s
+  [pi 64 it 36] active=    5 conv=   0% |Pg|max=9.23e-03 t=290s
+  [pi 64 it 40] active=    5 conv=   0% |Pg|max=1.66e-02 t=291s
+  [pi 64 it 44] active=    5 conv=   0% |Pg|max=1.74e-02 t=293s
+  [pi 64 it 48] active=    5 conv=   0% |Pg|max=1.40e-02 t=294s
+  [pi 64 it 52] active=    5 conv=   0% |Pg|max=9.30e-03 t=296s
+  [pi 64 it 56] active=    5 conv=  20% |Pg|max=1.66e-02 t=298s
+  [pi 64 it 60] active=    5 conv=  40% |Pg|max=1.91e-02 t=299s
+  [pi 64 it 64] active=    4 conv=  25% |Pg|max=1.71e-02 t=302s
+  [pi 64 it 68] active=    4 conv=   0% |Pg|max=1.42e-02 t=304s
+  [pi 64 it 72] active=    4 conv=  25% |Pg|max=1.33e-02 t=305s
+  [pi 64 it 76] active=    4 conv=  25% |Pg|max=7.88e-03 t=307s
+  [pi 64 it 80] active=    4 conv=  50% |Pg|max=1.86e-02 t=308s
+  [pi 64 it 84] active=    4 conv=   0% |Pg|max=1.83e-02 t=310s
+  [pi 64 it 88] active=    4 conv=   0% |Pg|max=9.14e-03 t=312s
+  [pi 64 it 92] active=    4 conv=   0% |Pg|max=5.23e-03 t=313s
+  [pi 64 it 96] active=    4 conv=   0% |Pg|max=8.34e-03 t=315s
+  [pi 64 it100] active=    4 conv=  25% |Pg|max=2.05e-02 t=316s
+  [pi 64 it104] active=    4 conv=   0% |Pg|max=8.78e-03 t=318s
+  [pi 64 it108] active=    4 conv=  25% |Pg|max=8.91e-03 t=319s
+  [pi 64 it112] active=    4 conv=  25% |Pg|max=5.17e-03 t=321s
+  [pi 64 it116] active=    4 conv=   0% |Pg|max=2.08e-02 t=323s
+
+========================================================================
+WARM + CONVERGENCE-REBATCH  (hogenom F=1055, pi-tiers=[16, 64] cert_pi=64 neu_opt=16-warm)
+========================================================================
+  drop @pi 16 it 12: dropped   693 ->   324 remain
+  drop @pi 16 it 24: dropped   108 ->   209 remain
+  drop @pi 16 it 28: dropped   168 ->    38 remain
+  drop @pi 16 it 32: dropped    16 ->    22 remain
+  drop @pi 16 it 36: dropped     9 ->    12 remain
+  drop @pi 16 it 44: dropped     2 ->     8 remain
+  drop @pi 16 it 48: dropped     2 ->     6 remain
+  drop @pi 64 it  4: dropped    50 ->     7 remain
+  drop @pi 64 it 24: dropped     2 ->     5 remain
+  drop @pi 64 it 60: dropped     1 ->     4 remain
+  defer @pi 16 it 12:    38 stiff -> pi64 (324 stay)  resid_max=1.95e-01
+  defer @pi 16 it 24:     7 stiff -> pi64 (209 stay)  resid_max=2.83e-01
+  defer @pi 16 it 28:     3 stiff -> pi64 (38 stay)  resid_max=3.27e-01
+  defer @pi 16 it 36:     1 stiff -> pi64 (12 stay)  resid_max=3.79e-01
+  defer @pi 16 it 40:     1 stiff -> pi64 (11 stay)  resid_max=5.83e-03
+  defer @pi 16 it 44:     1 stiff -> pi64 (8 stay)  resid_max=1.22e-03
+  drops=10  total dropped mid-run=1051  optimize=324s  cert=55s
+  CONVERGED (|Pg|<0.001) = 1048/1055   |Pg|max=1.25e-02
+  interior PD = 787   bound-active = 97   unconverged = 7   (of which dropped-prematurely = 3)
+  TOTAL = 379s
+  saved -> /home/enzo/Documents/git/gpurec/kernel-bench/experiments/alerax_speed/hogenom1055_warmrebatch_rerun.json

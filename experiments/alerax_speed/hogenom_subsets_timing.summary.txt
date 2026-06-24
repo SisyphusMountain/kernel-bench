@@ -1,0 +1,3 @@
+  512  F=   506  fit_s=    119  cert_s=    33  total_s=    152  wall_s=   154  conv=500/506  NLL=324261.8 bits
+ 1055  F=  1042  fit_s=    219  cert_s=    62  total_s=    282  wall_s=   283  conv=1037/1042  NLL=577592.8 bits
+ full  F= 10869  fit_s=    758  cert_s=   213  total_s=    970  wall_s=   973  conv=10853/10869  NLL=1906463.5 bits

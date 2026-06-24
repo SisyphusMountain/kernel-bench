@@ -1,0 +1,98 @@
+=== [TRACED] genewise WARM + CONVERGENCE-REBATCH archaea fam=all  pi-tiers=[16, 64] cert_pi=64 neu_opt=16(warm) neu_cert=64  drop |Pg|<0.001 when >30% (verify=True) hess=forward ===
+[FAMFILE] 3946 families from /home/enzo/Documents/git/gpurec/kernel-bench/experiments/alerax_speed/archaea_ge4sp.families.txt
+
+--- TIER pi=16 (neu_opt=16) : entering with 3946 families  t=0s ---
+  [BUILD # 1 pi16  ] F= 3946  pi= 16 neu= 16  dt= 17.5s  (cum build=18s)
+  [ADAM] 5 steps lr=1.0 clip=10.0 on F=3946  dt=12.2s
+  [pi 16 it  0] active= 3946 conv=   0% |Pg|max=6.85e+01 steps=   0 t=32s
+  [pi 16 it  4] active= 3946 conv=   0% |Pg|max=6.06e+01 steps=   4 t=48s
+  [pi 16 it  8] active= 3946 conv=  14% |Pg|max=7.85e+01 steps=   8 t=63s
+  [pi 16 it 12] active= 3946 conv=  31% |Pg|max=7.67e+01 steps=  12 t=78s
+  [pi16] defer 19 stiff (resid>0.001) -> pi64
+  [BUILD # 2 pi16  ] F= 2743  pi= 16 neu= 16  dt=  4.1s  (cum build=22s)
+  [pi 16 it 16] active= 2743 conv=   8% |Pg|max=4.88e+01 steps=  15 t=100s
+  [pi 16 it 20] active= 2743 conv=  18% |Pg|max=5.14e+01 steps=  19 t=104s
+  [pi 16 it 24] active= 2743 conv=  78% |Pg|max=3.08e+01 steps=  23 t=111s
+  [pi16] defer 4 stiff (resid>0.001) -> pi64
+  [BUILD # 3 pi16  ] F=  603  pi= 16 neu= 16  dt=  1.9s  (cum build=23s)
+  [pi 16 it 28] active=  603 conv=  79% |Pg|max=1.74e+01 steps=  26 t=119s
+  [pi16] defer 2 stiff (resid>0.001) -> pi64
+  [BUILD # 4 pi16  ] F=  127  pi= 16 neu= 16  dt=  0.4s  (cum build=24s)
+  [pi 16 it 32] active=  127 conv=  49% |Pg|max=1.64e+00 steps=  29 t=122s
+  [pi16] defer 1 stiff (resid>0.001) -> pi64
+  [BUILD # 5 pi16  ] F=   65  pi= 16 neu= 16  dt=  0.1s  (cum build=24s)
+  [pi 16 it 36] active=   65 conv=  66% |Pg|max=3.82e+00 steps=  32 t=124s
+  [BUILD # 6 pi16  ] F=   22  pi= 16 neu= 16  dt=  0.0s  (cum build=24s)
+  [pi 16 it 40] active=   22 conv=  64% |Pg|max=2.71e+00 steps=  35 t=125s
+  [BUILD # 7 pi16  ] F=    8  pi= 16 neu= 16  dt=  0.0s  (cum build=24s)
+  [pi 16 it 44] active=    8 conv=  38% |Pg|max=5.53e-01 steps=  38 t=125s
+  [BUILD # 8 pi16  ] F=    5  pi= 16 neu= 16  dt=  0.0s  (cum build=24s)
+  [pi 16 it 48] active=    5 conv=  20% |Pg|max=1.80e-02 steps=  41 t=126s
+  [pi 16 it 52] active=    5 conv=  80% |Pg|max=1.41e-03 steps=  45 t=126s
+  [BUILD # 9 pi16  ] F=    1  pi= 16 neu= 16  dt=  0.0s  (cum build=24s)
+  [pi 16 it 56] active=    1 conv=   0% |Pg|max=1.08e-03 steps=  48 t=126s
+  [pi 16 it 60] active=    1 conv= 100% |Pg|max=8.29e-04 steps=  52 t=126s
+--- TIER pi=16 done: 52 newton steps, 9 (re)builds, dt=126s (entered 3946 fam, 0 carry-over) ---
+
+--- TIER pi=64 (neu_opt=16) : entering with 26 families  t=126s ---
+  [BUILD #10 pi64  ] F=   26  pi= 64 neu= 16  dt=  0.5s  (cum build=24s)
+  [pi 64 it  0] active=   26 conv=   0% |Pg|max=1.23e-02 steps=  52 t=127s
+  [pi 64 it  4] active=   26 conv=  96% |Pg|max=9.71e-03 steps=  56 t=128s
+  [BUILD #11 pi64  ] F=    1  pi= 64 neu= 16  dt=  0.0s  (cum build=24s)
+  [pi 64 it  8] active=    1 conv=   0% |Pg|max=9.02e-03 steps=  59 t=128s
+  [pi 64 it 12] active=    1 conv= 100% |Pg|max=4.88e-04 steps=  63 t=129s
+--- TIER pi=64 done: 11 newton steps, 2 (re)builds, dt=3s (entered 26 fam, 0 carry-over) ---
+
+========================================================================
+[TRACED] WARM + CONVERGENCE-REBATCH  (archaea F=3946, pi-tiers=[16, 64] cert_pi=64 neu_opt=16-warm)
+========================================================================
+  drop @pi 16 it 12: dropped  1184 ->  2743 remain
+  drop @pi 16 it 24: dropped  2136 ->   603 remain
+  drop @pi 16 it 28: dropped   474 ->   127 remain
+  drop @pi 16 it 32: dropped    61 ->    65 remain
+  drop @pi 16 it 36: dropped    43 ->    22 remain
+  drop @pi 16 it 40: dropped    14 ->     8 remain
+  drop @pi 16 it 44: dropped     3 ->     5 remain
+  drop @pi 16 it 52: dropped     4 ->     1 remain
+  drop @pi 16 it 60: dropped     1 ->     0 remain
+  drop @pi 64 it  4: dropped    25 ->     1 remain
+  drop @pi 64 it 12: dropped     1 ->     0 remain
+  defer @pi 16 it 12:    19 stiff -> pi64 (2743 stay)  resid_max=1.74e-01
+  defer @pi 16 it 24:     4 stiff -> pi64 (603 stay)  resid_max=2.03e+00
+  defer @pi 16 it 28:     2 stiff -> pi64 (127 stay)  resid_max=2.62e-01
+  defer @pi 16 it 32:     1 stiff -> pi64 (65 stay)  resid_max=2.74e-01
+  CERT skipped (CERT=1 to certify): all 3946 families converged by per-drop VERIFY_DROP (|Pg|<0.001 @ pi64/neu64 at drop time); PD cert + NLL via CERT=1
+
+========================================================================
+  TIMING / WORK BREAKDOWN
+========================================================================
+  total newton steps         = 63
+  TR-capped family-steps     = 10800/80153 (13%)  [step throttled by TRUST=2]
+  FD-Hessian rebuilds        = 20  (each = 6 loss+grad evals)
+  model (re)builds           = 11   (build wall = 24s)
+  verify-drop cert calls     = 11  (each = 1 loss+grad @ pi64/neu64)
+  forward-resid escalations  = 4
+
+  ---- REBATCHING OVERHEAD (the adaptive machinery only) ----
+    model rebuilds ( 9)   =   7.2s  (del+empty_cache+rebuild over survivors)
+    cert-verify (11 calls) =   7.0s  (re-check |Pg| cold @ pi64/neu64 before freezing)
+    forward-resid ( 4)    =   2.2s  (stiffness test for pi-escalation)
+    REBATCH TOTAL          =  16.3s  (13% of optimize, 13% of total)
+  -----------------------------------------------------------
+  adam warmup (5 steps)      = 12s
+  optimize (incl builds+adam)= 129s
+  final cert (cold pi64/neu64) = 0s
+  TOTAL                      = 129s
+
+  per-build trace (tag, Fbatch, pi, neu, dt):
+    pi16   F= 3946 pi= 16 neu= 16   17.5s
+    pi16   F= 2743 pi= 16 neu= 16    4.1s
+    pi16   F=  603 pi= 16 neu= 16    1.9s
+    pi16   F=  127 pi= 16 neu= 16    0.4s
+    pi16   F=   65 pi= 16 neu= 16    0.1s
+    pi16   F=   22 pi= 16 neu= 16    0.0s
+    pi16   F=    8 pi= 16 neu= 16    0.0s
+    pi16   F=    5 pi= 16 neu= 16    0.0s
+    pi16   F=    1 pi= 16 neu= 16    0.0s
+    pi64   F=   26 pi= 64 neu= 16    0.5s
+    pi64   F=    1 pi= 64 neu= 16    0.0s

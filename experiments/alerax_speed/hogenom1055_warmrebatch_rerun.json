@@ -1,0 +1,136 @@
+{
+  "dataset": "hogenom",
+  "F": 1055,
+  "pis": [
+    16,
+    64
+  ],
+  "cert_pi": 64,
+  "neu_opt": 16,
+  "neu_cert": 64,
+  "conv_tol": 0.01,
+  "frac": 0.3,
+  "opt_s": 323.53076193400193,
+  "total_s": 378.9962116809911,
+  "n_conv": 1048,
+  "n_interior_pd": 787,
+  "n_bound_active": 97,
+  "n_unconv": 7,
+  "n_dropped": 1051,
+  "n_premature": 3,
+  "rebatches": [
+    {
+      "pi": 16,
+      "it": 12,
+      "dropped": 693,
+      "remain": 324
+    },
+    {
+      "pi": 16,
+      "it": 24,
+      "dropped": 108,
+      "remain": 209
+    },
+    {
+      "pi": 16,
+      "it": 28,
+      "dropped": 168,
+      "remain": 38
+    },
+    {
+      "pi": 16,
+      "it": 32,
+      "dropped": 16,
+      "remain": 22
+    },
+    {
+      "pi": 16,
+      "it": 36,
+      "dropped": 9,
+      "remain": 12
+    },
+    {
+      "pi": 16,
+      "it": 44,
+      "dropped": 2,
+      "remain": 8
+    },
+    {
+      "pi": 16,
+      "it": 48,
+      "dropped": 2,
+      "remain": 6
+    },
+    {
+      "pi": 64,
+      "it": 4,
+      "dropped": 50,
+      "remain": 7
+    },
+    {
+      "pi": 64,
+      "it": 24,
+      "dropped": 2,
+      "remain": 5
+    },
+    {
+      "pi": 64,
+      "it": 60,
+      "dropped": 1,
+      "remain": 4
+    }
+  ],
+  "rebatch_resid": true,
+  "fwd_tol": 0.001,
+  "improve_frac": 0.8,
+  "defers": [
+    {
+      "pi": 16,
+      "it": 12,
+      "deferred": 38,
+      "to": 64,
+      "stay": 324,
+      "resid_max": 0.1946239471435547
+    },
+    {
+      "pi": 16,
+      "it": 24,
+      "deferred": 7,
+      "to": 64,
+      "stay": 209,
+      "resid_max": 0.28305816650390625
+    },
+    {
+      "pi": 16,
+      "it": 28,
+      "deferred": 3,
+      "to": 64,
+      "stay": 38,
+      "resid_max": 0.3268299102783203
+    },
+    {
+      "pi": 16,
+      "it": 36,
+      "deferred": 1,
+      "to": 64,
+      "stay": 12,
+      "resid_max": 0.3790721893310547
+    },
+    {
+      "pi": 16,
+      "it": 40,
+      "deferred": 1,
+      "to": 64,
+      "stay": 11,
+      "resid_max": 0.005825042724609375
+    },
+    {
+      "pi": 16,
+      "it": 44,
+      "deferred": 1,
+      "to": 64,
+      "stay": 8,
+      "resid_max": 0.001220703125
+    }
+  ]
+}

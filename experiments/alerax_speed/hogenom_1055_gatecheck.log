@@ -1,0 +1,167 @@
+=== [TRACED] genewise WARM + CONVERGENCE-REBATCH hogenom fam=all  pi-tiers=[16, 64] cert_pi=64 neu_opt=16(warm) neu_cert=64  drop |Pg|<0.001 when >30% (verify=True) hess=forward ===
+[FAMFILE] 1042 families from /home/enzo/Documents/git/gpurec/kernel-bench/experiments/alerax_speed/hogenom_1055_ge4sp.families.txt
+
+--- TIER pi=16 (neu_opt=16) : entering with 1042 families  t=0s ---
+  [BUILD # 1 pi16  ] F= 1042  pi= 16 neu= 16  dt=  6.8s  (cum build=7s)
+  [ADAM] 5 steps lr=1.0 clip=10.0 on F=1042  dt=17.4s
+  [pi 16 it  0] active= 1042 conv=   0% |Pg|max=1.62e+02 steps=   0 t=27s
+  [pi 16 it  4] active= 1042 conv=   2% |Pg|max=2.35e+02 steps=   4 t=50s
+  [pi 16 it  8] active= 1042 conv=  33% |Pg|max=1.84e+02 steps=   8 t=72s
+  [pi16] defer 21 stiff (resid>0.001) -> pi64
+  [BUILD # 2 pi16  ] F=  700  pi= 16 neu= 16  dt=  4.9s  (cum build=12s)
+  [pi 16 it 12] active=  700 conv=  57% |Pg|max=7.97e+01 steps=  11 t=112s
+  [pi16] defer 8 stiff (resid>0.001) -> pi64
+  [BUILD # 3 pi16  ] F=  304  pi= 16 neu= 16  dt=  1.9s  (cum build=14s)
+  [pi 16 it 16] active=  304 conv=  18% |Pg|max=8.39e+01 steps=  14 t=129s
+  [pi 16 it 20] active=  304 conv=  33% |Pg|max=8.99e+01 steps=  18 t=133s
+  [pi16] defer 12 stiff (resid>0.001) -> pi64
+  [BUILD # 4 pi16  ] F=  207  pi= 16 neu= 16  dt=  1.3s  (cum build=15s)
+  [pi 16 it 24] active=  207 conv=  50% |Pg|max=8.17e+01 steps=  21 t=140s
+  [pi16] defer 2 stiff (resid>0.001) -> pi64
+  [BUILD # 5 pi16  ] F=  105  pi= 16 neu= 16  dt=  1.3s  (cum build=16s)
+  [pi 16 it 28] active=  105 conv=  60% |Pg|max=4.16e+01 steps=  24 t=146s
+  [pi16] defer 2 stiff (resid>0.001) -> pi64
+  [BUILD # 6 pi16  ] F=   42  pi= 16 neu= 16  dt=  0.8s  (cum build=17s)
+  [pi 16 it 32] active=   42 conv=  57% |Pg|max=7.71e+01 steps=  27 t=152s
+  [pi16] defer 4 stiff (resid>0.001) -> pi64
+  [BUILD # 7 pi16  ] F=   18  pi= 16 neu= 16  dt=  0.8s  (cum build=18s)
+  [pi 16 it 36] active=   18 conv=  61% |Pg|max=1.14e+01 steps=  30 t=155s
+  [pi16] defer 1 stiff (resid>0.001) -> pi64
+  [BUILD # 8 pi16  ] F=    8  pi= 16 neu= 16  dt=  0.5s  (cum build=18s)
+  [pi 16 it 40] active=    8 conv=  38% |Pg|max=5.55e+01 steps=  33 t=157s
+  [pi16] defer 1 stiff (resid>0.001) -> pi64
+  [BUILD # 9 pi16  ] F=    6  pi= 16 neu= 16  dt=  0.5s  (cum build=19s)
+  [pi 16 it 44] active=    6 conv=  17% |Pg|max=4.88e+01 steps=  36 t=159s
+  [pi 16 it 48] active=    6 conv=  17% |Pg|max=6.60e-01 steps=  40 t=160s
+  [pi 16 it 52] active=    6 conv=   0% |Pg|max=3.35e-02 steps=  44 t=160s
+  [pi 16 it 56] active=    6 conv=   0% |Pg|max=1.41e-02 steps=  48 t=161s
+  [pi 16 it 60] active=    6 conv=  33% |Pg|max=1.34e-02 steps=  52 t=162s
+  [pi16] defer 1 stiff (resid>0.001) -> pi64
+  [BUILD #10 pi16  ] F=    5  pi= 16 neu= 16  dt=  0.5s  (cum build=19s)
+  [pi 16 it 64] active=    5 conv=   0% |Pg|max=1.28e-02 steps=  55 t=164s
+  [pi 16 it 68] active=    5 conv=   0% |Pg|max=1.01e-02 steps=  59 t=165s
+  [pi 16 it 72] active=    5 conv=  20% |Pg|max=7.77e-03 steps=  63 t=165s
+  [pi 16 it 76] active=    5 conv=   0% |Pg|max=4.00e-03 steps=  67 t=166s
+  [pi 16 it 80] active=    5 conv=   0% |Pg|max=3.33e-03 steps=  71 t=167s
+  [pi 16 it 84] active=    5 conv=   0% |Pg|max=7.54e-03 steps=  75 t=168s
+  [pi 16 it 88] active=    5 conv=  20% |Pg|max=1.71e-02 steps=  79 t=168s
+  [pi 16 it 92] active=    5 conv=  20% |Pg|max=4.00e-03 steps=  83 t=169s
+  [pi 16 it 96] active=    5 conv=  20% |Pg|max=3.46e-03 steps=  87 t=170s
+  [pi 16 it100] active=    5 conv=  20% |Pg|max=6.37e-03 steps=  91 t=171s
+  [pi 16 it104] active=    5 conv=   0% |Pg|max=1.10e-02 steps=  95 t=171s
+  [pi 16 it108] active=    5 conv=  20% |Pg|max=5.35e-03 steps=  99 t=172s
+  [pi 16 it112] active=    5 conv=  20% |Pg|max=6.94e-03 steps= 103 t=173s
+  [pi 16 it116] active=    5 conv=  40% |Pg|max=2.61e-03 steps= 107 t=174s
+  [BUILD #11 pi16  ] F=    4  pi= 16 neu= 16  dt=  0.5s  (cum build=20s)
+--- TIER pi=16 done: 110 newton steps, 11 (re)builds, dt=175s (entered 1042 fam, 4 carry-over) ---
+
+--- TIER pi=64 (neu_opt=16) : entering with 56 families  t=175s ---
+  [BUILD #12 pi64  ] F=   56  pi= 64 neu= 16  dt=  0.9s  (cum build=21s)
+  [pi 64 it  0] active=   56 conv=   2% |Pg|max=5.41e-01 steps= 110 t=177s
+  [pi 64 it  4] active=   56 conv=  77% |Pg|max=6.94e-02 steps= 114 t=181s
+  [BUILD #13 pi64  ] F=   13  pi= 64 neu= 16  dt=  0.6s  (cum build=21s)
+  [pi 64 it  8] active=   13 conv=   8% |Pg|max=6.13e-02 steps= 117 t=185s
+  [pi 64 it 12] active=   13 conv=  31% |Pg|max=1.61e-02 steps= 121 t=187s
+  [BUILD #14 pi64  ] F=    9  pi= 64 neu= 16  dt=  0.5s  (cum build=22s)
+  [pi 64 it 16] active=    9 conv=  11% |Pg|max=1.56e-02 steps= 124 t=191s
+  [pi 64 it 20] active=    9 conv=  33% |Pg|max=1.98e-02 steps= 128 t=192s
+  [BUILD #15 pi64  ] F=    6  pi= 64 neu= 16  dt=  0.6s  (cum build=22s)
+  [pi 64 it 24] active=    6 conv=  50% |Pg|max=1.62e-02 steps= 131 t=194s
+  [BUILD #16 pi64  ] F=    3  pi= 64 neu= 16  dt=  0.4s  (cum build=23s)
+  [pi 64 it 28] active=    3 conv=  33% |Pg|max=2.58e-03 steps= 134 t=196s
+  [BUILD #17 pi64  ] F=    2  pi= 64 neu= 16  dt=  0.4s  (cum build=23s)
+  [pi 64 it 32] active=    2 conv=   0% |Pg|max=7.60e-03 steps= 137 t=199s
+  [pi 64 it 36] active=    2 conv=   0% |Pg|max=1.06e-02 steps= 141 t=200s
+  [pi 64 it 40] active=    2 conv=  50% |Pg|max=3.52e-03 steps= 145 t=201s
+  [pi 64 it 44] active=    2 conv=   0% |Pg|max=9.83e-03 steps= 149 t=202s
+  [pi 64 it 48] active=    2 conv=   0% |Pg|max=9.38e-03 steps= 153 t=203s
+  [pi 64 it 52] active=    2 conv=   0% |Pg|max=1.29e-02 steps= 157 t=204s
+  [pi 64 it 56] active=    2 conv=   0% |Pg|max=1.94e-02 steps= 161 t=206s
+  [pi 64 it 60] active=    2 conv=   0% |Pg|max=4.53e-03 steps= 165 t=206s
+  [pi 64 it 64] active=    2 conv=   0% |Pg|max=2.83e-02 steps= 169 t=208s
+  [pi 64 it 68] active=    2 conv=   0% |Pg|max=5.73e-03 steps= 173 t=209s
+  [pi 64 it 72] active=    2 conv=   0% |Pg|max=6.62e-03 steps= 177 t=210s
+  [pi 64 it 76] active=    2 conv=   0% |Pg|max=2.38e-02 steps= 181 t=211s
+  [pi 64 it 80] active=    2 conv=   0% |Pg|max=2.96e-03 steps= 185 t=212s
+  [pi 64 it 84] active=    2 conv=  50% |Pg|max=8.26e-03 steps= 189 t=213s
+  [pi 64 it 88] active=    2 conv=   0% |Pg|max=7.29e-03 steps= 193 t=215s
+  [pi 64 it 92] active=    2 conv=   0% |Pg|max=8.96e-03 steps= 197 t=216s
+  [pi 64 it 96] active=    2 conv=   0% |Pg|max=4.82e-03 steps= 201 t=217s
+  [pi 64 it100] active=    2 conv=   0% |Pg|max=3.98e-03 steps= 205 t=218s
+  [pi 64 it104] active=    2 conv=   0% |Pg|max=3.41e-03 steps= 209 t=219s
+  [pi 64 it108] active=    2 conv=   0% |Pg|max=2.59e-02 steps= 213 t=220s
+  [pi 64 it112] active=    2 conv=  50% |Pg|max=2.86e-03 steps= 217 t=221s
+  [pi 64 it116] active=    2 conv=   0% |Pg|max=4.08e-03 steps= 221 t=223s
+--- TIER pi=64 done: 115 newton steps, 6 (re)builds, dt=48s (entered 56 fam, 2 carry-over) ---
+  [BUILD #18 cert  ] F= 1042  pi= 64 neu= 64  dt=  6.7s  (cum build=30s)
+
+========================================================================
+[TRACED] WARM + CONVERGENCE-REBATCH  (hogenom F=1042, pi-tiers=[16, 64] cert_pi=64 neu_opt=16-warm)
+========================================================================
+  drop @pi 16 it  8: dropped   321 ->   700 remain
+  drop @pi 16 it 12: dropped   388 ->   304 remain
+  drop @pi 16 it 20: dropped    85 ->   207 remain
+  drop @pi 16 it 24: dropped   100 ->   105 remain
+  drop @pi 16 it 28: dropped    61 ->    42 remain
+  drop @pi 16 it 32: dropped    20 ->    18 remain
+  drop @pi 16 it 36: dropped     9 ->     8 remain
+  drop @pi 16 it 40: dropped     1 ->     6 remain
+  drop @pi 16 it116: dropped     1 ->     4 remain
+  drop @pi 64 it  4: dropped    43 ->    13 remain
+  drop @pi 64 it 12: dropped     4 ->     9 remain
+  drop @pi 64 it 20: dropped     3 ->     6 remain
+  drop @pi 64 it 24: dropped     3 ->     3 remain
+  drop @pi 64 it 28: dropped     1 ->     2 remain
+  defer @pi 16 it  8:    21 stiff -> pi64 (700 stay)  resid_max=2.65e-01
+  defer @pi 16 it 12:     8 stiff -> pi64 (304 stay)  resid_max=2.28e-01
+  defer @pi 16 it 20:    12 stiff -> pi64 (207 stay)  resid_max=3.23e-01
+  defer @pi 16 it 24:     2 stiff -> pi64 (105 stay)  resid_max=3.46e-01
+  defer @pi 16 it 28:     2 stiff -> pi64 (42 stay)  resid_max=3.71e-01
+  defer @pi 16 it 32:     4 stiff -> pi64 (18 stay)  resid_max=1.82e-01
+  defer @pi 16 it 36:     1 stiff -> pi64 (8 stay)  resid_max=1.12e-01
+  defer @pi 16 it 40:     1 stiff -> pi64 (6 stay)  resid_max=1.65e-01
+  defer @pi 16 it 60:     1 stiff -> pi64 (5 stay)  resid_max=1.95e-01
+  CONVERGED (|Pg|<0.001) = 1038/1042   |Pg|max=2.04e-02
+  interior PD = 788   bound-active = 87   unconverged = 4   (of which dropped-prematurely = 2)
+  total NLL = 577592.7 bits = 400356.7 nats (x ln2)   [AleRax: 226334 nats]
+
+========================================================================
+  TIMING / WORK BREAKDOWN
+========================================================================
+  total newton steps         = 225
+  TR-capped family-steps     = 751/14692 (5%)  [step throttled by TRUST=2]
+  FD-Hessian rebuilds        = 56  (each = 6 loss+grad evals)
+  model (re)builds           = 18   (build wall = 30s)
+  verify-drop cert calls     = 18  (each = 1 loss+grad @ pi64/neu64)
+  forward-resid escalations  = 10
+
+  ---- REBATCHING OVERHEAD (the adaptive machinery only) ----
+    model rebuilds (15)   =  16.7s  (del+empty_cache+rebuild over survivors)
+    cert-verify (18 calls) =  21.4s  (re-check |Pg| cold @ pi64/neu64 before freezing)
+    forward-resid (10)    =   4.3s  (stiffness test for pi-escalation)
+    REBATCH TOTAL          =  42.4s  (19% of optimize, 15% of total)
+  -----------------------------------------------------------
+  adam warmup (5 steps)      = 17s
+  optimize (incl builds+adam)= 223s
+  final cert (cold pi64/neu64) = 61s
+  TOTAL                      = 285s
+
+  per-build trace (tag, Fbatch, pi, neu, dt):
+    pi16   F= 1042 pi= 16 neu= 16    6.8s
+    pi16   F=  700 pi= 16 neu= 16    4.9s
+    pi16   F=  304 pi= 16 neu= 16    1.9s
+    pi16   F=  207 pi= 16 neu= 16    1.3s
+    pi16   F=  105 pi= 16 neu= 16    1.3s
+    pi16   F=   42 pi= 16 neu= 16    0.8s
+    pi16   F=   18 pi= 16 neu= 16    0.8s
+    pi16   F=    8 pi= 16 neu= 16    0.5s
+    pi16   F=    6 pi= 16 neu= 16    0.5s
+    pi16   F=    5 pi= 16 neu= 16    0.5s
+    pi16   F=    4 pi= 16 neu= 16    0.5s
+    pi64   F=   56 pi= 64 neu= 16    0.9s
+    pi64   F=   13 pi= 64 neu= 16    0.6s
+    pi64   F=    9 pi= 64 neu= 16    0.5s
+    pi64   F=    6 pi= 64 neu= 16    0.6s
+    pi64   F=    3 pi= 64 neu= 16    0.4s
+    pi64   F=    2 pi= 64 neu= 16    0.4s
+    cert   F= 1042 pi= 64 neu= 64    6.7s

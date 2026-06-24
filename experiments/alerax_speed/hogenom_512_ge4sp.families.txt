@@ -1,0 +1,1013 @@
+[FAMILIES]
+- CLU_000022_0_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_0_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_0_12_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_0_12_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_0_5_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_0_5_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_16_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_16_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_16_6_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_16_6_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_17_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_17_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_17_10_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_17_10_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_17_7_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_17_7_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_23_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_23_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_23_5_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_23_5_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_23_6_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_23_6_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_23_7_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_23_7_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_2_12_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_2_12_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_2_13_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_2_13_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_2_15_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_2_15_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_2_17_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_2_17_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_2_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_2_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_2_8_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_2_8_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_2_9_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_2_9_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_31_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_31_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_31_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_31_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_31_5_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_31_5_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_35_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_35_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_35_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_35_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_3_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_3_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_3_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_3_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_3_5_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_3_5_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_3_6_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_3_6_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_3_8_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_3_8_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_45_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_45_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_46_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_46_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_46_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_46_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_59_11_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_59_11_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_59_12_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_59_12_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_59_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_59_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_59_5_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_59_5_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_59_8_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_59_8_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_59_9_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_59_9_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_69_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_69_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_69_5_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_69_5_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000022_76_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000022_76_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000134_18_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000134_18_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000134_18_10_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000134_18_10_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000134_18_13_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000134_18_13_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000134_18_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000134_18_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000134_18_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000134_18_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000134_18_8_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000134_18_8_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000134_34_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000134_34_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000134_45_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000134_45_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000134_45_5_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000134_45_5_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000134_48_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000134_48_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000134_48_5_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000134_48_5_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000134_48_7_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000134_48_7_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000134_48_9_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000134_48_9_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000134_58_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000134_58_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000134_7_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000134_7_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000197_0_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000197_0_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000203_2_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000203_2_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000212_2_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000212_2_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000288_125_11_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000288_125_11_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000288_125_15_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000288_125_15_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000288_125_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000288_125_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000288_125_8_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000288_125_8_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000288_135_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000288_135_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000288_135_7_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000288_135_7_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000288_144_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000288_144_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000288_144_9_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000288_144_9_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000288_18_9_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000288_18_9_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000288_36_12_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000288_36_12_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000288_36_14_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000288_36_14_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000288_36_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000288_36_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000288_36_7_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000288_36_7_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000288_47_5_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000288_47_5_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000288_57_18_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000288_57_18_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000288_57_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000288_57_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000288_57_32_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000288_57_32_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000288_57_33_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000288_57_33_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000288_71_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000288_71_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000315_17_11_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000315_17_11_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000315_17_8_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000315_17_8_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000315_30_6_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000315_30_6_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000315_33_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000315_33_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000315_33_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000315_33_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000395_0_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000395_0_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000395_0_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000395_0_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000395_3_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000395_3_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000395_3_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000395_3_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000404_1_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000404_1_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000404_3_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000404_3_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000422_11_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000422_11_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000422_11_6_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000422_11_6_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000422_12_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000422_12_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000422_13_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000422_13_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000422_16_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000422_16_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000422_3_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000422_3_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000422_3_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000422_3_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000422_3_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000422_3_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000422_5_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000422_5_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000422_5_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000422_5_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_0_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_0_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_0_5_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_0_5_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_0_7_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_0_7_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_100_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_100_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_100_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_100_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_112_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_112_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_113_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_113_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_114_44_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_114_44_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_114_68_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_114_68_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_11_16_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_11_16_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_11_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_11_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_11_32_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_11_32_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_126_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_126_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_131_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_131_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_134_6_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_134_6_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_14_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_14_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_20_10_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_20_10_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_30_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_30_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_30_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_30_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_30_8_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_30_8_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_33_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_33_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_33_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_33_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_33_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_33_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_34_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_34_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_3_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_3_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_3_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_3_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_3_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_3_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_42_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_42_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_44_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_44_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_44_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_44_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_44_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_44_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_44_8_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_44_8_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_50_5_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_50_5_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_51_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_51_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_52_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_52_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_52_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_52_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_52_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_52_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_52_5_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_52_5_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_59_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_59_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_5_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_5_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_5_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_5_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_69_15_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_69_15_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_69_9_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_69_9_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_70_34_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_70_34_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_72_5_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_72_5_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_81_14_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_81_14_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_81_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_81_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_81_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_81_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_82_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_82_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_87_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_87_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_87_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_87_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_87_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_87_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_88_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_88_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_88_6_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_88_6_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_88_9_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_88_9_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_89_23_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_89_23_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_89_31_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_89_31_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_90_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_90_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_90_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_90_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_90_8_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_90_8_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000445_94_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000445_94_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000487_3_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000487_3_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000487_3_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000487_3_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000513_0_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000513_0_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000513_1_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000513_1_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000513_1_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000513_1_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000513_1_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000513_1_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000513_1_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000513_1_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000513_3_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000513_3_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000524_1_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000524_1_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000524_2_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000524_2_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000524_4_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000524_4_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000524_4_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000524_4_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000524_4_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000524_4_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000524_4_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000524_4_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000524_5_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000524_5_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000524_5_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000524_5_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000524_5_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000524_5_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000524_5_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000524_5_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000537_4_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000537_4_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000537_4_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000537_4_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000537_7_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000537_7_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000537_8_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000537_8_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000537_8_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000537_8_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000604_17_6_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000604_17_6_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000604_1_15_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000604_1_15_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000604_1_21_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000604_1_21_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000604_1_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000604_1_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000604_1_5_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000604_1_5_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000604_1_9_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000604_1_9_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000604_36_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000604_36_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000604_36_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000604_36_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000604_45_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000604_45_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000604_48_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000604_48_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000604_61_13_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000604_61_13_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000604_61_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000604_61_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000604_61_9_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000604_61_9_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000604_84_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000604_84_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000604_84_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000604_84_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000604_84_5_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000604_84_5_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000604_84_6_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000604_84_6_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000604_84_7_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000604_84_7_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000604_88_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000604_88_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000604_89_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000604_89_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000604_8_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000604_8_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000604_8_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000604_8_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000604_92_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000604_92_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000604_92_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000604_92_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000604_92_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000604_92_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000604_95_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000604_95_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000631_10_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000631_10_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000631_7_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000631_7_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000631_7_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000631_7_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000688_12_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000688_12_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000688_12_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000688_12_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000688_12_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000688_12_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000688_16_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000688_16_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000688_21_16_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000688_21_16_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000688_21_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000688_21_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000688_21_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000688_21_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000688_23_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000688_23_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000688_23_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000688_23_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000688_25_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000688_25_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000688_2_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000688_2_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000688_2_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000688_2_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000688_2_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000688_2_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000688_2_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000688_2_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000688_8_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000688_8_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000688_8_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000688_8_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000688_9_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000688_9_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_000809_3_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_000809_3_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_001265_0_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_001265_0_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_001493_0_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_001493_0_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_001528_3_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_001528_3_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_002833_1_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_002833_1_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_002929_6_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_002929_6_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_002934_0_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_002934_0_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_002934_1_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_002934_1_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_002934_7_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_002934_7_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_002977_11_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_002977_11_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_002977_4_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_002977_4_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_002977_6_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_002977_6_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_002982_0_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_002982_0_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_002982_0_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_002982_0_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003041_1_7_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003041_1_7_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003041_21_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003041_21_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003041_21_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003041_21_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003041_28_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003041_28_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003041_28_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003041_28_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003041_8_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003041_8_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003041_8_8_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003041_8_8_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003084_1_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003084_1_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003182_13_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003182_13_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003182_13_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003182_13_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003182_4_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003182_4_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003182_7_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003182_7_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003291_0_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003291_0_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003291_1_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003291_1_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003291_1_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003291_1_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003291_4_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003291_4_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003291_4_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003291_4_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003291_4_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003291_4_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003364_3_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003364_3_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003364_4_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003364_4_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003376_2_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003376_2_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003376_3_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003376_3_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003433_0_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003433_0_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003433_0_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003433_0_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003433_2_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003433_2_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003433_2_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003433_2_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003433_2_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003433_2_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003433_2_5_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003433_2_5_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003433_3_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003433_3_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003433_3_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003433_3_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003433_4_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003433_4_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003433_5_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003433_5_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003433_9_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003433_9_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003442_0_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003442_0_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003442_1_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003442_1_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003468_5_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003468_5_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003601_3_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003601_3_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003601_3_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003601_3_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003612_2_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003612_2_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003690_0_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003690_0_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003690_2_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003690_2_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003690_4_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003690_4_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003690_4_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003690_4_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003705_0_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003705_0_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003705_0_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003705_0_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003728_11_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003728_11_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003728_11_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003728_11_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003728_11_5_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003728_11_5_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003728_14_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003728_14_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003728_14_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003728_14_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003728_17_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003728_17_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003728_17_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003728_17_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003728_2_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003728_2_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003728_2_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003728_2_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003728_2_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003728_2_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003728_2_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003728_2_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003818_5_6_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003818_5_6_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003827_12_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003827_12_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003827_13_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003827_13_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003827_13_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003827_13_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003827_3_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003827_3_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003827_5_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003827_5_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003827_5_5_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003827_5_5_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003827_7_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003827_7_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003827_7_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003827_7_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003827_7_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003827_7_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003827_7_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003827_7_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003896_4_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003896_4_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003896_4_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003896_4_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_003927_1_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_003927_1_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004109_0_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004109_0_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004109_1_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004109_1_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004109_2_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004109_2_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004109_2_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004109_2_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004109_4_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004109_4_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004109_4_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004109_4_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004109_4_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004109_4_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004109_5_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004109_5_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004131_3_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004131_3_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004131_3_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004131_3_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004131_4_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004131_4_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004137_5_10_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004137_5_10_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004137_7_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004137_7_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004137_7_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004137_7_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004137_8_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004137_8_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004137_8_7_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004137_8_7_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004174_0_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004174_0_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004177_0_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004177_0_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004180_1_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004180_1_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004217_0_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004217_0_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004217_2_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004217_2_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004245_3_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004245_3_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004245_5_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004245_5_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004253_10_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004253_10_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004282_3_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004282_3_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004282_3_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004282_3_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004427_0_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004427_0_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004427_1_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004427_1_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004427_6_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004427_6_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004435_4_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004435_4_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004485_0_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004485_0_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004485_1_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004485_1_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004485_1_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004485_1_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004485_3_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004485_3_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004485_4_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004485_4_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004485_5_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004485_5_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004485_6_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004485_6_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004485_7_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004485_7_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004495_0_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004495_0_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004498_0_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004498_0_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004498_0_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004498_0_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004498_0_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004498_0_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004498_10_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004498_10_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004498_10_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004498_10_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004498_8_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004498_8_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004498_8_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004498_8_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004498_9_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004498_9_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004542_2_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004542_2_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004542_4_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004542_4_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004542_4_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004542_4_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004542_4_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004542_4_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004542_5_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004542_5_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004542_5_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004542_5_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004542_8_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004542_8_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004542_9_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004542_9_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004542_9_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004542_9_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004553_2_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004553_2_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004553_2_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004553_2_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004553_2_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004553_2_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004585_3_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004585_3_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004585_5_10_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004585_5_10_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004585_5_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004585_5_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004585_5_5_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004585_5_5_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004585_6_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004585_6_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004585_7_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004585_7_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004588_3_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004588_3_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004617_2_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004617_2_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004620_1_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004620_1_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004620_2_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004620_2_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004620_3_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004620_3_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004620_3_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004620_3_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004620_3_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004620_3_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004620_5_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004620_5_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004624_0_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004624_0_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004639_1_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004639_1_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004639_1_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004639_1_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004652_1_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004652_1_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004675_1_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004675_1_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004675_2_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004675_2_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004675_2_6_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004675_2_6_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004709_1_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004709_1_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004709_2_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004709_2_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004709_3_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004709_3_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004744_5_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004744_5_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004744_5_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004744_5_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004790_0_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004790_0_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004790_3_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004790_3_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004852_0_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004852_0_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004861_1_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004861_1_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004914_0_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004914_0_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004914_2_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004914_2_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004914_2_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004914_2_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004914_3_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004914_3_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004914_3_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004914_3_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004914_3_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004914_3_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004914_4_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004914_4_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004958_0_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004958_0_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_004962_0_10_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_004962_0_10_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005015_1_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005015_1_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005015_2_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005015_2_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005015_2_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005015_2_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005015_3_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005015_3_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005043_1_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005043_1_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005049_6_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005049_6_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005070_0_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005070_0_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005070_1_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005070_1_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005070_1_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005070_1_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005070_2_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005070_2_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005070_2_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005070_2_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005070_4_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005070_4_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005070_4_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005070_4_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005070_9_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005070_9_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005070_9_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005070_9_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005071_1_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005071_1_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005080_0_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005080_0_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005122_8_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005122_8_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005122_8_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005122_8_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005126_1_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005126_1_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005126_1_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005126_1_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005126_7_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005126_7_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005126_7_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005126_7_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005126_9_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005126_9_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005145_0_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005145_0_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005170_0_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005170_0_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005170_0_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005170_0_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005170_2_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005170_2_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005170_6_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005170_6_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005170_6_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005170_6_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005170_7_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005170_7_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005170_7_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005170_7_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005170_7_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005170_7_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005170_9_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005170_9_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005210_8_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005210_8_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005210_8_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005210_8_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005210_8_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005210_8_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005231_2_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005231_2_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005314_3_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005314_3_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005316_0_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005316_0_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005316_0_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005316_0_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005316_0_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005316_0_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005316_1_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005316_1_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005316_7_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005316_7_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005373_0_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005373_0_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005386_0_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005386_0_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005391_0_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005391_0_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005391_1_10_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005391_1_10_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005391_1_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005391_1_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005391_1_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005391_1_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005391_1_8_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005391_1_8_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005391_3_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005391_3_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005391_3_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005391_3_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005391_3_6_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005391_3_6_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005391_4_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005391_4_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005391_5_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005391_5_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005391_5_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005391_5_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005391_5_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005391_5_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005391_5_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005391_5_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005391_6_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005391_6_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005446_1_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005446_1_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005482_4_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005482_4_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005503_0_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005503_0_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005503_1_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005503_1_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005533_12_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005533_12_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005533_4_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005533_4_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005533_4_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005533_4_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005659_0_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005659_0_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005679_10_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005679_10_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005679_10_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005679_10_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005679_13_8_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005679_13_8_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005679_1_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005679_1_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005679_1_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005679_1_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005682_1_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005682_1_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005688_2_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005688_2_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005688_3_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005688_3_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005732_2_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005732_2_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005746_12_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005746_12_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005746_15_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005746_15_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005777_0_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005777_0_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005854_4_4_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005854_4_4_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005854_7_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005854_7_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005854_7_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005854_7_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005854_7_5_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005854_7_5_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005912_8_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005912_8_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005912_8_1_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005912_8_1_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005912_8_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005912_8_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005950_0_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005950_0_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005965_0_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005965_0_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005965_0_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005965_0_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005965_0_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005965_0_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005965_2_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005965_2_0_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005965_2_2_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005965_2_2_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005965_2_3_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005965_2_3_C/gene_trees/ufboot1000.MFP.geneTree.newick
+- CLU_005965_3_0_C
+starting_gene_tree = /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/families/CLU_005965_3_0_C/gene_trees/ufboot1000.MFP.geneTree.newick

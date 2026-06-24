@@ -1,0 +1,44 @@
+source=alerax_hogenom_core_all_families.txt count=all  considered=12408  missing=0  kept(>= 4 sp)=10869  dropped(< 4)=1539
+wrote /home/enzo/Documents/git/gpurec/kernel-bench/experiments/alerax_speed/hogenom_full_ge4sp.families.txt
+=== AleRax HOGENOM-full(>=4sp) run @ 2026-06-24T01:32:37+02:00 | host=enzo-Station | np=8 | 10869 families ===
+[00:00:00] AleRax v1.4.0
+Logs will also be printed into /tmp/alerax_hogenom_full_ge4sp_out/alerax.log
+[00:00:00] AleRax v1.4.0
+[00:00:00] AleRax was called as follows:
+alerax -f /home/enzo/Documents/git/gpurec/kernel-bench/experiments/alerax_speed/hogenom_full_ge4sp.families.txt -s /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/runs/MFP/true_start_ufboot1000/run_--gene-tree-samples_100_--per-family-rates_1/alegenerax/species_trees/starting_species_tree.newick -p /tmp/alerax_hogenom_full_ge4sp_out --rec-model UndatedDTL --model-parametrization PER-FAMILY --species-tree-search SKIP --rate-optimizer LBFGSB --gene-tree-samples 0
+
+[00:00:00] Run settings:
+	Output directory: /tmp/alerax_hogenom_full_ge4sp_out
+	Families information: /home/enzo/Documents/git/gpurec/kernel-bench/experiments/alerax_speed/hogenom_full_ge4sp.families.txt
+	Starting species tree: will be imported from the user file: /home/enzo/Documents/git/gpurec/gpurec/tests/data/alerax_hogenom_core/hogenom/runs/MFP/true_start_ufboot1000/run_--gene-tree-samples_100_--per-family-rates_1/alegenerax/species_trees/starting_species_tree.newick
+	MPI ranks: 8
+	Random seed: 123
+	Reconciliation model: UndatedDTL
+	Transfer constraint: transfers to parents are forbidden
+	Memory savings: OFF
+	Model parametrization: each family has a different set of rates common to all species
+	Rate optimizer: LBFGSB
+	Prune species mode: OFF
+	Gene tree rooting: all gene tree root positions are considered with the same probability
+	Origination strategy: gene families can originate from each species with the same probability
+	Species tree search: skip species tree search
+	Number of reconciled gene trees to sample: 0
+	AleRax will exclude gene families covering less than 4 species
+
+[00:00:00] Checking families...
+[00:00:00] Generating ccp files...
+[00:01:11] Families: 10869
+[00:01:11] Trimming families covering less than 4 species...
+[00:01:13] Remaining families: 10869
+[00:01:13] Initializing starting species tree...
+[00:01:13] Checking that ccps and mappings are valid...
+[00:01:16] Input data information:
+- Number of gene families: 10869
+- Number of species: 666
+- Total number of genes: 363680
+- Average number of genes per family: 33
+- Maximum number of genes per family: 883
+- Species with the smallest family coverage: "HODCD" (covered by 8/10869 families)
+- Average (over species) species family coverage: 339
+
+[00:01:18] Initializing ccps and evaluators...
